@@ -62,6 +62,51 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-js实现继承" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/20/js实现继承/" class="article-date">
+  <time datetime="2018-10-20T07:21:50.161Z" itemprop="datePublished">2018-10-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/20/js实现继承/">记录js实现继承的四种方式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这里记录四种继承方式，但是由于第二种继承方式用了改变this指向的方法bind，因此可以举一反三，换成call和apply方法，这样就又多了两种。</p>
+<h2 id="1-基于原型的继承"><a href="#1-基于原型的继承" class="headerlink" title="1.基于原型的继承"></a>1.基于原型的继承</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">function</span> <span class="function"><span class="title">father</span></span>() &#123;</span><br><span class="line">	this.faName = <span class="string">'father'</span>;</span><br><span class="line">&#125;</span><br><span class="line">father.prototype.getFather = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"获取父亲名称"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">child</span></span>() &#123;</span><br><span class="line">	this.chName = <span class="string">'child'</span>;</span><br><span class="line">&#125;</span><br><span class="line">child.prototype = new father();</span><br><span class="line">child.prototype.constructor = child;//上句代码会使得child原型对象里的constructor属性指向father，所以这里要改一下</span><br><span class="line">child.prototype.getChild = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"获取孩子姓名"</span>);</span><br><span class="line">&#125;</span><br><span class="line">var c1 = new father();</span><br><span class="line">var c2 = new father();</span><br><span class="line"></span><br><span class="line">console.log(c1.chName === c2.chName);//<span class="literal">false</span></span><br><span class="line">console.log(c1.faName === c2.faName);//<span class="literal">true</span></span><br><span class="line">console.log(c1.getFather === c2.getFather);//<span class="literal">true</span></span><br><span class="line">console.log(c1.getFather === c1._proto_._proto_.getFather);//<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/20/js实现继承/" data-id="cjnh5maxu0002m4te1a2kpz18" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-构造函数、原型对象、实例等概念" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/20/构造函数、原型对象、实例等概念/" class="article-date">
@@ -86,7 +131,7 @@
       
         <h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">function</span> Person(name,age) &#123;</span><br><span class="line">	this.name = name;</span><br><span class="line">	this.age = age;</span><br><span class="line">	this.getInfo = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		console.log(this.name+<span class="string">","</span>+this.age);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">var person = new Person(<span class="string">"xiaoming"</span>,24);</span><br><span class="line">person.getInfo();//xiaoming,24</span><br></pre></td></tr></table></figure>
 <p>这里的Person就是一个构造函数，里面的this指向将要生成的实例对象。每一个实例都会有自己的name,age属性，都会有自己的getInfo方法。但是有时候希望不同的实例之间共享一些属性和方法，于是产生了prototype这个东西。</p>
-<h2 id="原型对象"><a href="#原型对象" class="headerlink" title="原型对象"></a>原型对象</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">function</span> Person(name,age) &#123;</span><br><span class="line">	this.name = name;</span><br><span class="line">	this.age = age;</span><br><span class="line">	this.getInfo = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		console.log(this.name+<span class="string">","</span>+this.age);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.getType = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"类型是person"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var person1 = new Person(<span class="string">"xiaoming"</span>,24);</span><br><span class="line">person1.getInfo();//xiaoming,24</span><br><span class="line"></span><br><span class="line">var person2 = new Person(<span class="string">"lifang"</span>,18);</span><br><span class="line"></span><br><span class="line">console.log(person1.getInfo() === person2.getInfo());//<span class="literal">false</span></span><br><span class="line">console.log(person1.getType() === person2.getType());//<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h2 id="原型对象"><a href="#原型对象" class="headerlink" title="原型对象"></a>原型对象</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">function</span> Person(name,age) &#123;</span><br><span class="line">	this.name = name;</span><br><span class="line">	this.age = age;</span><br><span class="line">	this.getInfo = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		console.log(this.name+<span class="string">","</span>+this.age);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.getType = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"类型是person"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var person1 = new Person(<span class="string">"xiaoming"</span>,24);</span><br><span class="line">person1.getInfo();//xiaoming,24</span><br><span class="line"></span><br><span class="line">var person2 = new Person(<span class="string">"lifang"</span>,18);</span><br><span class="line"></span><br><span class="line">console.log(person1.getInfo === person2.getInfo);//<span class="literal">false</span></span><br><span class="line">console.log(person1.getType === person2.getType);//<span class="literal">true</span></span><br></pre></td></tr></table></figure>
 <p>可以看到，getType方法是写在Person的prototype对象中的，这个就是原型对象。我们可以在原型对象中存放希望让所有实例共享的东西。<br>那Person构造函数是如何与这个原型对象关联起来的呢？其实任何一个函数（包括构造函数），都有一个prototype属性，该属性指向该函数的原型对象。这个原型对象中可以有各种属性和方法。</p>
 <h2 id="proto"><a href="#proto" class="headerlink" title="proto"></a><em>proto</em></h2><p>这个时候打开控制台检测，会发现：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ person1.__proto__ === Person.prototype //<span class="literal">true</span></span><br></pre></td></tr></table></figure>
@@ -101,7 +146,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/20/构造函数、原型对象、实例等概念/" data-id="cjnh3q10e0000j8tev94k2lka" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/20/构造函数、原型对象、实例等概念/" data-id="cjnh5maxw0003m4tegsn34n27" class="article-share-link">Share</a>
       
       
     </footer>
@@ -111,9 +156,9 @@
 
 
   
-    <article id="post-第一篇博客" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-使用hexo搭建博客" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/10/17/第一篇博客/" class="article-date">
+    <a href="/2018/10/17/使用hexo搭建博客/" class="article-date">
   <time datetime="2018-10-17T06:48:30.336Z" itemprop="datePublished">2018-10-17</time>
 </a>
     
@@ -125,7 +170,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/17/第一篇博客/">使用hexo搭建博客</a>
+      <a class="article-title" href="/2018/10/17/使用hexo搭建博客/">使用hexo搭建博客</a>
     </h1>
   
 
@@ -172,7 +217,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/17/第一篇博客/" data-id="cjnh3q11o0002j8tex0l6qyt4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/17/使用hexo搭建博客/" data-id="cjnh5maxm0000m4te44anyw3x" class="article-share-link">Share</a>
       
       
     </footer>
@@ -217,7 +262,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/17/hello-world/" data-id="cjnh3q11m0001j8te771givlt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/17/hello-world/" data-id="cjnh5maxs0001m4tewicx1xap" class="article-share-link">Share</a>
       
       
     </footer>
@@ -258,11 +303,15 @@
       <ul>
         
           <li>
+            <a href="/2018/10/20/js实现继承/">记录js实现继承的四种方式</a>
+          </li>
+        
+          <li>
             <a href="/2018/10/20/构造函数、原型对象、实例等概念/">记录构造函数、实例、原型这些概念之间的关系</a>
           </li>
         
           <li>
-            <a href="/2018/10/17/第一篇博客/">使用hexo搭建博客</a>
+            <a href="/2018/10/17/使用hexo搭建博客/">使用hexo搭建博客</a>
           </li>
         
           <li>
