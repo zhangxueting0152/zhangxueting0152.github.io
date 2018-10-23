@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>三目运算 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="语法：基本语法：expression ? sentence1 : sentence2当expression的值为真时执行sentence1，否则执行sentence2。 相当于if else:12345if(expression) &amp;#123;	sentence1;&amp;#125; else &amp;#123;	sentence2;&amp;#125; 当需要进行多次逻辑判断时，三目运算符会看起来更加的简洁：123">
+<meta property="og:type" content="article">
+<meta property="og:title" content="三目运算">
+<meta property="og:url" content="http://yoursite.com/2018/10/23/三目运算/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="语法：基本语法：expression ? sentence1 : sentence2当expression的值为真时执行sentence1，否则执行sentence2。 相当于if else:12345if(expression) &amp;#123;	sentence1;&amp;#125; else &amp;#123;	sentence2;&amp;#125; 当需要进行多次逻辑判断时，三目运算符会看起来更加的简洁：123">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-23T08:02:09.604Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="三目运算">
+<meta name="twitter:description" content="语法：基本语法：expression ? sentence1 : sentence2当expression的值为真时执行sentence1，否则执行sentence2。 相当于if else:12345if(expression) &amp;#123;	sentence1;&amp;#125; else &amp;#123;	sentence2;&amp;#125; 当需要进行多次逻辑判断时，三目运算符会看起来更加的简洁：123">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-三目运算" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/23/三目运算/" class="article-date">
+  <time datetime="2018-10-23T06:52:49.434Z" itemprop="datePublished">2018-10-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      三目运算
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="语法："><a href="#语法：" class="headerlink" title="语法："></a>语法：</h2><p>基本语法：expression ? sentence1 : sentence2<br>当expression的值为真时执行sentence1，否则执行sentence2。</p>
+<p>相当于if else:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(expression) &#123;</span><br><span class="line">	sentence1;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	sentence2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当需要进行多次逻辑判断时，三目运算符会看起来更加的简洁：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">expression1 ？ sentence1 ：</span><br><span class="line">expression2 ？ sentence2 ：</span><br><span class="line">expression3 ？ sentence3 ：</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，只要任意一个expressionN为真，就会立即执行sentenceN,并且判断结束，不会执行后面的代码。对应的if else如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(expression1）&#123;</span><br><span class="line">	sentence1;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span>(expression2) &#123;</span><br><span class="line">	sentence2;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span>(expression3) &#123;</span><br><span class="line">	sentence3;</span><br><span class="line">&#125;...</span><br></pre></td></tr></table></figure></p>
+<p>相比之下，三目运算符更加的简洁。</p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="1-判断"><a href="#1-判断" class="headerlink" title="1.判断"></a>1.判断</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a=1,b=1;</span><br><span class="line">a &gt;= 1 ? b++ : b--;</span><br><span class="line">console.log(b);//2</span><br></pre></td></tr></table></figure>
+<h3 id="2-赋值"><a href="#2-赋值" class="headerlink" title="2.赋值"></a>2.赋值</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a=0,c;</span><br><span class="line">var c = (a &gt;= 1 ? 2 : 3);</span><br><span class="line">console.log(c);//2</span><br></pre></td></tr></table></figure>
+<p>三目运算是有返回值的，相当于return(3)</p>
+<p>所以当写成var c = (a &gt;= 1 ? return true : return false);的时候，就会有问题，因为这个相当于<br>if(expression){<br>      return (return true);//会报错<br>   }</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a=1,b=1;</span><br><span class="line">console.log(a &gt;= 1 ? b++ : b--);//1</span><br><span class="line">console.log(b);//2</span><br></pre></td></tr></table></figure>
+<p>因为b++是后加，所以return b++,是先return b,再给b加1的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/23/三目运算/" data-id="cjnlfqosx0003aote7xnkwkty" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/10/23/js事件冒泡、捕获与委托/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">js事件冒泡、捕获与委托</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/10/23/三目运算/">三目运算</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/23/js事件冒泡、捕获与委托/">js事件冒泡、捕获与委托</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/20/js实现继承/">记录js实现继承的四种方式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/20/构造函数、原型对象、实例等概念/">记录构造函数、实例、原型这些概念之间的关系</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/17/使用hexo搭建博客/">使用hexo搭建博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
