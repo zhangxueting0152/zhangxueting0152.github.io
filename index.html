@@ -105,11 +105,19 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> testArgs(a) &#123;</span><br><span class="line">	console.log(a);</span><br><span class="line">	console.log(arguments.length);</span><br><span class="line">&#125;</span><br><span class="line">testArgs(5);//5 1</span><br><span class="line">testArgs(4,5,6);//4 3</span><br></pre></td></tr></table></figure>
 <p>3.rest参数</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> testRest(a,b,...rest) &#123;</span><br><span class="line">	console.log(a);</span><br><span class="line">	console.log(b);</span><br><span class="line">	console.log(rest);</span><br><span class="line">&#125;</span><br><span class="line">testRest(1);//1 undefined []</span><br><span class="line">testRest(1,2,4,4,5);//1 2 (3)[4, 4, 5]</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>…</li>
+</ol>
+<p>三个点号，放在形参为rest运算符，放在实参为扩展运算符。<br>放在被赋值一方为rest运算符，放在赋值一方为扩展运算符。</p>
+<p>4.1 扩展运算符<br>扩展运算符用三个点号表示，功能是把数组或类数组对象展开成一系列用逗号隔开的值</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var test1 = <span class="keyword">function</span>(a,b,c) &#123;</span><br><span class="line">	console.log(a);</span><br><span class="line">	console.log(b);</span><br><span class="line">	console.log(c);</span><br><span class="line">&#125;</span><br><span class="line">var arr = [1,2,3];</span><br><span class="line">//扩展运算符</span><br><span class="line">test1(...arr);</span><br><span class="line">//1</span><br><span class="line">//2</span><br><span class="line">//3</span><br></pre></td></tr></table></figure>
+<p>4.2 rest运算符<br>rest运算符也是三个点号，不过其功能与扩展运算符恰好相反，把逗号隔开的值序列组合成一个数组</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var test2 = <span class="keyword">function</span>(a, ...args) &#123;</span><br><span class="line">	console.log(a);</span><br><span class="line">	console.log(args);</span><br><span class="line">&#125;</span><br><span class="line">test2(1,2,3,4);</span><br><span class="line">//1</span><br><span class="line">//[2, 3, 4]</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/24/js函数的声明与调用/" data-id="cjnmikzpj0000ektesgj1ijv2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/24/js函数的声明与调用/" data-id="cjnmxbx640001s0te9q4dmrrq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -157,7 +165,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/三目运算/" data-id="cjnmikzq00003ekte0birdire" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/三目运算/" data-id="cjnmxbx690004s0te6es5v9p3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -208,7 +216,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/js事件冒泡、捕获与委托/" data-id="cjnmikzpy0002ekteprcwps4a" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/js事件冒泡、捕获与委托/" data-id="cjnmxbx660002s0teumomd888" class="article-share-link">Share</a>
       
       
     </footer>
@@ -254,7 +262,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/20/js实现继承/" data-id="cjnmikzqh0005ektennmitwmp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/20/js实现继承/" data-id="cjnmxbx680003s0teatnbjha2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -304,7 +312,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/20/构造函数、原型对象、实例等概念/" data-id="cjnmikzqg0004ekte6kbwdipt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/20/构造函数、原型对象、实例等概念/" data-id="cjnmxbx6c0006s0tehbhdhqef" class="article-share-link">Share</a>
       
       
     </footer>
@@ -375,7 +383,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/17/使用hexo搭建博客/" data-id="cjnmikzqj0006ekterqnuula8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/17/使用hexo搭建博客/" data-id="cjnmxbx6a0005s0tevs9r50w0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -420,7 +428,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/17/hello-world/" data-id="cjnmikzpw0001ekteode4d8o0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/17/hello-world/" data-id="cjnmxbx5y0000s0teg37malyn" class="article-share-link">Share</a>
       
       
     </footer>

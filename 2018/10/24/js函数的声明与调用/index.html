@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="函数的声明5种声明方式1.函数声明123function myFun1() &amp;#123;	console.log(&quot;myFun1&quot;);&amp;#125; 2.匿名函数表达式123var fun2 = function(a) &amp;#123;	console.log(a+&quot;myFun2&quot;);&amp;#125; 3.命名函数表达式123var fun3 = function muFun3(a) &amp;#123;	cons">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-24T02:14:07.320Z">
+<meta property="og:updated_time" content="2018-10-24T08:55:37.973Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="函数的声明与调用">
 <meta name="twitter:description" content="函数的声明5种声明方式1.函数声明123function myFun1() &amp;#123;	console.log(&quot;myFun1&quot;);&amp;#125; 2.匿名函数表达式123var fun2 = function(a) &amp;#123;	console.log(a+&quot;myFun2&quot;);&amp;#125; 3.命名函数表达式123var fun3 = function muFun3(a) &amp;#123;	cons">
@@ -107,11 +107,19 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> testArgs(a) &#123;</span><br><span class="line">	console.log(a);</span><br><span class="line">	console.log(arguments.length);</span><br><span class="line">&#125;</span><br><span class="line">testArgs(5);//5 1</span><br><span class="line">testArgs(4,5,6);//4 3</span><br></pre></td></tr></table></figure>
 <p>3.rest参数</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> testRest(a,b,...rest) &#123;</span><br><span class="line">	console.log(a);</span><br><span class="line">	console.log(b);</span><br><span class="line">	console.log(rest);</span><br><span class="line">&#125;</span><br><span class="line">testRest(1);//1 undefined []</span><br><span class="line">testRest(1,2,4,4,5);//1 2 (3)[4, 4, 5]</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>…</li>
+</ol>
+<p>三个点号，放在形参为rest运算符，放在实参为扩展运算符。<br>放在被赋值一方为rest运算符，放在赋值一方为扩展运算符。</p>
+<p>4.1 扩展运算符<br>扩展运算符用三个点号表示，功能是把数组或类数组对象展开成一系列用逗号隔开的值</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var test1 = <span class="keyword">function</span>(a,b,c) &#123;</span><br><span class="line">	console.log(a);</span><br><span class="line">	console.log(b);</span><br><span class="line">	console.log(c);</span><br><span class="line">&#125;</span><br><span class="line">var arr = [1,2,3];</span><br><span class="line">//扩展运算符</span><br><span class="line">test1(...arr);</span><br><span class="line">//1</span><br><span class="line">//2</span><br><span class="line">//3</span><br></pre></td></tr></table></figure>
+<p>4.2 rest运算符<br>rest运算符也是三个点号，不过其功能与扩展运算符恰好相反，把逗号隔开的值序列组合成一个数组</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var test2 = <span class="keyword">function</span>(a, ...args) &#123;</span><br><span class="line">	console.log(a);</span><br><span class="line">	console.log(args);</span><br><span class="line">&#125;</span><br><span class="line">test2(1,2,3,4);</span><br><span class="line">//1</span><br><span class="line">//[2, 3, 4]</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/24/js函数的声明与调用/" data-id="cjnmikzpj0000ektesgj1ijv2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/24/js函数的声明与调用/" data-id="cjnmxbx640001s0te9q4dmrrq" class="article-share-link">Share</a>
       
       
     </footer>
