@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>函数的声明与调用 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="函数的声明5种声明方式1.函数声明123function myFun1() &amp;#123;	console.log(&quot;myFun1&quot;);&amp;#125; 2.匿名函数表达式123var fun2 = function(a) &amp;#123;	console.log(a+&quot;myFun2&quot;);&amp;#125; 3.命名函数表达式123var fun3 = function muFun3(a) &amp;#123;	cons">
+<meta property="og:type" content="article">
+<meta property="og:title" content="函数的声明与调用">
+<meta property="og:url" content="http://yoursite.com/2018/10/24/js函数的声明与调用/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="函数的声明5种声明方式1.函数声明123function myFun1() &amp;#123;	console.log(&quot;myFun1&quot;);&amp;#125; 2.匿名函数表达式123var fun2 = function(a) &amp;#123;	console.log(a+&quot;myFun2&quot;);&amp;#125; 3.命名函数表达式123var fun3 = function muFun3(a) &amp;#123;	cons">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-24T02:14:07.320Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="函数的声明与调用">
+<meta name="twitter:description" content="函数的声明5种声明方式1.函数声明123function myFun1() &amp;#123;	console.log(&quot;myFun1&quot;);&amp;#125; 2.匿名函数表达式123var fun2 = function(a) &amp;#123;	console.log(a+&quot;myFun2&quot;);&amp;#125; 3.命名函数表达式123var fun3 = function muFun3(a) &amp;#123;	cons">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-js函数的声明与调用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/24/js函数的声明与调用/" class="article-date">
+  <time datetime="2018-10-24T00:34:37.280Z" itemprop="datePublished">2018-10-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      函数的声明与调用
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="函数的声明"><a href="#函数的声明" class="headerlink" title="函数的声明"></a>函数的声明</h2><h3 id="5种声明方式"><a href="#5种声明方式" class="headerlink" title="5种声明方式"></a>5种声明方式</h3><p>1.函数声明<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">myFun1</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"myFun1"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2.匿名函数表达式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var fun2 = <span class="keyword">function</span>(a) &#123;</span><br><span class="line">	console.log(a+<span class="string">"myFun2"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>3.命名函数表达式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var fun3 = <span class="keyword">function</span> muFun3(a) &#123;</span><br><span class="line">	console.log(a+<span class="string">"myFun3"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>4.立即执行的函数表达式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var fun4 = <span class="keyword">function</span> myFun4(a)&#123;</span><br><span class="line">	console.log(a+<span class="string">"myFun4"</span>);</span><br><span class="line">&#125;();</span><br></pre></td></tr></table></figure></p>
+<p>5.通过构造函数声明的函数表达式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var myFun5 = new Function();</span><br></pre></td></tr></table></figure></p>
+<p>对于第一种函数语句声明和其他的表达式类型的声明，有下面的区别：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'use dtrict'</span>;</span><br><span class="line">console.log(test1);//ƒ <span class="function"><span class="title">test1</span></span>() &#123;alert(<span class="string">"test1"</span>);&#125;</span><br><span class="line">console.log(test2);//undefined</span><br><span class="line">console.log(test1 === window.test1);//<span class="literal">true</span></span><br><span class="line">console.log(test2 === window.test2);//<span class="literal">true</span></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">test1</span></span>() &#123;</span><br><span class="line">	alert(<span class="string">"test1"</span>);</span><br><span class="line">&#125;</span><br><span class="line">var test2 = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	alert(<span class="string">"test2"</span>);</span><br><span class="line">&#125;</span><br><span class="line">console.log(test2);//ƒ () &#123;alert(<span class="string">"test2"</span>);&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，js有一个默认的全局变量叫window，在运行一段js代码时，js引擎会先扫描一遍整个代码，把所有的全局变量绑定到window对象上，此时，window对象上有了test1函数（包含函数体）和test2变量（值为undefined）。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">f</span></span>()&#123;<span class="built_in">return</span> 1;&#125;  </span><br><span class="line">console.log(f());   // 第四个函数把第一个函数覆盖</span><br><span class="line"></span><br><span class="line">var f = new Function(<span class="string">"return 2;"</span>);</span><br><span class="line">console.log(f());   // 第二个函数把第四个函数覆盖</span><br><span class="line"></span><br><span class="line">var f = <span class="function"><span class="title">function</span></span>() &#123;<span class="built_in">return</span> 3;&#125;</span><br><span class="line">console.log(f());   // 第三个函数把第二个函数覆盖</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">f</span></span>()&#123;<span class="built_in">return</span> 4;&#125;</span><br><span class="line">console.log(f());   // 第四个函数已经被覆盖，是被3覆盖的</span><br><span class="line"></span><br><span class="line">var f = new Function(<span class="string">"return 5;"</span>);</span><br><span class="line">console.log(f());   // 第五个函数把第三个函数覆盖</span><br><span class="line"></span><br><span class="line">var f = <span class="function"><span class="title">function</span></span>()&#123;<span class="built_in">return</span> 6;&#125;</span><br><span class="line">console.log(f());   // 第六个函数把第五个函数覆盖</span><br><span class="line"></span><br><span class="line">//4 2 3 3 5 6</span><br></pre></td></tr></table></figure>
+<p>对于上述例子，可以先找出函数声明，然后在解析的时候函数声明会被提到前面。</p>
+<h2 id="函数的调用"><a href="#函数的调用" class="headerlink" title="函数的调用"></a>函数的调用</h2><p>1.直接调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">myFun1</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"myFun1"</span>);</span><br><span class="line">&#125;</span><br><span class="line">myFun1();</span><br></pre></td></tr></table></figure></p>
+<p>2.函数调用<br>用一个变量名保存当前的函数，里面的this指向window.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var myFun2 = <span class="keyword">function</span>(a) &#123;</span><br><span class="line">	console.log(a);</span><br><span class="line">&#125;</span><br><span class="line">myFun2(2);//2</span><br></pre></td></tr></table></figure></p>
+<p>3.作为对象的方法调用模式<br>定义一个对象，然后在对象的属性中定义方法，最后通过obj.pro()的形式来执行方法。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">	name: <span class="string">'zhangsan'</span>,</span><br><span class="line">	age: 24,</span><br><span class="line">	myFun1: <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		console.log(<span class="string">"myFun1"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line">console.log(person.myFun1);//ƒ () &#123;console.log(<span class="string">"myFun1"</span>);&#125;</span><br><span class="line">person.myFun1();//myFun1</span><br></pre></td></tr></table></figure></p>
+<p>4.构造器调用模式<br>通过原型调用，实例化该对象后，调用其方法。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var obj = <span class="keyword">function</span>(a) &#123;</span><br><span class="line">	this.a = a;</span><br><span class="line">&#125;</span><br><span class="line">obj.prototype.myFun3 = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"myFun3"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var objItem = new obj();</span><br><span class="line">objItem.myFun3();//myFun3</span><br></pre></td></tr></table></figure></p>
+<p>5.通过call、apply调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;;</span><br><span class="line">var myFun4 = <span class="keyword">function</span>(a) &#123;</span><br><span class="line">	<span class="built_in">return</span> a+1;</span><br><span class="line">&#125;</span><br><span class="line">var item = myFun4.call(obj,5);</span><br><span class="line">console.log(item);//6</span><br></pre></td></tr></table></figure></p>
+<h2 id="小细节"><a href="#小细节" class="headerlink" title="小细节"></a>小细节</h2><p>1.在return语句后面，解析的时候会自动加上分号，所以要注意return语句里换行情况：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">test</span></span>() &#123;</span><br><span class="line">	<span class="built_in">return</span> </span><br><span class="line">		1+2;</span><br><span class="line">&#125;</span><br><span class="line">console.log(<span class="built_in">test</span>());//undefined，因为这个相当于<span class="built_in">return</span>;1+2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">test</span></span>() &#123;</span><br><span class="line">	<span class="built_in">return</span> 1+2;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">test</span>();//3</span><br></pre></td></tr></table></figure>
+<p>2.arguments参数<br>该参数是在函数内部起作用，永远指向当前函数的调用者传入的参数。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> testArgs(a) &#123;</span><br><span class="line">	console.log(a);</span><br><span class="line">	console.log(arguments.length);</span><br><span class="line">&#125;</span><br><span class="line">testArgs(5);//5 1</span><br><span class="line">testArgs(4,5,6);//4 3</span><br></pre></td></tr></table></figure>
+<p>3.rest参数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> testRest(a,b,...rest) &#123;</span><br><span class="line">	console.log(a);</span><br><span class="line">	console.log(b);</span><br><span class="line">	console.log(rest);</span><br><span class="line">&#125;</span><br><span class="line">testRest(1);//1 undefined []</span><br><span class="line">testRest(1,2,4,4,5);//1 2 (3)[4, 4, 5]</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/24/js函数的声明与调用/" data-id="cjnmikzpj0000ektesgj1ijv2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/10/23/三目运算/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">运算</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/10/24/js函数的声明与调用/">函数的声明与调用</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/23/三目运算/">运算</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/23/js事件冒泡、捕获与委托/">js事件冒泡、捕获与委托</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/20/js实现继承/">记录js实现继承的四种方式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/20/构造函数、原型对象、实例等概念/">记录构造函数、实例、原型这些概念之间的关系</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
