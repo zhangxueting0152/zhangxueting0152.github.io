@@ -87,7 +87,7 @@
         <h2 id="函数的声明"><a href="#函数的声明" class="headerlink" title="函数的声明"></a>函数的声明</h2><h3 id="5种声明方式"><a href="#5种声明方式" class="headerlink" title="5种声明方式"></a>5种声明方式</h3><p>1.函数声明<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">myFun1</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"myFun1"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>2.匿名函数表达式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var fun2 = <span class="keyword">function</span>(a) &#123;</span><br><span class="line">	console.log(a+<span class="string">"myFun2"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>3.命名函数表达式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var fun3 = <span class="keyword">function</span> muFun3(a) &#123;</span><br><span class="line">	console.log(a+<span class="string">"myFun3"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>4.立即执行的函数表达式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var fun4 = <span class="keyword">function</span> myFun4(a)&#123;</span><br><span class="line">	console.log(a+<span class="string">"myFun4"</span>);</span><br><span class="line">&#125;();</span><br></pre></td></tr></table></figure></p>
+<p>4.立即执行的函数表达式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span> myFun4(a)&#123;</span><br><span class="line">	console.log(a+<span class="string">"myFun4"</span>);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
 <p>5.通过构造函数声明的函数表达式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var myFun5 = new Function();</span><br></pre></td></tr></table></figure></p>
 <p>对于第一种函数语句声明和其他的表达式类型的声明，有下面的区别：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'use dtrict'</span>;</span><br><span class="line">console.log(test1);//ƒ <span class="function"><span class="title">test1</span></span>() &#123;alert(<span class="string">"test1"</span>);&#125;</span><br><span class="line">console.log(test2);//undefined</span><br><span class="line">console.log(test1 === window.test1);//<span class="literal">true</span></span><br><span class="line">console.log(test2 === window.test2);//<span class="literal">true</span></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">test1</span></span>() &#123;</span><br><span class="line">	alert(<span class="string">"test1"</span>);</span><br><span class="line">&#125;</span><br><span class="line">var test2 = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	alert(<span class="string">"test2"</span>);</span><br><span class="line">&#125;</span><br><span class="line">console.log(test2);//ƒ () &#123;alert(<span class="string">"test2"</span>);&#125;</span><br></pre></td></tr></table></figure>
@@ -95,7 +95,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">f</span></span>()&#123;<span class="built_in">return</span> 1;&#125;  </span><br><span class="line">console.log(f());   // 第四个函数把第一个函数覆盖</span><br><span class="line"></span><br><span class="line">var f = new Function(<span class="string">"return 2;"</span>);</span><br><span class="line">console.log(f());   // 第二个函数把第四个函数覆盖</span><br><span class="line"></span><br><span class="line">var f = <span class="function"><span class="title">function</span></span>() &#123;<span class="built_in">return</span> 3;&#125;</span><br><span class="line">console.log(f());   // 第三个函数把第二个函数覆盖</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">f</span></span>()&#123;<span class="built_in">return</span> 4;&#125;</span><br><span class="line">console.log(f());   // 第四个函数已经被覆盖，是被3覆盖的</span><br><span class="line"></span><br><span class="line">var f = new Function(<span class="string">"return 5;"</span>);</span><br><span class="line">console.log(f());   // 第五个函数把第三个函数覆盖</span><br><span class="line"></span><br><span class="line">var f = <span class="function"><span class="title">function</span></span>()&#123;<span class="built_in">return</span> 6;&#125;</span><br><span class="line">console.log(f());   // 第六个函数把第五个函数覆盖</span><br><span class="line"></span><br><span class="line">//4 2 3 3 5 6</span><br></pre></td></tr></table></figure>
 <p>对于上述例子，可以先找出函数声明，然后在解析的时候函数声明会被提到前面。</p>
 <h2 id="函数的调用"><a href="#函数的调用" class="headerlink" title="函数的调用"></a>函数的调用</h2><p>1.直接调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">myFun1</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"myFun1"</span>);</span><br><span class="line">&#125;</span><br><span class="line">myFun1();</span><br></pre></td></tr></table></figure></p>
-<p>2.函数调用<br>用一个变量名保存当前的函数，里面的this指向window.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var myFun2 = <span class="keyword">function</span>(a) &#123;</span><br><span class="line">	console.log(a);</span><br><span class="line">&#125;</span><br><span class="line">myFun2(2);//2</span><br></pre></td></tr></table></figure></p>
+<p>2.函数调用<br>用一个变量名保存当前的函数，里面的this指向window.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var a = 1;</span><br><span class="line">var myFun2 = <span class="keyword">function</span>(a) &#123;</span><br><span class="line">	var a = 2;</span><br><span class="line">	console.log(this.a);</span><br><span class="line">&#125;</span><br><span class="line">myFun2(2);//1</span><br></pre></td></tr></table></figure></p>
 <p>3.作为对象的方法调用模式<br>定义一个对象，然后在对象的属性中定义方法，最后通过obj.pro()的形式来执行方法。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">	name: <span class="string">'zhangsan'</span>,</span><br><span class="line">	age: 24,</span><br><span class="line">	myFun1: <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		console.log(<span class="string">"myFun1"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line">console.log(person.myFun1);//ƒ () &#123;console.log(<span class="string">"myFun1"</span>);&#125;</span><br><span class="line">person.myFun1();//myFun1</span><br></pre></td></tr></table></figure></p>
 <p>4.构造器调用模式<br>通过原型调用，实例化该对象后，调用其方法。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var obj = <span class="keyword">function</span>(a) &#123;</span><br><span class="line">	this.a = a;</span><br><span class="line">&#125;</span><br><span class="line">obj.prototype.myFun3 = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"myFun3"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var objItem = new obj();</span><br><span class="line">objItem.myFun3();//myFun3</span><br></pre></td></tr></table></figure></p>
 <p>5.通过call、apply调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;;</span><br><span class="line">var myFun4 = <span class="keyword">function</span>(a) &#123;</span><br><span class="line">	<span class="built_in">return</span> a+1;</span><br><span class="line">&#125;</span><br><span class="line">var item = myFun4.call(obj,5);</span><br><span class="line">console.log(item);//6</span><br></pre></td></tr></table></figure></p>
@@ -117,7 +117,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/24/js函数的声明与调用/" data-id="cjnmxbx640001s0te9q4dmrrq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/24/js函数的声明与调用/" data-id="cjnog4bk40000uste3vrbe9us" class="article-share-link">Share</a>
       
       
     </footer>
@@ -165,7 +165,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/三目运算/" data-id="cjnmxbx690004s0te6es5v9p3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/三目运算/" data-id="cjnog4bkp0004uste4tnqwgfo" class="article-share-link">Share</a>
       
       
     </footer>
@@ -216,7 +216,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/js事件冒泡、捕获与委托/" data-id="cjnmxbx660002s0teumomd888" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/js事件冒泡、捕获与委托/" data-id="cjnog4bk80001ustedg8yxlwm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -262,7 +262,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/20/js实现继承/" data-id="cjnmxbx680003s0teatnbjha2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/20/js实现继承/" data-id="cjnog4bl20006uste3jtfyeuc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -312,7 +312,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/20/构造函数、原型对象、实例等概念/" data-id="cjnmxbx6c0006s0tehbhdhqef" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/20/构造函数、原型对象、实例等概念/" data-id="cjnog4bl10005ustezzd0cme3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -383,7 +383,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/17/使用hexo搭建博客/" data-id="cjnmxbx6a0005s0tevs9r50w0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/17/使用hexo搭建博客/" data-id="cjnog4bkf0003ustec46cjbul" class="article-share-link">Share</a>
       
       
     </footer>
@@ -428,7 +428,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/17/hello-world/" data-id="cjnmxbx5y0000s0teg37malyn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/17/hello-world/" data-id="cjnog4bke0002ustemq3hgx9s" class="article-share-link">Share</a>
       
       
     </footer>
