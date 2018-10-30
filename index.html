@@ -62,6 +62,43 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-js刷新页面方式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/30/js刷新页面方式/" class="article-date">
+  <time datetime="2018-10-30T07:21:30.483Z" itemprop="datePublished">2018-10-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/30/js刷新页面方式/">记录刷新页面的几种方式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onclick=<span class="string">"myClick1()"</span>&gt;点击1&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick2()"</span>&gt;点击2&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick3()"</span>&gt;点击3&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick4()"</span>&gt;点击4&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick5()"</span>&gt;点击5&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick6()"</span>&gt;点击6&lt;/button&gt;</span><br><span class="line"></span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick1</span></span>() &#123;</span><br><span class="line">		history.go(0);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick2</span></span>() &#123;</span><br><span class="line">		location.reload();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick3</span></span>() &#123;</span><br><span class="line">		 location=location;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick4</span></span>() &#123;</span><br><span class="line">		 location.assign(location);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick5</span></span>() &#123;</span><br><span class="line">		location.replace(location);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick6</span></span>() &#123;</span><br><span class="line">		window.location.href=<span class="string">''</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/30/js刷新页面方式/" data-id="cjnveqk6j0000z8tecimp781g" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-js函数的声明与调用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/24/js函数的声明与调用/" class="article-date">
@@ -117,7 +154,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/24/js函数的声明与调用/" data-id="cjnog4bk40000uste3vrbe9us" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/24/js函数的声明与调用/" data-id="cjnveqk8h0004z8te6sxcvdbm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -165,7 +202,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/三目运算/" data-id="cjnog4bkp0004uste4tnqwgfo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/三目运算/" data-id="cjnveqk8h0005z8teqr806no0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -216,7 +253,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/js事件冒泡、捕获与委托/" data-id="cjnog4bk80001ustedg8yxlwm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/js事件冒泡、捕获与委托/" data-id="cjnveqk8h0003z8tev24dz2eq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -262,7 +299,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/20/js实现继承/" data-id="cjnog4bl20006uste3jtfyeuc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/20/js实现继承/" data-id="cjnveqk7x0002z8tebi7ys4fu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -312,7 +349,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/20/构造函数、原型对象、实例等概念/" data-id="cjnog4bl10005ustezzd0cme3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/20/构造函数、原型对象、实例等概念/" data-id="cjnveqk910007z8tevo1jywuu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -383,7 +420,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/17/使用hexo搭建博客/" data-id="cjnog4bkf0003ustec46cjbul" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/17/使用hexo搭建博客/" data-id="cjnveqk910006z8tevqkdayjp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -428,7 +465,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/17/hello-world/" data-id="cjnog4bke0002ustemq3hgx9s" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/17/hello-world/" data-id="cjnveqk7x0001z8tentonw76z" class="article-share-link">Share</a>
       
       
     </footer>
@@ -469,6 +506,10 @@
       <ul>
         
           <li>
+            <a href="/2018/10/30/js刷新页面方式/">记录刷新页面的几种方式</a>
+          </li>
+        
+          <li>
             <a href="/2018/10/24/js函数的声明与调用/">函数的声明与调用</a>
           </li>
         
@@ -482,10 +523,6 @@
         
           <li>
             <a href="/2018/10/20/js实现继承/">记录js实现继承的四种方式</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/20/构造函数、原型对象、实例等概念/">记录构造函数、实例、原型这些概念之间的关系</a>
           </li>
         
       </ul>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>记录刷新页面的几种方式 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="123456789101112131415161718192021222324252627&amp;lt;button onclick=&quot;myClick1()&quot;&amp;gt;点击1&amp;lt;/button&amp;gt;&amp;lt;button onclick=&quot;myClick2()&quot;&amp;gt;点击2&amp;lt;/button&amp;gt;&amp;lt;button onclick=&quot;myClick3()&quot;&amp;gt;点击3&amp;lt;/button">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记录刷新页面的几种方式">
+<meta property="og:url" content="http://yoursite.com/2018/10/30/js刷新页面方式/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="123456789101112131415161718192021222324252627&amp;lt;button onclick=&quot;myClick1()&quot;&amp;gt;点击1&amp;lt;/button&amp;gt;&amp;lt;button onclick=&quot;myClick2()&quot;&amp;gt;点击2&amp;lt;/button&amp;gt;&amp;lt;button onclick=&quot;myClick3()&quot;&amp;gt;点击3&amp;lt;/button">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-30T07:24:56.642Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="记录刷新页面的几种方式">
+<meta name="twitter:description" content="123456789101112131415161718192021222324252627&amp;lt;button onclick=&quot;myClick1()&quot;&amp;gt;点击1&amp;lt;/button&amp;gt;&amp;lt;button onclick=&quot;myClick2()&quot;&amp;gt;点击2&amp;lt;/button&amp;gt;&amp;lt;button onclick=&quot;myClick3()&quot;&amp;gt;点击3&amp;lt;/button">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-js刷新页面方式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/30/js刷新页面方式/" class="article-date">
+  <time datetime="2018-10-30T07:21:30.483Z" itemprop="datePublished">2018-10-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      记录刷新页面的几种方式
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onclick=<span class="string">"myClick1()"</span>&gt;点击1&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick2()"</span>&gt;点击2&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick3()"</span>&gt;点击3&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick4()"</span>&gt;点击4&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick5()"</span>&gt;点击5&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick6()"</span>&gt;点击6&lt;/button&gt;</span><br><span class="line"></span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick1</span></span>() &#123;</span><br><span class="line">		history.go(0);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick2</span></span>() &#123;</span><br><span class="line">		location.reload();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick3</span></span>() &#123;</span><br><span class="line">		 location=location;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick4</span></span>() &#123;</span><br><span class="line">		 location.assign(location);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick5</span></span>() &#123;</span><br><span class="line">		location.replace(location);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick6</span></span>() &#123;</span><br><span class="line">		window.location.href=<span class="string">''</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/30/js刷新页面方式/" data-id="cjnveqk6j0000z8tecimp781g" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/10/24/js函数的声明与调用/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">函数的声明与调用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/10/30/js刷新页面方式/">记录刷新页面的几种方式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/24/js函数的声明与调用/">函数的声明与调用</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/23/三目运算/">运算</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/23/js事件冒泡、捕获与委托/">js事件冒泡、捕获与委托</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/20/js实现继承/">记录js实现继承的四种方式</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
