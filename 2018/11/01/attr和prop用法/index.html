@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>attr和prop用法 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="固有属性1.对于元素本身就带有的固有属性，在处理时，建议用prop；因为对于固有属性，如果显式定义出来了，用attr和prop都可以；但是固有属性如果没有显示定义，attr就会返回undefined。 自定义属性2.对于自定义的属性，在处理时，要用attr方法。因为用prop时会返回undefined 样式属性3.特别的，对于获取或者设置style样式的属性值，用对象.css(“属性名”),对象.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="attr和prop用法">
+<meta property="og:url" content="http://yoursite.com/2018/11/01/attr和prop用法/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="固有属性1.对于元素本身就带有的固有属性，在处理时，建议用prop；因为对于固有属性，如果显式定义出来了，用attr和prop都可以；但是固有属性如果没有显示定义，attr就会返回undefined。 自定义属性2.对于自定义的属性，在处理时，要用attr方法。因为用prop时会返回undefined 样式属性3.特别的，对于获取或者设置style样式的属性值，用对象.css(“属性名”),对象.">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-01T01:30:33.574Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="attr和prop用法">
+<meta name="twitter:description" content="固有属性1.对于元素本身就带有的固有属性，在处理时，建议用prop；因为对于固有属性，如果显式定义出来了，用attr和prop都可以；但是固有属性如果没有显示定义，attr就会返回undefined。 自定义属性2.对于自定义的属性，在处理时，要用attr方法。因为用prop时会返回undefined 样式属性3.特别的，对于获取或者设置style样式的属性值，用对象.css(“属性名”),对象.">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-attr和prop用法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/01/attr和prop用法/" class="article-date">
+  <time datetime="2018-11-01T01:21:00.624Z" itemprop="datePublished">2018-11-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      attr和prop用法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="固有属性"><a href="#固有属性" class="headerlink" title="固有属性"></a>固有属性</h2><p>1.对于元素本身就带有的固有属性，在处理时，建议用prop；<br>因为对于固有属性，如果显式定义出来了，用attr和prop都可以；但是固有属性如果没有显示定义，attr就会返回undefined。</p>
+<h2 id="自定义属性"><a href="#自定义属性" class="headerlink" title="自定义属性"></a>自定义属性</h2><p>2.对于自定义的属性，在处理时，要用attr方法。因为用prop时会返回undefined</p>
+<h2 id="样式属性"><a href="#样式属性" class="headerlink" title="样式属性"></a>样式属性</h2><p>3.特别的，对于获取或者设置style样式的属性值，用对象.css(“属性名”),对象.css(“属性名”，”属性值”)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"myDiv"</span> zxt=<span class="string">"1"</span> class=<span class="string">"1"</span>&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;input <span class="built_in">type</span>=<span class="string">"checkbox"</span> value=<span class="string">"复选框"</span> id=<span class="string">"myInput"</span>/&gt;这是一个复选框</span><br><span class="line"></span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">	window.onload = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		console.log($(<span class="string">"#myDiv"</span>).prop(<span class="string">"class"</span>));//输出结果  1</span><br><span class="line">   		console.log($(<span class="string">"#myDiv"</span>).prop(<span class="string">"zxt"</span>));//输出结果  undefined</span><br><span class="line"></span><br><span class="line">   		console.log($(<span class="string">"#myDiv"</span>).attr(<span class="string">"class"</span>));//输出结果  1</span><br><span class="line">   		console.log($(<span class="string">"#myDiv"</span>).attr(<span class="string">"zxt"</span>));//输出结果  1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   		console.log($(<span class="string">"#myInput"</span>).prop(<span class="string">"value"</span>));//复选框</span><br><span class="line">   		console.log($(<span class="string">"#myInput"</span>).prop(<span class="string">"checked"</span>)); //<span class="literal">false</span></span><br><span class="line"></span><br><span class="line">   		console.log($(<span class="string">"#myInput"</span>).attr(<span class="string">"value"</span>)); //复选框</span><br><span class="line">   		console.log($(<span class="string">"#myInput"</span>).attr(<span class="string">"checked"</span>));//undefined</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/11/01/attr和prop用法/" data-id="cjnxwyfqk0000qktensgski5m" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/10/30/js刷新页面方式/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">记录刷新页面的几种方式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/11/01/attr和prop用法/">attr和prop用法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/30/js刷新页面方式/">记录刷新页面的几种方式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/24/js函数的声明与调用/">函数的声明与调用</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/23/三目运算/">运算</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/23/js事件冒泡、捕获与委托/">js事件冒泡、捕获与委托</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
