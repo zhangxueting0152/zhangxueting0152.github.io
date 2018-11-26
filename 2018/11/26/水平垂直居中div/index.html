@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>水平垂直居中div | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="将id=”container”的div水平垂直居中123456789&amp;lt;div id=&quot;container&quot;&amp;gt;我的div要水平垂直居中&amp;lt;/div&amp;gt;&amp;lt;style type=&quot;text/css&quot;&amp;gt;*&amp;#123;	margin: 0;	padding: 0;&amp;#125;&amp;lt;/style&amp;gt; 水平居中当然都知道，需要margin: 0 auto;即可，但是如何水平">
+<meta property="og:type" content="article">
+<meta property="og:title" content="水平垂直居中div">
+<meta property="og:url" content="http://yoursite.com/2018/11/26/水平垂直居中div/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="将id=”container”的div水平垂直居中123456789&amp;lt;div id=&quot;container&quot;&amp;gt;我的div要水平垂直居中&amp;lt;/div&amp;gt;&amp;lt;style type=&quot;text/css&quot;&amp;gt;*&amp;#123;	margin: 0;	padding: 0;&amp;#125;&amp;lt;/style&amp;gt; 水平居中当然都知道，需要margin: 0 auto;即可，但是如何水平">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-26T12:42:23.811Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="水平垂直居中div">
+<meta name="twitter:description" content="将id=”container”的div水平垂直居中123456789&amp;lt;div id=&quot;container&quot;&amp;gt;我的div要水平垂直居中&amp;lt;/div&amp;gt;&amp;lt;style type=&quot;text/css&quot;&amp;gt;*&amp;#123;	margin: 0;	padding: 0;&amp;#125;&amp;lt;/style&amp;gt; 水平居中当然都知道，需要margin: 0 auto;即可，但是如何水平">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-水平垂直居中div" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/26/水平垂直居中div/" class="article-date">
+  <time datetime="2018-11-26T07:23:15.629Z" itemprop="datePublished">2018-11-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      水平垂直居中div
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>将id=”container”的div水平垂直居中<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"container"</span>&gt;</span><br><span class="line">我的div要水平垂直居中</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;style <span class="built_in">type</span>=<span class="string">"text/css"</span>&gt;</span><br><span class="line">*&#123;</span><br><span class="line">	margin: 0;</span><br><span class="line">	padding: 0;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure></p>
+<p>水平居中当然都知道，需要margin: 0 auto;即可，但是如何水平垂直居中呢？<br>position:relative 配合top:50%无效，但是left：50%有效。<br>是因为子元素设置的width或者height是百分比的值跟父元素有关。设置width为百分比，不需要父元素明确设置width；但是子元素设置height为百分比，父元素必须明确设置高度。</p>
+<h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><p>使用绝对布局，让left为50%，这样水平方向上div的最左与屏幕的最左相距50%，所以还需将div再向左移动半个宽度，所以margin-left: -100px;，或者通过transform: translate(-50%,-50%);设置。top方向上同理。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#container&#123;</span></span><br><span class="line">	text-align: center;</span><br><span class="line">    background: pink;</span><br><span class="line">    width: 200px;</span><br><span class="line">    height: 200px;</span><br><span class="line">    position: absolute;</span><br><span class="line">    left: 50%;</span><br><span class="line">    top: 50%;</span><br><span class="line">    /*transform: translate(-50%,-50%);*/</span><br><span class="line">    margin-top: -100px;</span><br><span class="line">    margin-left: -100px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>检查元素可以发现：<br>position: absolute时，body元素的高为0；<br>position: relative时，body元素的高为200px。</p>
+<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><p>使用绝对布局，一定要设置margin:auto,并设置top,right,bottom,right值相等即可，不一定要都是0。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#container&#123;</span></span><br><span class="line">    background: pink;</span><br><span class="line">    width: 200px;</span><br><span class="line">    height: 200px;</span><br><span class="line">    margin: auto;</span><br><span class="line">    position: absolute;</span><br><span class="line">    top: 0px;</span><br><span class="line">    left: 0px;</span><br><span class="line">    right: 0px;</span><br><span class="line">    bottom: 0px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="方法二的原理如下："><a href="#方法二的原理如下：" class="headerlink" title="方法二的原理如下："></a>方法二的原理如下：</h3><p>首先说一下margin的auto属性的作用：它是用来分配剩余空间的，所以说一定对有剩余空间的元素才有效。例如对图片元素这个属性无效，是因为图片是内联元素，不是占一整行的，所以说它没有剩余空间。<br>1.position: absolute;使绝对定位块跳出了内容流。<br>定位元素可以发现，当该属性为absolute时，body元素的高为整个页面的高度；当属性为relative时，body元素的高就刚好只是该元素width值的高度；<br>2.为块级区域设置top: 0; left: 0; bottom: 0; right: 0;将给浏览器重新分配一个边界框，此时该块将填充其所有父元素的所有可用空间，所以margin在垂直方向上有了可分配的空间。<br>3.再设置margin垂直方向上下为auto，即可实现垂直居中。</p>
+<h2 id="对position的absolute和relative属性不清楚，通过链接了解了一些：https-www-cnblogs-com-theWayToAce-p-5264436-html"><a href="#对position的absolute和relative属性不清楚，通过链接了解了一些：https-www-cnblogs-com-theWayToAce-p-5264436-html" class="headerlink" title="对position的absolute和relative属性不清楚，通过链接了解了一些：https://www.cnblogs.com/theWayToAce/p/5264436.html"></a>对position的absolute和relative属性不清楚，通过链接了解了一些：<a href="https://www.cnblogs.com/theWayToAce/p/5264436.html" target="_blank" rel="noopener">https://www.cnblogs.com/theWayToAce/p/5264436.html</a></h2><p>现自己再总结一下如下：<br>1.relative<br><em>生成相对定位的元素，通过top,bottom,left,right的设置相对于其正常（原先本身）位置进行定位。</em><br>定位为relative的元素脱离正常文本流中，但其在文本流中的位置依然存在。<br>无论父级存在不存在，无论有没有TRBL（ “left”, “top”, “right” 以及 “bottom” ），均是以父级的左上角进行定位，但是父级的padding属性会对其影响。</p>
+<p>2.absolute<br><em>生成绝对定位的元素，相对于static定位以外的第一个父元素进行定位。元素的位置通过 “left”, “top”, “right” 以及 “bottom” 属性进行规定。</em><br>定位为absolute的元素脱离正常文本流，但是其在正常流中的位置不再存在。<br>若想把一个定位属性为absolute的元素定位于其父级元素内，只有满足两个条件：设定TRBL和父级设定position属性(无论是absolute还是relative)。这两个条件只要有一个不满足，元素就会以浏览器左上角为原点，从而导致页面布局错位。<br>如果有父级元素，则定位属性为absolute的元素是以父级为左上角；如果没有父级，才会参照浏览器的左上角。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/11/26/水平垂直居中div/" data-id="cjoyaisry0005k8tew3fy2ejr" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/11/26/React生命周期/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">React生命周期</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/11/26/水平垂直居中div/">水平垂直居中div</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/26/React生命周期/">React生命周期</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/22/圣杯布局/">圣杯布局</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/01/attr和prop用法/">attr和prop用法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/30/js刷新页面方式/">记录刷新页面的几种方式</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
