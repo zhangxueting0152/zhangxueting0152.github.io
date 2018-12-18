@@ -62,6 +62,54 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-三目运算" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/23/三目运算/" class="article-date">
+  <time datetime="2018-10-23T06:52:49.434Z" itemprop="datePublished">2018-10-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/23/三目运算/">运算</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="三目运算"><a href="#三目运算" class="headerlink" title="三目运算"></a>三目运算</h1><h2 id="语法："><a href="#语法：" class="headerlink" title="语法："></a>语法：</h2><p>基本语法：expression ? sentence1 : sentence2<br>当expression的值为真时执行sentence1，否则执行sentence2。</p>
+<p>相当于if else:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(expression) &#123;</span><br><span class="line">	sentence1;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	sentence2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当需要进行多次逻辑判断时，三目运算符会看起来更加的简洁：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">expression1 ？ sentence1 ：</span><br><span class="line">expression2 ？ sentence2 ：</span><br><span class="line">expression3 ？ sentence3 ：</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，只要任意一个expressionN为真，就会立即执行sentenceN,并且判断结束，不会执行后面的代码。对应的if else如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(expression1）&#123;</span><br><span class="line">	sentence1;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span>(expression2) &#123;</span><br><span class="line">	sentence2;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span>(expression3) &#123;</span><br><span class="line">	sentence3;</span><br><span class="line">&#125;...</span><br></pre></td></tr></table></figure></p>
+<p>相比之下，三目运算符更加的简洁。</p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="1-判断"><a href="#1-判断" class="headerlink" title="1.判断"></a>1.判断</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a=1,b=1;</span><br><span class="line">a &gt;= 1 ? b++ : b--;</span><br><span class="line">console.log(b);//2</span><br></pre></td></tr></table></figure>
+<h3 id="2-赋值"><a href="#2-赋值" class="headerlink" title="2.赋值"></a>2.赋值</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a=0,c;</span><br><span class="line">var c = (a &gt;= 1 ? 2 : 3);</span><br><span class="line">console.log(c);//2</span><br></pre></td></tr></table></figure>
+<p>三目运算是有返回值的，相当于return(3)</p>
+<p>所以当写成var c = (a &gt;= 1 ? return true : return false);的时候，就会有问题，因为这个相当于<br>if(expression){<br>      return (return true);//会报错<br>   }</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a=1,b=1;</span><br><span class="line">console.log(a &gt;= 1 ? b++ : b--);//1</span><br><span class="line">console.log(b);//2</span><br></pre></td></tr></table></figure>
+<p>因为b++是后加，所以return b++,是先return b,再给b加1的。</p>
+<h1 id="amp-amp"><a href="#amp-amp" class="headerlink" title="&amp;&amp;"></a>&amp;&amp;</h1><p>假前真后：<br>只要&amp;&amp;前面是false，无论&amp;&amp;后面是true还是false，结果都将返回&amp;&amp;前面的值；<br>只要&amp;&amp;前面是true，无论&amp;&amp;后面是true还是false，结果都将返回&amp;&amp;后面的值；</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">console.log(1 &amp;&amp; 0);//0</span><br><span class="line">console.log(0 &amp;&amp; 1);//0</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/23/三目运算/" data-id="cjptqh7fo0008ywterjglnrsn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-js事件冒泡、捕获与委托" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/23/js事件冒泡、捕获与委托/" class="article-date">
@@ -103,7 +151,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/js事件冒泡、捕获与委托/" data-id="cjpasrv280005r0te0y06utw0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/js事件冒泡、捕获与委托/" data-id="cjptqh7fh0002ywtenc2uwkvc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -149,7 +197,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/20/js实现继承/" data-id="cjpasrv260003r0tenxr9r66p" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/20/js实现继承/" data-id="cjptqh7fl0006ywte0k1ilns8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -199,7 +247,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/20/构造函数、原型对象、实例等概念/" data-id="cjpasrv2h000cr0tefbc65qmh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/20/构造函数、原型对象、实例等概念/" data-id="cjptqh7fp0009ywteom4ncxev" class="article-share-link">Share</a>
       
       
     </footer>
@@ -270,7 +318,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/17/使用hexo搭建博客/" data-id="cjpasrv2d0009r0tem9xx0c5l" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/17/使用hexo搭建博客/" data-id="cjptqh7gs000eywtepsn6xyvy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -315,7 +363,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/17/hello-world/" data-id="cjpasrv250002r0te8nr1wn4s" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/17/hello-world/" data-id="cjptqh7fi0003ywtet7x28wcr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -361,6 +409,10 @@
       <ul>
         
           <li>
+            <a href="/2018/12/18/闭包和立即执行函数/">闭包和立即执行函数</a>
+          </li>
+        
+          <li>
             <a href="/2018/12/05/异步，同步，回调和class/">异步，同步，回调和js的class</a>
           </li>
         
@@ -374,10 +426,6 @@
         
           <li>
             <a href="/2018/11/26/水平垂直居中div/">水平垂直居中div</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/26/React生命周期/">React生命周期</a>
           </li>
         
       </ul>

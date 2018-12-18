@@ -7,17 +7,17 @@
   
   <title>异步，同步，回调和js的class | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="感觉阮一峰对异步，同步和回调的解释，很通俗，所以在这里记一下. 异步：所谓”异步”，简单说就是一个任务不是连续完成的，可以理解成该任务被人为分成两段，先执行第一段，然后转而执行其他任务，等做好了准备，再回过头执行第二段。比如，有一个任务是读取文件进行处理，任务的第一段是向操作系统发出请求，要求读取文件。然后，程序执行其他任务，等到操作系统返回文件，再接着执行任务的第二段（处理文件）。这种不连续的执">
+  <meta name="description" content="感觉阮一峰对异步，同步和回调的解释，很通俗，所以在这里记一下.链接：http://es6.ruanyifeng.com/#docs/generator-async 异步：所谓”异步”，简单说就是一个任务不是连续完成的，可以理解成该任务被人为分成两段，先执行第一段，然后转而执行其他任务，等做好了准备，再回过头执行第二段。比如，有一个任务是读取文件进行处理，任务的第一段是向操作系统发出请求，要求读取文">
 <meta property="og:type" content="article">
 <meta property="og:title" content="异步，同步，回调和js的class">
 <meta property="og:url" content="http://yoursite.com/2018/12/05/异步，同步，回调和class/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="感觉阮一峰对异步，同步和回调的解释，很通俗，所以在这里记一下. 异步：所谓”异步”，简单说就是一个任务不是连续完成的，可以理解成该任务被人为分成两段，先执行第一段，然后转而执行其他任务，等做好了准备，再回过头执行第二段。比如，有一个任务是读取文件进行处理，任务的第一段是向操作系统发出请求，要求读取文件。然后，程序执行其他任务，等到操作系统返回文件，再接着执行任务的第二段（处理文件）。这种不连续的执">
+<meta property="og:description" content="感觉阮一峰对异步，同步和回调的解释，很通俗，所以在这里记一下.链接：http://es6.ruanyifeng.com/#docs/generator-async 异步：所谓”异步”，简单说就是一个任务不是连续完成的，可以理解成该任务被人为分成两段，先执行第一段，然后转而执行其他任务，等做好了准备，再回过头执行第二段。比如，有一个任务是读取文件进行处理，任务的第一段是向操作系统发出请求，要求读取文">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-05T06:32:39.031Z">
+<meta property="og:updated_time" content="2018-12-13T00:31:13.199Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="异步，同步，回调和js的class">
-<meta name="twitter:description" content="感觉阮一峰对异步，同步和回调的解释，很通俗，所以在这里记一下. 异步：所谓”异步”，简单说就是一个任务不是连续完成的，可以理解成该任务被人为分成两段，先执行第一段，然后转而执行其他任务，等做好了准备，再回过头执行第二段。比如，有一个任务是读取文件进行处理，任务的第一段是向操作系统发出请求，要求读取文件。然后，程序执行其他任务，等到操作系统返回文件，再接着执行任务的第二段（处理文件）。这种不连续的执">
+<meta name="twitter:description" content="感觉阮一峰对异步，同步和回调的解释，很通俗，所以在这里记一下.链接：http://es6.ruanyifeng.com/#docs/generator-async 异步：所谓”异步”，简单说就是一个任务不是连续完成的，可以理解成该任务被人为分成两段，先执行第一段，然后转而执行其他任务，等做好了准备，再回过头执行第二段。比如，有一个任务是读取文件进行处理，任务的第一段是向操作系统发出请求，要求读取文">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -86,7 +86,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>感觉阮一峰对异步，同步和回调的解释，很通俗，所以在这里记一下.</p>
+        <p>感觉阮一峰对异步，同步和回调的解释，很通俗，所以在这里记一下.<br>链接：<a href="http://es6.ruanyifeng.com/#docs/generator-async" target="_blank" rel="noopener">http://es6.ruanyifeng.com/#docs/generator-async</a></p>
 <h2 id="异步："><a href="#异步：" class="headerlink" title="异步："></a>异步：</h2><p>所谓”异步”，简单说就是一个任务不是连续完成的，可以理解成该任务被人为分成两段，先执行第一段，然后转而执行其他任务，等做好了准备，再回过头执行第二段。<br>比如，有一个任务是读取文件进行处理，任务的第一段是向操作系统发出请求，要求读取文件。然后，程序执行其他任务，等到操作系统返回文件，再接着执行任务的第二段（处理文件）。这种不连续的执行，就叫做异步。</p>
 <h2 id="同步："><a href="#同步：" class="headerlink" title="同步："></a>同步：</h2><p>相应地，连续的执行就叫做同步。由于是连续执行，不能插入其他任务，所以操作系统从硬盘读取文件的这段时间，程序只能干等着。</p>
 <h2 id="回调函数："><a href="#回调函数：" class="headerlink" title="回调函数："></a>回调函数：</h2><p>JavaScript 语言对异步编程的实现，就是回调函数。所谓回调函数，就是把任务的第二段单独写在一个函数里面，等到重新执行这个任务的时候，就直接调用这个函数。回调函数的英语名字callback，直译过来就是”重新调用”。</p>
@@ -99,7 +99,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/05/异步，同步，回调和class/" data-id="cjpasrv2f000br0te4bm4c1cb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/05/异步，同步，回调和class/" data-id="cjptqh7fn0007ywte5wt13ie7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -107,6 +107,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2018/12/18/闭包和立即执行函数/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          闭包和立即执行函数
+        
+      </div>
+    </a>
   
   
     <a href="/2018/11/28/深浅拷贝/" id="article-nav-older" class="article-nav-link-wrap">
@@ -148,6 +157,10 @@
       <ul>
         
           <li>
+            <a href="/2018/12/18/闭包和立即执行函数/">闭包和立即执行函数</a>
+          </li>
+        
+          <li>
             <a href="/2018/12/05/异步，同步，回调和class/">异步，同步，回调和js的class</a>
           </li>
         
@@ -161,10 +174,6 @@
         
           <li>
             <a href="/2018/11/26/水平垂直居中div/">水平垂直居中div</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/26/React生命周期/">React生命周期</a>
           </li>
         
       </ul>
