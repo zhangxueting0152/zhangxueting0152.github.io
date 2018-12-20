@@ -62,10 +62,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-test" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-this学习" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/12/18/test/" class="article-date">
-  <time datetime="2018-12-18T12:53:56.000Z" itemprop="datePublished">2018-12-18</time>
+    <a href="/2018/12/19/this学习/" class="article-date">
+  <time datetime="2018-12-19T07:30:07.000Z" itemprop="datePublished">2018-12-19</time>
 </a>
     
   </div>
@@ -76,7 +76,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/18/test/">test</a>
+      <a class="article-title" href="/2018/12/19/this学习/">this学习</a>
     </h1>
   
 
@@ -84,12 +84,38 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="/2018/12/18/test/test.png" alt="你想输入的替代文字"></p>
+        <h2 id="为什么会出现this问题？"><a href="#为什么会出现this问题？" class="headerlink" title="为什么会出现this问题？"></a>为什么会出现this问题？</h2><p>参考链接：<a href="http://www.ruanyifeng.com/blog/2018/06/javascript-this.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2018/06/javascript-this.html</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">	bar: 1,</span><br><span class="line">	foo: <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		console.log(this.bar);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">var foo = obj.foo;</span><br><span class="line">var bar = 2;</span><br><span class="line">obj.foo();//1</span><br><span class="line">foo();//2</span><br></pre></td></tr></table></figure></p>
+<p>出现这种情况的原因是，this指的是函数运行时所在的环境。对于obj.foo()来说，foo运行在obj环境，所以this指向obj;但是对于foo()来说是运行在全局环境中，所以this指向全局环境，即window.</p>
+<h3 id="js内存的数据结构"><a href="#js内存的数据结构" class="headerlink" title="js内存的数据结构"></a>js内存的数据结构</h3><p>1.当属性的值是一个数值的时候：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123; foo:  5 &#125;;</span><br></pre></td></tr></table></figure></p>
+<p>对于这段代码，js引擎会首先在内存里面生成一个对象{ foo:  5 }，然后把该对象的地址赋值给obj。<br>原始的对象是以字典的形式保存的，每一个属性名都对应一个对象。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  foo: &#123;</span><br><span class="line">    [[value]]: 5</span><br><span class="line">    [[writable]]: <span class="literal">true</span></span><br><span class="line">    [[enumerable]]: <span class="literal">true</span></span><br><span class="line">    [[configurable]]: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2018/12/19/this学习/属性值是数值.png" alt="属性值是数值"></p>
+<p>2.当属性的值是一个函数的时候：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123; foo: <span class="function"><span class="title">function</span></span> () &#123;&#125; &#125;;</span><br></pre></td></tr></table></figure></p>
+<p>这个时候在内存中会存在一个函数，并且将这个函数的地址赋值给foo属性的value属性。<br><img src="/2018/12/19/this学习/属性值是函数.png" alt="属性值是函数"><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  foo: &#123;</span><br><span class="line">    [[value]]: 函数的地址</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>正是由于函数是一个单独的值，所以它可以在不同的环境（上下文）中执行。那么就需要一种机制，可以在函数内部获得当前的运行环境（上下文），这个机制就是this.它的存在就是表示函数的当前运行环境。</p>
+<h3 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var f = <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">  console.log(this.x);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var x = 1;</span><br><span class="line">var obj = &#123;</span><br><span class="line">  foo: f,</span><br><span class="line">  x: 2,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 单独执行</span><br><span class="line">f() // 1</span><br><span class="line"></span><br><span class="line">// obj 环境执行</span><br><span class="line">obj.f() // 2</span><br></pre></td></tr></table></figure>
+<p>1.图形解释f()结果:<br><img src="/2018/12/19/this学习/f结果.png" alt="f()结果"><br>2.图形解释obj.f()结果:<br><img src="/2018/12/19/this学习/obj.f结果.png" alt="obj.f()结果"></p>
+<p>那么此时就明白了：对于obj.foo()来说，是通过obj找到foo，所以就是在obj环境中执行的；<br>但是对于var foo = obj.foo;，那么变量foo就直接指向函数本身，所以此时foo()就变成是在全局环境中执行的。</p>
+<h2 id="this的指向问题"><a href="#this的指向问题" class="headerlink" title="this的指向问题"></a>this的指向问题</h2><h3 id="全局环境："><a href="#全局环境：" class="headerlink" title="全局环境："></a>全局环境：</h3><p>在全局环境下，无论是否是严格模式，this始终指向全局对象window</p>
+<h3 id="函数上下文调用："><a href="#函数上下文调用：" class="headerlink" title="函数上下文调用："></a>函数上下文调用：</h3><p>1.函数直接调用时：<br>非严格模式下，this指向全局对象window；严格模式下，this为undefined.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">f1</span></span>()&#123;</span><br><span class="line">  <span class="built_in">return</span> this;</span><br><span class="line">&#125;</span><br><span class="line">console.log(f1() === window) // <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">f2</span></span>()&#123;</span><br><span class="line">  <span class="string">"use strict"</span>; // 这里是严格模式</span><br><span class="line">  <span class="built_in">return</span> this;</span><br><span class="line">&#125;</span><br><span class="line">console.log(f2() === undefined) // <span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
+<p>2.对象中的this：<br>依照下面的法则去替换即可：（谁调用它，this就指向谁）<br>foo() —&gt; foo.call(window)<br>obj.foo() –&gt; obj.foo.call(obj)</p>
+<p>3.构造函数的this<br>构造函数中的this与被创建的新对象绑定。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">C</span></span>()&#123;</span><br><span class="line">  this.a = 37;</span><br><span class="line">  <span class="built_in">return</span> &#123;a:38&#125;;</span><br><span class="line">&#125;</span><br><span class="line">var b = new C();</span><br><span class="line">console.log(b.a); //38</span><br></pre></td></tr></table></figure></p>
+<p>4.call &amp; apply和bind方法<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> add(c, d)&#123;</span><br><span class="line">  <span class="built_in">return</span> this.a + this.b + c + d;</span><br><span class="line">&#125;</span><br><span class="line">var o = &#123;a:1, b:3&#125;;</span><br><span class="line">add.call(o, 5, 7); // 1 + 3 + 5 + 7 = 16</span><br><span class="line">add.apply(o, [10, 20]); // 1 + 3 + 10 + 20 = 34</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">tt</span></span>() &#123;</span><br><span class="line">  console.log(this);</span><br><span class="line">&#125;</span><br><span class="line">tt.call(5);  // Number &#123;[[PrimitiveValue]]: 5&#125; </span><br><span class="line">tt.call(<span class="string">'asd'</span>); // String &#123;0: <span class="string">"a"</span>, 1: <span class="string">"s"</span>, 2: <span class="string">"d"</span>, length: 3, [[PrimitiveValue]]: <span class="string">"asd"</span>&#125;</span><br></pre></td></tr></table></figure></p>
+<p>bind方法，会将函数永远绑定在其第一个参数对象上，无论在什么情况下被调用，它的this指向都不变。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">f</span></span>()&#123;</span><br><span class="line">  <span class="built_in">return</span> this.a;</span><br><span class="line">&#125;</span><br><span class="line">var g = f.bind(&#123;a:<span class="string">"azerty"</span>&#125;);</span><br><span class="line">console.log(g()); // azerty</span><br><span class="line">var o = &#123;a:37, f:f, g:g&#125;;</span><br><span class="line">console.log(o.f(), o.g()); // 37, azerty</span><br></pre></td></tr></table></figure></p>
+<p>5.DOM事件处理函数中的this<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;button id=<span class="string">"myBtn"</span> onclick=<span class="string">"test()"</span>&gt;click&lt;/button&gt;</span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">    <span class="keyword">function</span> listenerTest(e)&#123;</span><br><span class="line">      console.log(this);//输出&lt;button id=<span class="string">"myBtn"</span> onclick=<span class="string">"test()"</span>&gt;click&lt;/button&gt;</span><br><span class="line">    &#125;</span><br><span class="line">    document.getElementById(<span class="string">"myBtn"</span>).addEventListener(<span class="string">'click'</span>, listenerTest, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="function"><span class="title">test</span></span>() &#123;</span><br><span class="line">      console.log(this);</span><br><span class="line">      //Window &#123;postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, frames:Window, listenerTest:ƒ listenerTest(e)…&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    console.log(document.getElementById(<span class="string">"myBtn"</span>).onclick);//ƒ onclick(event) &#123;<span class="built_in">test</span>()&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>我对上述代码的控制台输出的理解：<br>因为listenerTest方法是绑定到button对象上，所以里面的this指向button;<br>而test方法是赋给了onclick属性，点击时，是window调用的test方法，所以打印出来的是window，并且可以看到在window里有listenerTest方法。点击时，是执行了window.onclick()方法，只不过onclick()里调用了test()函数。</p>
+<p>5.1 当函数被当作监听事件处理函数（addEventListen）时，其中的this指向触发该事件的元素。<br>5.2 当代码被内联函数调用时，this指向监听器所在的DOM元素；当代码被包括在函数内部执行时，this指向全局对象window或者undefined.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onclick=<span class="string">"console.log(this);"</span>&gt;click&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"(function() &#123;console.log(this)&#125;)();"</span>&gt;show inner&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"(function() &#123;'use strict';console.log(this)&#125;)();"</span>&gt;use strict&lt;/button&gt;</span><br></pre></td></tr></table></figure></p>
+<p>依次点击这三个按钮后，控制台输出如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onclick=<span class="string">"console.log(this);"</span>&gt;click&lt;/button&gt;</span><br><span class="line">Window &#123;postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, frames: Window, …&#125;</span><br><span class="line">undefined</span><br></pre></td></tr></table></figure></p>
+<p>6.setTimeout &amp; setInterval<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">Person</span></span>() &#123;  </span><br><span class="line">    this.age = 0;  </span><br><span class="line">    setTimeout(<span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">        console.log(this);</span><br><span class="line">    &#125;, 3000);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var p = new Person();//3秒后返回 window 对象</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">Person</span></span>() &#123;  </span><br><span class="line">    this.age = 0;  </span><br><span class="line">    setTimeout((<span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">        console.log(this);</span><br><span class="line">    &#125;).<span class="built_in">bind</span>(this), 3000);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var p = new Person();//3秒后返回构造函数新生成的对象 Person &#123;age: 0&#125;</span><br></pre></td></tr></table></figure>
+<p>7.箭头函数中的this<br>7.1 箭头函数在方法内部<br>箭头函数会自己捕获所在的上下文的this值，即定义的位置。call() / apply() / bind() 方法对于箭头函数来说只是传入参数，对this毫无影响。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">Person</span></span>() &#123;  </span><br><span class="line">    this.age = 0;  </span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      console.log(this);</span><br><span class="line">    &#125;, 3000);</span><br><span class="line">&#125;</span><br><span class="line">var p = new Person();//3秒后返回构造函数新生成的对象 Person &#123;age: 0&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">var adder = &#123;</span><br><span class="line">  base : 1,</span><br><span class="line">    </span><br><span class="line">  add : <span class="keyword">function</span>(a) &#123;</span><br><span class="line">    var f = v =&gt; v + this.base;</span><br><span class="line">    <span class="built_in">return</span> f(a);</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  addThruCall: <span class="keyword">function</span> inFun(a) &#123;</span><br><span class="line">    var f = v =&gt; v + this.base;</span><br><span class="line">    var b = &#123;</span><br><span class="line">      base : 2</span><br><span class="line">    &#125;;</span><br><span class="line">            </span><br><span class="line">    <span class="built_in">return</span> f.call(b, a);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">console.log(adder.add(1));         //2</span><br><span class="line">console.log(adder.addThruCall(1)); //2</span><br></pre></td></tr></table></figure>
+<p>7.2 作为方法的箭头函数<br>作为方法的箭头函数的this指向全局对象window,而普通函数则指向调用它的对象。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">  i: 10,</span><br><span class="line">  arrow: () =&gt; console.log(this.i, this),</span><br><span class="line">  c: <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">    console.log( this.i, this)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.arrow();  //undefined Window &#123;postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, frames: Window, …&#125;</span><br><span class="line">obj.c(); //10 &#123;i: 10, arrow: ƒ, c: ƒ&#125;</span><br></pre></td></tr></table></figure></p>
+<p>学习参考链接：<br><a href="http://www.imooc.com/article/1758" target="_blank" rel="noopener">http://www.imooc.com/article/1758</a><br><a href="http://www.cnblogs.com/dongcanliang/p/7054176.html" target="_blank" rel="noopener">http://www.cnblogs.com/dongcanliang/p/7054176.html</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/18/test/" data-id="cjptr65bk0007m0te6iwc096j" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/19/this学习/" data-id="cjpv30far0004xwte030nx9hs" class="article-share-link">Share</a>
       
       
     </footer>
@@ -135,7 +161,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/18/闭包和立即执行函数/" data-id="cjptr65bt000gm0tet8hshgy7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/18/闭包和立即执行函数/" data-id="cjpv30fcc000fxwteoekrben9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -180,7 +206,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/05/异步，同步，回调和class/" data-id="cjptr65bp000bm0te9b859vps" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/05/异步，同步，回调和class/" data-id="cjpv30fav0009xwtebuxq0c49" class="article-share-link">Share</a>
       
       
     </footer>
@@ -226,7 +252,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/28/深浅拷贝/" data-id="cjptr65bs000em0tenxaefio1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/28/深浅拷贝/" data-id="cjpv30fcb000exwtel3a76pfn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -283,7 +309,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/27/前端面试题记录/" data-id="cjptr65bo000am0teyoxm7qq3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/27/前端面试题记录/" data-id="cjpv30fc8000bxwte9p2f4eu3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -328,7 +354,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/26/水平垂直居中div/" data-id="cjptr65br000dm0te0mw6inu3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/26/水平垂直居中div/" data-id="cjpv30fcd000gxwte4dmdj3zx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -367,7 +393,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/26/React生命周期/" data-id="cjptr65bb0001m0te2a1d7i65" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/26/React生命周期/" data-id="cjpv30fam0001xwten17xkptp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -406,7 +432,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/22/圣杯布局/" data-id="cjptr65bq000cm0teia0uzfd5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/22/圣杯布局/" data-id="cjpv30fav0008xwtesux8ufus" class="article-share-link">Share</a>
       
       
     </footer>
@@ -445,7 +471,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/01/attr和prop用法/" data-id="cjptr65b60000m0teh3gy6neg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/01/attr和prop用法/" data-id="cjpv30fai0000xwte57316kov" class="article-share-link">Share</a>
       
       
     </footer>
@@ -482,7 +508,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/30/js刷新页面方式/" data-id="cjptr65bg0004m0tegai5z67j" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/30/js刷新页面方式/" data-id="cjpv30fca000dxwtenz63dsk8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -528,7 +554,7 @@
       <ul>
         
           <li>
-            <a href="/2018/12/18/test/">test</a>
+            <a href="/2018/12/19/this学习/">this学习</a>
           </li>
         
           <li>
