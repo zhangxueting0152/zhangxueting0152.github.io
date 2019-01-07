@@ -62,6 +62,107 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-promise" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/07/promise/" class="article-date">
+  <time datetime="2019-01-07T01:48:20.573Z" itemprop="datePublished">2019-01-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/07/promise/">promise</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>jquery的ajax返回的是deferred对象，通过promise的resolve()方法将其转换为promise对象。</p>
+<h2 id="promise含义"><a href="#promise含义" class="headerlink" title="promise含义"></a>promise含义</h2><p>1.Promise对象代表一个异步操作，有三种状态：pending（进行中）、fulfilled（已成功）和rejected（已失败）。<br>2.Promise对象的状态改变，只有两种可能：从pending变为fulfilled和从pending变为rejected。只要这两种情况发生，状态就固定，不会再变了，会一直保持这个结果。</p>
+<h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">const promise = new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">	console.log(<span class="string">'Promise'</span>);</span><br><span class="line">	<span class="function"><span class="title">if</span></span>() &#123;</span><br><span class="line">		resolve(value);</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		reject(error);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line">promise.then(value =&gt; &#123;</span><br><span class="line">	// success</span><br><span class="line">	&#125;,error =&gt; &#123;</span><br><span class="line">	// failure</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>1.promise的构造函数接受一个函数作为参数，这个函数有两个参数分别是resolve和reject。而resolve和reject又各自是两个函数。<br>resolve函数，当Promise对象的状态从 pending 变为 resolved，在异步操作成功时调用，并将异步操作的结果作为参数value传递出去。<br>reject函数，当Promise对象的状态从pending 变为 rejected，在异步操作失败时调用，并将异步操作报出的错误value,作为参数传递出去。<br>2.then方法的参数是两个回调函数：<br>第一个回调函数是promise对象的状态变为resolved时调用，第二个回调函数(可选)是Promise对象的状态变为rejected时调用。第二个参数是可选的。<br>then可以采用链式写法。<br>3.Promise 新建后就会立即执行。即回立马输出Promise。<br>4.Promise.prototype.catch方法是.then(null, rejection)或.then(undefined, rejection)的别名，用于指定发生错误时的回调函数。</p>
+<h2 id="resolve的参数是promise对象时："><a href="#resolve的参数是promise对象时：" class="headerlink" title="resolve的参数是promise对象时："></a>resolve的参数是promise对象时：</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const p1 = new Promise(<span class="keyword">function</span> (resolve, reject) &#123;</span><br><span class="line">  setTimeout(() =&gt; reject(new Error(<span class="string">'fail'</span>)), 3000)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">const p2 = new Promise(<span class="keyword">function</span> (resolve, reject) &#123;</span><br><span class="line">  setTimeout(() =&gt; resolve(p1), 1000)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">p2</span><br><span class="line">  .<span class="keyword">then</span>(result =&gt; console.log(result))</span><br><span class="line">  .catch(error =&gt; console.log(error))</span><br><span class="line">// Error: fail</span><br></pre></td></tr></table></figure>
+<p>执行代码，p1是一个Promise,3秒之后变为rejected。p2的状态在1秒之后改变，resolve方法返回的是p1。由于p2返回的是另一个Promise，导致p2自己的状态无效了，由p1的状态决定p2的状态。<br>因此，后面的then语句变成针对P1。又过了 2 秒，p1变为rejected，导致触发catch方法指定的回调函数。</p>
+<h2 id="Promise-prototype-finally-："><a href="#Promise-prototype-finally-：" class="headerlink" title="Promise.prototype.finally()："></a>Promise.prototype.finally()：</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Promise</span><br><span class="line">.<span class="keyword">then</span>(result =&gt; &#123;&#125;)</span><br><span class="line">.catch(error =&gt; &#123;&#125;)</span><br><span class="line">.finally(() =&gt; &#123;&#125;)</span><br></pre></td></tr></table></figure>
+<p>不管promise最后的状态，在执行完then或catch指定的回调函数以后，都会执行finally方法指定的回调函数。</p>
+<h2 id="Promise-all-："><a href="#Promise-all-：" class="headerlink" title="Promise.all()："></a>Promise.all()：</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var p =Promise.all([p1,p2,p3]);</span><br></pre></td></tr></table></figure>
+<p>p的状态由p1、p2、p3决定，分为两种情况。<br>当该数组里的所有Promise实例都进入Fulfilled状态，Promise.all返回的实例才会变成Fulfilled状态。并将Promise实例数组的所有返回值组成一个数组，传递给Promise.all返回实例的回调函数。<br>当该数组里的某个Promise实例都进入Rejected状态，Promise.all返回的实例会立即变成Rejected状态。并将第一个rejected的实例返回值传递给Promise.all返回实例的回调函数。</p>
+<h2 id="Promise-race-："><a href="#Promise-race-：" class="headerlink" title="Promise.race()："></a>Promise.race()：</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var p =Promise.race([p1,p2,p3]);</span><br></pre></td></tr></table></figure>
+<p>只要p1、p2、p3之中有一个实例率先改变状态，p的状态就跟着改变。那个率先改变的 Promise 实例的返回值，就传递给p的回调函数。</p>
+<h2 id="Promise-resolve-："><a href="#Promise-resolve-：" class="headerlink" title="Promise.resolve()："></a>Promise.resolve()：</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var jsPromise = Promise.resolve($.ajax(<span class="string">'/whatever.json'</span>));</span><br></pre></td></tr></table></figure>
+<p>上面代码将 jQuery 生成的deferred对象，转为一个新的 Promise 对象</p>
+<p>Promise.resolve(‘foo’); &lt;==&gt; new Promise(resolve =&gt; resolve(‘foo’));</p>
+<h2 id="构造函数和原型上的方法"><a href="#构造函数和原型上的方法" class="headerlink" title="构造函数和原型上的方法"></a>构造函数和原型上的方法</h2><p>1.<br>Promise.prototype.then()，Promise.prototype.catch()，Promise.prototype.finally();<br>Promise.all()，Promise.race()，Promise.resolve()，Promise.reject()，Promise.try();</p>
+<p>2.在Promise构造函数上实现的all，race，reject，resolve，不能在对象的实例中访问，属于Promise构造函数自己，这样做保证了对象的命名空间整洁。所以这几个函数的调用方式是Promise.all()，Promise.race()，Promise.reject()，Promise.resolve()。</p>
+<p>3.在构造函数原型上实现then，catch的方法是为了让Promise构造函数创建的实例共享then，catch方法。</p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>1.异步加载图片<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> loadImageAsync(url) &#123;</span><br><span class="line">	<span class="built_in">return</span> new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">		const image = new Image();</span><br><span class="line">		image.onload = () =&gt; resolve(image); </span><br><span class="line">		image.onerror = () =&gt; reject(new Error(<span class="string">'图片加载失败'</span>));</span><br><span class="line">		image.src = url;</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2.实现一个简单的promise<br><a href="https://segmentfault.com/a/1190000009792439" target="_blank" rel="noopener">https://segmentfault.com/a/1190000009792439</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> MyPromise(fn) &#123;</span><br><span class="line">	this._status = <span class="string">'pending'</span>;</span><br><span class="line">	this._value = undefined;</span><br><span class="line">	this._onResolvedCallback = [];</span><br><span class="line">	this._onRejectCallback = [];</span><br><span class="line">	fn(resolve.bind(this), reject.bind(this));</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> resolve(value) &#123;</span><br><span class="line">	<span class="keyword">if</span>(this._status === <span class="string">'pending'</span>) &#123;</span><br><span class="line">		this._status = <span class="string">'resolved'</span>;</span><br><span class="line">		this._value = value;</span><br><span class="line">		var fn;</span><br><span class="line">		<span class="keyword">while</span>(fn = this._onResolvedCallback.pop()) &#123;</span><br><span class="line">			fn.call(this, value);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> reject(reason) &#123;</span><br><span class="line">	<span class="keyword">if</span>(this._status === <span class="string">'pending'</span>) &#123;</span><br><span class="line">		this._status = <span class="string">'reject'</span>;</span><br><span class="line">		this._value = reason;</span><br><span class="line">		var fn;</span><br><span class="line">		<span class="keyword">while</span>(fn = this._onRejectedCallback.pop()) &#123;</span><br><span class="line">			fn.call(this, value);</span><br><span class="line">		&#125; </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">MyPromise.prototype.then = <span class="keyword">function</span>(onResolved, onRejected) &#123;</span><br><span class="line">	var self = this;</span><br><span class="line">	var promise2;</span><br><span class="line">	onResolved = typeof onResolved === <span class="string">'function'</span> ? onResolved : <span class="keyword">function</span>(v) &#123;&#125;;</span><br><span class="line">	onRejected = typeof onRejected === <span class="string">'function'</span> ? onRejected : <span class="keyword">function</span> (r) &#123;&#125;;</span><br><span class="line">	<span class="keyword">if</span>(self._status === <span class="string">'resolved'</span>) &#123;</span><br><span class="line">		<span class="built_in">return</span> promise = new MyPromise(<span class="keyword">function</span>(resolve, reject) &#123;</span><br><span class="line">			try&#123;</span><br><span class="line">				 var x = onResolved(self._value);</span><br><span class="line">				 <span class="keyword">if</span>(x instanceof MyPromise) &#123;</span><br><span class="line">				 	x.then(resolve, reject);</span><br><span class="line">				 &#125;</span><br><span class="line">				 resolve(x);</span><br><span class="line">			&#125; catch(e) &#123;</span><br><span class="line">				reject(e);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (self._status === <span class="string">'rejected'</span>) &#123;</span><br><span class="line">	    <span class="built_in">return</span> promise2 = new MyPromise (<span class="keyword">function</span> (resolve, reject) &#123;</span><br><span class="line">	      try &#123;</span><br><span class="line">	        var x = onRejected(self._value)</span><br><span class="line">	        <span class="keyword">if</span> (x instanceof MyPromise) &#123;</span><br><span class="line">	          x.then(resolve,reject)</span><br><span class="line">	        &#125;</span><br><span class="line">	      &#125; catch(e) &#123;</span><br><span class="line">	        reject(e)</span><br><span class="line">	      &#125;</span><br><span class="line">	    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(self._status === <span class="string">'pending'</span>) &#123;</span><br><span class="line">  	<span class="built_in">return</span> promise2 = new MyPromise (<span class="keyword">function</span> (resolve, reject) &#123;</span><br><span class="line">  		self._onResolvedCallback.push(<span class="keyword">function</span> (value) &#123;</span><br><span class="line">        try&#123;</span><br><span class="line">          var x = onResolved(self._value)</span><br><span class="line">          <span class="keyword">if</span> (x instanceof MyPromise) &#123;</span><br><span class="line">              x.then(resolve, reject)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125; catch (e) &#123;</span><br><span class="line">          reject(e)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">      self._onRejectCallback.push(<span class="keyword">function</span>(reason) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">          var x =onRejected(self._value)</span><br><span class="line">          <span class="keyword">if</span>(x instanceof Promise) &#123;</span><br><span class="line">            x.then(resolve, reject)</span><br><span class="line">          &#125;</span><br><span class="line">          resolve(x)</span><br><span class="line">        &#125; catch (e) &#123;</span><br><span class="line">          reject(e)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">//<span class="built_in">test</span> code</span><br><span class="line">  var myFirstPromise = new MyPromise(<span class="keyword">function</span>(resolve, reject)&#123;</span><br><span class="line">      setTimeout(<span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">          resolve(<span class="string">"成功!"</span>); //代码正常执行！</span><br><span class="line">      &#125;, 1000);</span><br><span class="line">  &#125;);</span><br><span class="line">  myFirstPromise.then(<span class="keyword">function</span> (successMessage) &#123;</span><br><span class="line">     console.log(<span class="string">"Yay! "</span> + successMessage);</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/07/promise/" data-id="cjqm2qopp0003xctemvuf2ktd" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-macrotask microtask" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/05/macrotask microtask/" class="article-date">
+  <time datetime="2019-01-05T02:02:14.058Z" itemprop="datePublished">2019-01-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/05/macrotask microtask/">macrotask microtask</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>macrotask翻译过来，是宏任务的意思，我们常说的任务队列就指的是macrotask；<br>microtask翻译过来，是微任务的意思</p>
+<p>js是单线程的，意味着所有任务都需要排队，前一个任务结束，才会执行后一个任务。因此，将所有的任务分成两种，一种是同步任务synchronous，另一种是异步任务asynchronous。<br>同步任务指的是在主线程上排队执行的任务，也就是平常所说的执行队列，这个里面的任务必须要个按照次序依次执行，只有前一个执行完了，才可以执行下一个。<br>异步任务指的是不进入主线程，而进入“任务队列”task queue的任务，只有当“任务队列”通知主线程某个异步任务可以执行了，该任务才可以进入主线程执行。异步任务执行的时候，执行的就是定义的回调函数。</p>
+<h2 id="任务队列"><a href="#任务队列" class="headerlink" title="任务队列"></a>任务队列</h2><p><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2014/10/event-loop.html</a><br>异步执行的运行机制如下：<br>1.所有同步任务都是在主线程上执行，形成一个执行栈execution context stack。<br>2.主线程之外，还存在一个“任务队列”。只要异步任务有了运行结果，就在“任务队列”之中放置一个事件。<br>3.一旦“执行栈”中的所有同步任务执行完毕，系统就会读取“任务队列”，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。<br>4.主线程不断重复上面的第三步。</p>
+<h2 id="macrotask-microtask"><a href="#macrotask-microtask" class="headerlink" title="macrotask microtask"></a>macrotask microtask</h2><p>macrotask和microtask都属于上述的异步任务中的一种，其中：<br>macrotasks: setTimeout, setInterval, setImmediate, I/O, UI rendering，requestAnimationFrame；<br>microtasks: process.nextTick, Promise, MutationObserver，Object.observe；<br>microtasks的作用是用来调度应在当前执行的脚本执行结束后立即执行的任务，例如响应时间，以避免付出额外的一个task代价。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="例1"><a href="#例1" class="headerlink" title="例1"></a>例1</h3><p>macrotask就是常说的任务队列task queue。<br>js执行顺序如下：<br>开始 -&gt; 取任务队列的第一个task执行 -&gt; 取microtask全部任务依次执行 -&gt; 取任务队列的第一个task执行 -&gt; 取microtask全部任务依次执行…循环往复<br>直到两个队列全部任务执行完毕</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">setTimeout(()=&gt;&#123;</span><br><span class="line">  console.log(<span class="string">'setTimeout'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">let</span> p1 = new Promise((resolve)=&gt;&#123;</span><br><span class="line">  console.log(<span class="string">'Promise1'</span>)</span><br><span class="line">  resolve(<span class="string">'Promise2'</span>)</span><br><span class="line">&#125;)</span><br><span class="line">p1.then((res)=&gt;&#123;</span><br><span class="line">  console.log(res)</span><br><span class="line">&#125;)</span><br><span class="line">console.log(1)</span><br><span class="line">//Promise1 1 Promise2 setTimeout</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>整个script代码，放在了macrotask queue中,执行到setTimeout时会新建一个macrotask queue，promise.then放到了另一个microtask queue中。<br>script的执行引擎会取1个macrotask queue中的task，执行之。<br>然后把所有microtask queue顺序执行完，再取setTimeout所在的macrotask queue按顺序开始执行。</p>
+<h3 id="例2"><a href="#例2" class="headerlink" title="例2"></a>例2</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="title">function</span></span>()&#123;console.log(1);&#125;, 0);</span><br><span class="line">console.log(2);</span><br><span class="line">//2 1</span><br></pre></td></tr></table></figure>
+<p>因为只有在执行完第二行以后，系统才会去执行”任务队列”中的回调函数。<br>setTimeout(fn,0)的含义是，指定某个任务在主线程最早可得的空闲时间执行，也就是说，尽可能早得执行。它在”任务队列”的尾部添加一个事件，因此要等到同步任务和”任务队列”现有的事件都处理完，才会得到执行。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/05/macrotask microtask/" data-id="cjqm2qopo0002xctezjyu1fet" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-this学习" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/12/19/this学习/" class="article-date">
@@ -115,7 +216,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/19/this学习/" data-id="cjpv30far0004xwte030nx9hs" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/19/this学习/" data-id="cjqm2qopr0005xctesu0mb4gg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -161,7 +262,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/18/闭包和立即执行函数/" data-id="cjpv30fcc000fxwteoekrben9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/18/闭包和立即执行函数/" data-id="cjqm2qoq3000excteshjkmii8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -206,7 +307,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/05/异步，同步，回调和class/" data-id="cjpv30fav0009xwtebuxq0c49" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/05/异步，同步，回调和class/" data-id="cjqm2qoq2000dxcte5j7q1z2h" class="article-share-link">Share</a>
       
       
     </footer>
@@ -241,18 +342,19 @@
         <p>本篇文章记录一下对浅拷贝和深拷贝的理解。</p>
 <h2 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var me = &#123;name:<span class="string">"zxt"</span>&#125;</span><br><span class="line">//浅拷贝</span><br><span class="line">var brother = me;</span><br><span class="line">brother.name = <span class="string">"brother"</span>;</span><br><span class="line">console.log(me.name);//brother</span><br></pre></td></tr></table></figure>
 <p>因为me对象里在栈内存中存的是一个地址，该地址指向位于堆内存中的一个对象{name:”zxt”}。所以通过浅拷贝，brother里面也存的是地址，也就是说brother和me指向了同一个地方，<br>因此修改brother里的name属性会对me产生影响。</p>
-<h2 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h2><h3 id="1-slice-和concat"><a href="#1-slice-和concat" class="headerlink" title="1.slice()和concat()"></a>1.slice()和concat()</h3><p>数组的slice()方法：返回从原数组中指定下标到结束下标之间的项组成的新数组，不包含结束位置的项。<br>数组的concat()方法：将参数添加到原数组中。这个方法会先创建当前数组的一个副本，然后将接收到的参数添加到这个副本的末尾，最后返回新数组。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1,2,3];</span><br><span class="line">var arrShallow = arr;</span><br><span class="line">var arrSlice = arr.slice(0);</span><br><span class="line">var arrConcat = arr.concat();</span><br><span class="line"></span><br><span class="line">console.log(arr === arrShallow);//<span class="literal">true</span></span><br><span class="line">console.log(arr === arrSlice);//<span class="literal">false</span></span><br><span class="line">console.log(arr === arrConcat);//<span class="literal">false</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h2><h3 id="1-一层slice-和concat"><a href="#1-一层slice-和concat" class="headerlink" title="1.一层slice()和concat()"></a>1.一层slice()和concat()</h3><p>数组的slice()方法：返回从原数组中指定下标到结束下标之间的项组成的新数组，不包含结束位置的项。<br>数组的concat()方法：将参数添加到原数组中。这个方法会先创建当前数组的一个副本，然后将接收到的参数添加到这个副本的末尾，最后返回新数组。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1,2,3];</span><br><span class="line">var arrShallow = arr;</span><br><span class="line">var arrSlice = arr.slice(0);</span><br><span class="line">var arrConcat = arr.concat();</span><br><span class="line"></span><br><span class="line">console.log(arr === arrShallow);//<span class="literal">true</span></span><br><span class="line">console.log(arr === arrSlice);//<span class="literal">false</span></span><br><span class="line">console.log(arr === arrConcat);//<span class="literal">false</span></span><br></pre></td></tr></table></figure></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1,[2,2],3];</span><br><span class="line">var arrShallow = arr;</span><br><span class="line">var arrSlice = arr.slice(0);</span><br><span class="line">var arrConcat = arr.concat();</span><br><span class="line"></span><br><span class="line">arr[1][0] = 6;</span><br><span class="line">arr[0] = 8;</span><br><span class="line">console.log(arr);//[8,[6,2],3]</span><br><span class="line">console.log(arrShallow);//[8,[6,2],3]</span><br><span class="line">console.log(arrSlice);//[1,[6,2],3]</span><br><span class="line">console.log(arrConcat);//[1,[6,2],3]</span><br></pre></td></tr></table></figure>
 <p>可以看到，slice()和concat()没有执行真正的深拷贝，当数组中存放的还是一个数组或者对象时，也是只复制了引用。</p>
-<h3 id="2-JSON-parse-和JSON-stringify"><a href="#2-JSON-parse-和JSON-stringify" class="headerlink" title="2.JSON.parse()和JSON.stringify()"></a>2.JSON.parse()和JSON.stringify()</h3><p>JSON.parse():从一个字符串中解析出json对象<br>JSON.stringify():从一个对象中解析出字符串<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var data1 = <span class="string">'&#123;"name":"zxt"&#125;'</span>;</span><br><span class="line">console.log(JSON.parse(data1));//&#123;name: <span class="string">"zxt"</span>&#125;注意这个name没有加引号</span><br><span class="line"></span><br><span class="line">var data2 = &#123;<span class="string">"name"</span>:<span class="string">"zxt"</span>&#125;;</span><br><span class="line">console.log(JSON.stringify(data2));//&#123;<span class="string">"name"</span>:<span class="string">"zxt"</span>&#125;注意这个name加了引号</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-一层Object-assign"><a href="#2-一层Object-assign" class="headerlink" title="2.一层Object.assign()"></a>2.一层Object.assign()</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> a = &#123;age: 1&#125;;</span><br><span class="line"><span class="built_in">let</span> b = Object.assign(&#123;&#125;, a);</span><br><span class="line">a.age = 2;</span><br><span class="line">console.log(b.age);//1</span><br></pre></td></tr></table></figure>
+<h3 id="3-JSON-parse-和JSON-stringify"><a href="#3-JSON-parse-和JSON-stringify" class="headerlink" title="3.JSON.parse()和JSON.stringify()"></a>3.JSON.parse()和JSON.stringify()</h3><p>JSON.parse():从一个字符串中解析出json对象<br>JSON.stringify():从一个对象中解析出字符串<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var data1 = <span class="string">'&#123;"name":"zxt"&#125;'</span>;</span><br><span class="line">console.log(JSON.parse(data1));//&#123;name: <span class="string">"zxt"</span>&#125;注意这个name没有加引号</span><br><span class="line"></span><br><span class="line">var data2 = &#123;<span class="string">"name"</span>:<span class="string">"zxt"</span>&#125;;</span><br><span class="line">console.log(JSON.stringify(data2));//&#123;<span class="string">"name"</span>:<span class="string">"zxt"</span>&#125;注意这个name加了引号</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var me = [1,[2,2],3];</span><br><span class="line">var brother = JSON.parse(JSON.stringify(me));</span><br><span class="line">me[1][0] = 6;</span><br><span class="line">me[0] = 8;</span><br><span class="line">console.log(me);//[8,[6,2],3]</span><br><span class="line">console.log(brother);//[1,[2,2],3]</span><br></pre></td></tr></table></figure>
 <p>该方法对数据的类型由要求限制，必须是能用json方法的格式。</p>
-<h3 id="3-jQuery中的extend"><a href="#3-jQuery中的extend" class="headerlink" title="3.jQuery中的extend"></a>3.jQuery中的extend</h3><p>jQuery.extend() 函数用于将一个或多个对象的内容合并到目标对象。<br>$.extend( [deep ], target, object1 [, objectN ] ) :<br>deep:可选。 Boolean类型 指示是否深度合并对象，默认为false。<br>target:Object类型 目标对象，其他对象的成员属性将被附加到该对象上。<br>objectN: 可选。 Object类型 第N个被合并的对象。<br>这个链接分析了jQuery中的extend的实现原理，并且自己实现了一个深拷贝，记录一下，方便以后学习：<a href="https://www.cnblogs.com/tracylin/p/5346314.html" target="_blank" rel="noopener">https://www.cnblogs.com/tracylin/p/5346314.html</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var me = [1,[2,2],3];</span><br><span class="line">var brother = [];</span><br><span class="line">$.extend(brother,me);</span><br><span class="line">me[1][0] = 6;</span><br><span class="line">me[0] = 8;</span><br><span class="line">console.log(me);//[8,[6,2],3]</span><br><span class="line">console.log(brother);//[1,[6,2],3]</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-jQuery中的extend"><a href="#4-jQuery中的extend" class="headerlink" title="4.jQuery中的extend"></a>4.jQuery中的extend</h3><p>jQuery.extend() 函数用于将一个或多个对象的内容合并到目标对象。<br>$.extend( [deep ], target, object1 [, objectN ] ) :<br>deep:可选。 Boolean类型 指示是否深度合并对象，默认为false。<br>target:Object类型 目标对象，其他对象的成员属性将被附加到该对象上。<br>objectN: 可选。 Object类型 第N个被合并的对象。<br>这个链接分析了jQuery中的extend的实现原理，并且自己实现了一个深拷贝，记录一下，方便以后学习：<a href="https://www.cnblogs.com/tracylin/p/5346314.html" target="_blank" rel="noopener">https://www.cnblogs.com/tracylin/p/5346314.html</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var me = [1,[2,2],3];</span><br><span class="line">var brother = [];</span><br><span class="line">$.extend(brother,me);</span><br><span class="line">me[1][0] = 6;</span><br><span class="line">me[0] = 8;</span><br><span class="line">console.log(me);//[8,[6,2],3]</span><br><span class="line">console.log(brother);//[1,[6,2],3]</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var me = [1,[2,2],3];</span><br><span class="line">var brother = [];</span><br><span class="line">$.extend(<span class="literal">true</span>,brother,me);</span><br><span class="line">me[1][0] = 6;</span><br><span class="line">me[0] = 8;</span><br><span class="line">console.log(me);//[8,[6,2],3]</span><br><span class="line">console.log(brother);//[1,[2,2],3]</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/28/深浅拷贝/" data-id="cjpv30fcb000exwtel3a76pfn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/28/深浅拷贝/" data-id="cjqm2qoqf000gxcteiisgm32f" class="article-share-link">Share</a>
       
       
     </footer>
@@ -309,7 +411,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/27/前端面试题记录/" data-id="cjpv30fc8000bxwte9p2f4eu3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/27/前端面试题记录/" data-id="cjqm2qopx0009xcte2ut3nhnf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -354,7 +456,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/26/水平垂直居中div/" data-id="cjpv30fcd000gxwte4dmdj3zx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/26/水平垂直居中div/" data-id="cjqm2qoq1000cxcte8p9au5nf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -393,7 +495,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/26/React生命周期/" data-id="cjpv30fam0001xwten17xkptp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/26/React生命周期/" data-id="cjqm2qopv0008xcteqjdidiod" class="article-share-link">Share</a>
       
       
     </footer>
@@ -432,83 +534,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/22/圣杯布局/" data-id="cjpv30fav0008xwtesux8ufus" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-attr和prop用法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/11/01/attr和prop用法/" class="article-date">
-  <time datetime="2018-11-01T01:21:00.624Z" itemprop="datePublished">2018-11-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/01/attr和prop用法/">jQuery的attr和prop用法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="固有属性"><a href="#固有属性" class="headerlink" title="固有属性"></a>固有属性</h2><p>1.对于元素本身就带有的固有属性，在处理时，建议用prop；<br>因为对于固有属性，如果显式定义出来了，用attr和prop都可以；但是固有属性如果没有显示定义，attr就会返回undefined。</p>
-<h2 id="自定义属性"><a href="#自定义属性" class="headerlink" title="自定义属性"></a>自定义属性</h2><p>2.对于自定义的属性，在处理时，要用attr方法。因为用prop时会返回undefined</p>
-<h2 id="样式属性"><a href="#样式属性" class="headerlink" title="样式属性"></a>样式属性</h2><p>3.特别的，对于获取或者设置style样式的属性值，用对象.css(“属性名”),对象.css(“属性名”，”属性值”)</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"myDiv"</span> zxt=<span class="string">"1"</span> class=<span class="string">"1"</span>&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;input <span class="built_in">type</span>=<span class="string">"checkbox"</span> value=<span class="string">"复选框"</span> id=<span class="string">"myInput"</span>/&gt;这是一个复选框</span><br><span class="line"></span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">	window.onload = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		console.log($(<span class="string">"#myDiv"</span>).prop(<span class="string">"class"</span>));//输出结果  1</span><br><span class="line">   		console.log($(<span class="string">"#myDiv"</span>).prop(<span class="string">"zxt"</span>));//输出结果  undefined</span><br><span class="line"></span><br><span class="line">   		console.log($(<span class="string">"#myDiv"</span>).attr(<span class="string">"class"</span>));//输出结果  1</span><br><span class="line">   		console.log($(<span class="string">"#myDiv"</span>).attr(<span class="string">"zxt"</span>));//输出结果  1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   		console.log($(<span class="string">"#myInput"</span>).prop(<span class="string">"value"</span>));//复选框</span><br><span class="line">   		console.log($(<span class="string">"#myInput"</span>).prop(<span class="string">"checked"</span>)); //<span class="literal">false</span></span><br><span class="line"></span><br><span class="line">   		console.log($(<span class="string">"#myInput"</span>).attr(<span class="string">"value"</span>)); //复选框</span><br><span class="line">   		console.log($(<span class="string">"#myInput"</span>).attr(<span class="string">"checked"</span>));//undefined</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/01/attr和prop用法/" data-id="cjpv30fai0000xwte57316kov" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-js刷新页面方式" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/30/js刷新页面方式/" class="article-date">
-  <time datetime="2018-10-30T07:21:30.483Z" itemprop="datePublished">2018-10-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/30/js刷新页面方式/">记录刷新页面的几种方式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onclick=<span class="string">"myClick1()"</span>&gt;点击1&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick2()"</span>&gt;点击2&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick3()"</span>&gt;点击3&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick4()"</span>&gt;点击4&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick5()"</span>&gt;点击5&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick6()"</span>&gt;点击6&lt;/button&gt;</span><br><span class="line"></span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick1</span></span>() &#123;</span><br><span class="line">		history.go(0);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick2</span></span>() &#123;</span><br><span class="line">		location.reload();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick3</span></span>() &#123;</span><br><span class="line">		 location=location;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick4</span></span>() &#123;</span><br><span class="line">		 location.assign(location);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick5</span></span>() &#123;</span><br><span class="line">		location.replace(location);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick6</span></span>() &#123;</span><br><span class="line">		window.location.href=<span class="string">''</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/30/js刷新页面方式/" data-id="cjpv30fca000dxwtenz63dsk8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/22/圣杯布局/" data-id="cjqm2qoqd000fxctevwko4vup" class="article-share-link">Share</a>
       
       
     </footer>
@@ -541,7 +567,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
     </div>
   </div>
 
@@ -554,6 +580,14 @@
       <ul>
         
           <li>
+            <a href="/2019/01/07/promise/">promise</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/05/macrotask microtask/">macrotask microtask</a>
+          </li>
+        
+          <li>
             <a href="/2018/12/19/this学习/">this学习</a>
           </li>
         
@@ -563,14 +597,6 @@
         
           <li>
             <a href="/2018/12/05/异步，同步，回调和class/">异步，同步，回调和js的class</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/28/深浅拷贝/">深浅拷贝</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/27/前端面试题记录/">前端面试题记录</a>
           </li>
         
       </ul>
@@ -585,7 +611,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2018 John Doe<br>
+      &copy; 2019 John Doe<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

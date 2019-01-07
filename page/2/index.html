@@ -62,6 +62,82 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-attr和prop用法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/01/attr和prop用法/" class="article-date">
+  <time datetime="2018-11-01T01:21:00.624Z" itemprop="datePublished">2018-11-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/01/attr和prop用法/">jQuery的attr和prop用法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="固有属性"><a href="#固有属性" class="headerlink" title="固有属性"></a>固有属性</h2><p>1.对于元素本身就带有的固有属性，在处理时，建议用prop；<br>因为对于固有属性，如果显式定义出来了，用attr和prop都可以；但是固有属性如果没有显示定义，attr就会返回undefined。</p>
+<h2 id="自定义属性"><a href="#自定义属性" class="headerlink" title="自定义属性"></a>自定义属性</h2><p>2.对于自定义的属性，在处理时，要用attr方法。因为用prop时会返回undefined</p>
+<h2 id="样式属性"><a href="#样式属性" class="headerlink" title="样式属性"></a>样式属性</h2><p>3.特别的，对于获取或者设置style样式的属性值，用对象.css(“属性名”),对象.css(“属性名”，”属性值”)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"myDiv"</span> zxt=<span class="string">"1"</span> class=<span class="string">"1"</span>&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;input <span class="built_in">type</span>=<span class="string">"checkbox"</span> value=<span class="string">"复选框"</span> id=<span class="string">"myInput"</span>/&gt;这是一个复选框</span><br><span class="line"></span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">	window.onload = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		console.log($(<span class="string">"#myDiv"</span>).prop(<span class="string">"class"</span>));//输出结果  1</span><br><span class="line">   		console.log($(<span class="string">"#myDiv"</span>).prop(<span class="string">"zxt"</span>));//输出结果  undefined</span><br><span class="line"></span><br><span class="line">   		console.log($(<span class="string">"#myDiv"</span>).attr(<span class="string">"class"</span>));//输出结果  1</span><br><span class="line">   		console.log($(<span class="string">"#myDiv"</span>).attr(<span class="string">"zxt"</span>));//输出结果  1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   		console.log($(<span class="string">"#myInput"</span>).prop(<span class="string">"value"</span>));//复选框</span><br><span class="line">   		console.log($(<span class="string">"#myInput"</span>).prop(<span class="string">"checked"</span>)); //<span class="literal">false</span></span><br><span class="line"></span><br><span class="line">   		console.log($(<span class="string">"#myInput"</span>).attr(<span class="string">"value"</span>)); //复选框</span><br><span class="line">   		console.log($(<span class="string">"#myInput"</span>).attr(<span class="string">"checked"</span>));//undefined</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/11/01/attr和prop用法/" data-id="cjqm2qopx000axctew7b0la6l" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-js刷新页面方式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/30/js刷新页面方式/" class="article-date">
+  <time datetime="2018-10-30T07:21:30.483Z" itemprop="datePublished">2018-10-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/30/js刷新页面方式/">记录刷新页面的几种方式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onclick=<span class="string">"myClick1()"</span>&gt;点击1&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick2()"</span>&gt;点击2&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick3()"</span>&gt;点击3&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick4()"</span>&gt;点击4&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick5()"</span>&gt;点击5&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"myClick6()"</span>&gt;点击6&lt;/button&gt;</span><br><span class="line"></span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick1</span></span>() &#123;</span><br><span class="line">		history.go(0);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick2</span></span>() &#123;</span><br><span class="line">		location.reload();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick3</span></span>() &#123;</span><br><span class="line">		 location=location;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick4</span></span>() &#123;</span><br><span class="line">		 location.assign(location);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick5</span></span>() &#123;</span><br><span class="line">		location.replace(location);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">myClick6</span></span>() &#123;</span><br><span class="line">		window.location.href=<span class="string">''</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/30/js刷新页面方式/" data-id="cjqm2qopm0001xcteqyfa2qk4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-js函数的声明与调用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/24/js函数的声明与调用/" class="article-date">
@@ -117,7 +193,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/24/js函数的声明与调用/" data-id="cjpv30faq0003xwtepvkldzik" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/24/js函数的声明与调用/" data-id="cjqm2qoph0000xcte84ms7ule" class="article-share-link">Share</a>
       
       
     </footer>
@@ -165,7 +241,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/三目运算/" data-id="cjpv30fas0005xwte80x137zj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/三目运算/" data-id="cjqm2qoqg000hxctegob3kii0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -216,7 +292,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/js事件冒泡、捕获与委托/" data-id="cjpv30fao0002xwtemh52gd06" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/js事件冒泡、捕获与委托/" data-id="cjqm2qopu0007xctefj3v3wuh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -262,7 +338,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/20/js实现继承/" data-id="cjpv30faw000axwte1jzz7aii" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/20/js实现继承/" data-id="cjqm2qops0006xctewdu5nbzt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -312,7 +388,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/20/构造函数、原型对象、实例等概念/" data-id="cjpv30fc9000cxwterl6njto0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/20/构造函数、原型对象、实例等概念/" data-id="cjqm2qopz000bxcte758ivlcg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -383,7 +459,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/17/使用hexo搭建博客/" data-id="cjpv30fau0007xwted7azdyad" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/17/使用hexo搭建博客/" data-id="cjqm2qoqq000ixcte3q7ve575" class="article-share-link">Share</a>
       
       
     </footer>
@@ -428,7 +504,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/17/hello-world/" data-id="cjpv30fat0006xwtez8jvf85r" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/17/hello-world/" data-id="cjqm2qopq0004xcteic3ue4r2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -461,7 +537,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
     </div>
   </div>
 
@@ -474,6 +550,14 @@
       <ul>
         
           <li>
+            <a href="/2019/01/07/promise/">promise</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/05/macrotask microtask/">macrotask microtask</a>
+          </li>
+        
+          <li>
             <a href="/2018/12/19/this学习/">this学习</a>
           </li>
         
@@ -483,14 +567,6 @@
         
           <li>
             <a href="/2018/12/05/异步，同步，回调和class/">异步，同步，回调和js的class</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/28/深浅拷贝/">深浅拷贝</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/27/前端面试题记录/">前端面试题记录</a>
           </li>
         
       </ul>
@@ -505,7 +581,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2018 John Doe<br>
+      &copy; 2019 John Doe<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

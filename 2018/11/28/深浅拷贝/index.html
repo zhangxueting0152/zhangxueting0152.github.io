@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="本篇文章记录一下对浅拷贝和深拷贝的理解。 浅拷贝12345var me = &amp;#123;name:&quot;zxt&quot;&amp;#125;//浅拷贝var brother = me;brother.name = &quot;brother&quot;;console.log(me.name);//brother 因为me对象里在栈内存中存的是一个地址，该地址指向位于堆内存中的一个对象{name:”zxt”}。所以通过浅拷贝，broth">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-11-29T02:09:26.720Z">
+<meta property="og:updated_time" content="2018-12-20T12:31:07.112Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深浅拷贝">
 <meta name="twitter:description" content="本篇文章记录一下对浅拷贝和深拷贝的理解。 浅拷贝12345var me = &amp;#123;name:&quot;zxt&quot;&amp;#125;//浅拷贝var brother = me;brother.name = &quot;brother&quot;;console.log(me.name);//brother 因为me对象里在栈内存中存的是一个地址，该地址指向位于堆内存中的一个对象{name:”zxt”}。所以通过浅拷贝，broth">
@@ -89,18 +89,19 @@
         <p>本篇文章记录一下对浅拷贝和深拷贝的理解。</p>
 <h2 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var me = &#123;name:<span class="string">"zxt"</span>&#125;</span><br><span class="line">//浅拷贝</span><br><span class="line">var brother = me;</span><br><span class="line">brother.name = <span class="string">"brother"</span>;</span><br><span class="line">console.log(me.name);//brother</span><br></pre></td></tr></table></figure>
 <p>因为me对象里在栈内存中存的是一个地址，该地址指向位于堆内存中的一个对象{name:”zxt”}。所以通过浅拷贝，brother里面也存的是地址，也就是说brother和me指向了同一个地方，<br>因此修改brother里的name属性会对me产生影响。</p>
-<h2 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h2><h3 id="1-slice-和concat"><a href="#1-slice-和concat" class="headerlink" title="1.slice()和concat()"></a>1.slice()和concat()</h3><p>数组的slice()方法：返回从原数组中指定下标到结束下标之间的项组成的新数组，不包含结束位置的项。<br>数组的concat()方法：将参数添加到原数组中。这个方法会先创建当前数组的一个副本，然后将接收到的参数添加到这个副本的末尾，最后返回新数组。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1,2,3];</span><br><span class="line">var arrShallow = arr;</span><br><span class="line">var arrSlice = arr.slice(0);</span><br><span class="line">var arrConcat = arr.concat();</span><br><span class="line"></span><br><span class="line">console.log(arr === arrShallow);//<span class="literal">true</span></span><br><span class="line">console.log(arr === arrSlice);//<span class="literal">false</span></span><br><span class="line">console.log(arr === arrConcat);//<span class="literal">false</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h2><h3 id="1-一层slice-和concat"><a href="#1-一层slice-和concat" class="headerlink" title="1.一层slice()和concat()"></a>1.一层slice()和concat()</h3><p>数组的slice()方法：返回从原数组中指定下标到结束下标之间的项组成的新数组，不包含结束位置的项。<br>数组的concat()方法：将参数添加到原数组中。这个方法会先创建当前数组的一个副本，然后将接收到的参数添加到这个副本的末尾，最后返回新数组。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1,2,3];</span><br><span class="line">var arrShallow = arr;</span><br><span class="line">var arrSlice = arr.slice(0);</span><br><span class="line">var arrConcat = arr.concat();</span><br><span class="line"></span><br><span class="line">console.log(arr === arrShallow);//<span class="literal">true</span></span><br><span class="line">console.log(arr === arrSlice);//<span class="literal">false</span></span><br><span class="line">console.log(arr === arrConcat);//<span class="literal">false</span></span><br></pre></td></tr></table></figure></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1,[2,2],3];</span><br><span class="line">var arrShallow = arr;</span><br><span class="line">var arrSlice = arr.slice(0);</span><br><span class="line">var arrConcat = arr.concat();</span><br><span class="line"></span><br><span class="line">arr[1][0] = 6;</span><br><span class="line">arr[0] = 8;</span><br><span class="line">console.log(arr);//[8,[6,2],3]</span><br><span class="line">console.log(arrShallow);//[8,[6,2],3]</span><br><span class="line">console.log(arrSlice);//[1,[6,2],3]</span><br><span class="line">console.log(arrConcat);//[1,[6,2],3]</span><br></pre></td></tr></table></figure>
 <p>可以看到，slice()和concat()没有执行真正的深拷贝，当数组中存放的还是一个数组或者对象时，也是只复制了引用。</p>
-<h3 id="2-JSON-parse-和JSON-stringify"><a href="#2-JSON-parse-和JSON-stringify" class="headerlink" title="2.JSON.parse()和JSON.stringify()"></a>2.JSON.parse()和JSON.stringify()</h3><p>JSON.parse():从一个字符串中解析出json对象<br>JSON.stringify():从一个对象中解析出字符串<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var data1 = <span class="string">'&#123;"name":"zxt"&#125;'</span>;</span><br><span class="line">console.log(JSON.parse(data1));//&#123;name: <span class="string">"zxt"</span>&#125;注意这个name没有加引号</span><br><span class="line"></span><br><span class="line">var data2 = &#123;<span class="string">"name"</span>:<span class="string">"zxt"</span>&#125;;</span><br><span class="line">console.log(JSON.stringify(data2));//&#123;<span class="string">"name"</span>:<span class="string">"zxt"</span>&#125;注意这个name加了引号</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-一层Object-assign"><a href="#2-一层Object-assign" class="headerlink" title="2.一层Object.assign()"></a>2.一层Object.assign()</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> a = &#123;age: 1&#125;;</span><br><span class="line"><span class="built_in">let</span> b = Object.assign(&#123;&#125;, a);</span><br><span class="line">a.age = 2;</span><br><span class="line">console.log(b.age);//1</span><br></pre></td></tr></table></figure>
+<h3 id="3-JSON-parse-和JSON-stringify"><a href="#3-JSON-parse-和JSON-stringify" class="headerlink" title="3.JSON.parse()和JSON.stringify()"></a>3.JSON.parse()和JSON.stringify()</h3><p>JSON.parse():从一个字符串中解析出json对象<br>JSON.stringify():从一个对象中解析出字符串<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var data1 = <span class="string">'&#123;"name":"zxt"&#125;'</span>;</span><br><span class="line">console.log(JSON.parse(data1));//&#123;name: <span class="string">"zxt"</span>&#125;注意这个name没有加引号</span><br><span class="line"></span><br><span class="line">var data2 = &#123;<span class="string">"name"</span>:<span class="string">"zxt"</span>&#125;;</span><br><span class="line">console.log(JSON.stringify(data2));//&#123;<span class="string">"name"</span>:<span class="string">"zxt"</span>&#125;注意这个name加了引号</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var me = [1,[2,2],3];</span><br><span class="line">var brother = JSON.parse(JSON.stringify(me));</span><br><span class="line">me[1][0] = 6;</span><br><span class="line">me[0] = 8;</span><br><span class="line">console.log(me);//[8,[6,2],3]</span><br><span class="line">console.log(brother);//[1,[2,2],3]</span><br></pre></td></tr></table></figure>
 <p>该方法对数据的类型由要求限制，必须是能用json方法的格式。</p>
-<h3 id="3-jQuery中的extend"><a href="#3-jQuery中的extend" class="headerlink" title="3.jQuery中的extend"></a>3.jQuery中的extend</h3><p>jQuery.extend() 函数用于将一个或多个对象的内容合并到目标对象。<br>$.extend( [deep ], target, object1 [, objectN ] ) :<br>deep:可选。 Boolean类型 指示是否深度合并对象，默认为false。<br>target:Object类型 目标对象，其他对象的成员属性将被附加到该对象上。<br>objectN: 可选。 Object类型 第N个被合并的对象。<br>这个链接分析了jQuery中的extend的实现原理，并且自己实现了一个深拷贝，记录一下，方便以后学习：<a href="https://www.cnblogs.com/tracylin/p/5346314.html" target="_blank" rel="noopener">https://www.cnblogs.com/tracylin/p/5346314.html</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var me = [1,[2,2],3];</span><br><span class="line">var brother = [];</span><br><span class="line">$.extend(brother,me);</span><br><span class="line">me[1][0] = 6;</span><br><span class="line">me[0] = 8;</span><br><span class="line">console.log(me);//[8,[6,2],3]</span><br><span class="line">console.log(brother);//[1,[6,2],3]</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-jQuery中的extend"><a href="#4-jQuery中的extend" class="headerlink" title="4.jQuery中的extend"></a>4.jQuery中的extend</h3><p>jQuery.extend() 函数用于将一个或多个对象的内容合并到目标对象。<br>$.extend( [deep ], target, object1 [, objectN ] ) :<br>deep:可选。 Boolean类型 指示是否深度合并对象，默认为false。<br>target:Object类型 目标对象，其他对象的成员属性将被附加到该对象上。<br>objectN: 可选。 Object类型 第N个被合并的对象。<br>这个链接分析了jQuery中的extend的实现原理，并且自己实现了一个深拷贝，记录一下，方便以后学习：<a href="https://www.cnblogs.com/tracylin/p/5346314.html" target="_blank" rel="noopener">https://www.cnblogs.com/tracylin/p/5346314.html</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var me = [1,[2,2],3];</span><br><span class="line">var brother = [];</span><br><span class="line">$.extend(brother,me);</span><br><span class="line">me[1][0] = 6;</span><br><span class="line">me[0] = 8;</span><br><span class="line">console.log(me);//[8,[6,2],3]</span><br><span class="line">console.log(brother);//[1,[6,2],3]</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var me = [1,[2,2],3];</span><br><span class="line">var brother = [];</span><br><span class="line">$.extend(<span class="literal">true</span>,brother,me);</span><br><span class="line">me[1][0] = 6;</span><br><span class="line">me[0] = 8;</span><br><span class="line">console.log(me);//[8,[6,2],3]</span><br><span class="line">console.log(brother);//[1,[2,2],3]</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/28/深浅拷贝/" data-id="cjpv30fcb000exwtel3a76pfn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/28/深浅拷贝/" data-id="cjqm2qoqf000gxcteiisgm32f" class="article-share-link">Share</a>
       
       
     </footer>
@@ -145,7 +146,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
     </div>
   </div>
 
@@ -158,6 +159,14 @@
       <ul>
         
           <li>
+            <a href="/2019/01/07/promise/">promise</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/05/macrotask microtask/">macrotask microtask</a>
+          </li>
+        
+          <li>
             <a href="/2018/12/19/this学习/">this学习</a>
           </li>
         
@@ -167,14 +176,6 @@
         
           <li>
             <a href="/2018/12/05/异步，同步，回调和class/">异步，同步，回调和js的class</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/28/深浅拷贝/">深浅拷贝</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/27/前端面试题记录/">前端面试题记录</a>
           </li>
         
       </ul>
@@ -189,7 +190,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2018 John Doe<br>
+      &copy; 2019 John Doe<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
