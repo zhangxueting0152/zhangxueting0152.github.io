@@ -64,7 +64,56 @@
   
     <article id="post-generator" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/01/07/generator/" class="article-date">
+    <a href="/2019/01/08/generator/" class="article-date">
+  <time datetime="2019-01-08T02:23:48.429Z" itemprop="datePublished">2019-01-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/08/generator/">Generator函数和async函数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Generator函数可以理解成一个状态机，封装了多个内部状态。</p>
+<h2 id="Generator函数"><a href="#Generator函数" class="headerlink" title="Generator函数"></a>Generator函数</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="function"><span class="title">myGenerator</span></span>() &#123;</span><br><span class="line">	yield <span class="string">'hello'</span>;</span><br><span class="line">	yield <span class="string">'generator'</span>;</span><br><span class="line">	<span class="built_in">return</span> <span class="string">'ending'</span>;</span><br><span class="line">&#125;</span><br><span class="line">var mg = myGenerator();</span><br><span class="line">console.log(mg.next());// &#123;value: <span class="string">"hello"</span>, <span class="keyword">done</span>: <span class="literal">false</span>&#125;</span><br><span class="line">console.log(mg.next());// &#123;value: <span class="string">"generator"</span>, <span class="keyword">done</span>: <span class="literal">false</span>&#125;</span><br><span class="line">console.log(mg.next());// &#123;value: <span class="string">"ending"</span>, <span class="keyword">done</span>: <span class="literal">true</span>&#125;</span><br><span class="line">console.log(mg.next());// &#123;value: undefined, <span class="keyword">done</span>: <span class="literal">true</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>调用Generator函数后并不执行，返回的不是函数运行结果，而是一个指向内部状态的指针对象（遍历器对象）。<br>因此必须调用遍历器的next方法，使得指针移向下一个状态。每次调用next方法，内部指针就从函数头部或者上一次停下的地方开始执行，知道遇到下一个yield表达式或者return语句。<br>相当于。yield表达式是一个暂时执行的标记，next方法是一个恢复执行的标记。<br>value表示当前内部状态的值，done表示遍历是否结束。可以看到，当到函数执行结束时，done的属性就为true;</p>
+<h3 id="next方法的参数"><a href="#next方法的参数" class="headerlink" title="next方法的参数"></a>next方法的参数</h3><p>yield表达式没有返回值，next方法可以带一个参数，该参数会被当作上一个yield表达式的返回值。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* foo(x) &#123;</span><br><span class="line">  var y = 2 * (yield (x + 1));</span><br><span class="line">  var z = yield (y / 3);</span><br><span class="line">  <span class="built_in">return</span> (x + y + z);</span><br><span class="line">&#125;</span><br><span class="line">var b = foo(5);</span><br><span class="line">b.next() // &#123; value:6, <span class="keyword">done</span>:<span class="literal">false</span> &#125;</span><br><span class="line">b.next(12) // &#123; value:8, <span class="keyword">done</span>:<span class="literal">false</span> &#125;</span><br><span class="line">b.next(13) // &#123; value:42, <span class="keyword">done</span>:<span class="literal">true</span> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>解释：<br>b.next()返回yield (x + 1)的结果，因为x等于5，所以x+1为6；<br>b.next(12)，是将上一个yield的表达式的返回值当作12，因此约等于24，那么y/3就是8.<br>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="yield-表达式"><a href="#yield-表达式" class="headerlink" title="yield* 表达式"></a>yield* 表达式</h3><p>如果在 Generator 函数内部，调用另一个 Generator 函数，默认情况下是没有效果的。这个就需要用到yield* 表达式。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> *<span class="function"><span class="title">foo</span></span>()&#123;</span><br><span class="line">    console.log(<span class="string">'*foo()'</span>);</span><br><span class="line">    yield 3;</span><br><span class="line">    yield 4;</span><br><span class="line">    console.log(<span class="string">'*foo() finished!!'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> *<span class="function"><span class="title">bar</span></span>()&#123;</span><br><span class="line">    yield 1;</span><br><span class="line">    yield 2;</span><br><span class="line">    yield *foo();</span><br><span class="line">    yield 5;</span><br><span class="line">&#125;</span><br><span class="line">const it=bar();</span><br><span class="line">// 1 2 *foo() 3 4 *foo() finished!! 5</span><br></pre></td></tr></table></figure>
+<h2 id="async函数"><a href="#async函数" class="headerlink" title="async函数"></a>async函数</h2><h3 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h3><p>1.async函数相当于Generator 函数的语法糖。前者比后者多了内置执行器。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">async <span class="keyword">function</span> fn(args)&#123;</span><br><span class="line">  // ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 等同于</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> fn(args)&#123; </span><br><span class="line">  <span class="built_in">return</span> spawn(<span class="keyword">function</span>*() &#123;</span><br><span class="line">    // ...</span><br><span class="line">  &#125;); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>spawn 函数是一个自动执行器功能。<br>2.async 函数返回一个 Promise 对象，可以使用 then 方法添加回调函数。一个函数如果加上async，那么干函数就会返回一个Promise.<br>3.await会暂停当前async函数的执行，等待后面的Promise的计算结果返回以后再继续执行当前的async函数。<br>但是await不是一直等待表达执行的执行结果，之后才会执行后面的代码。await后面的函数会先执行一遍，然后就会跳出整个 async 函数来执行后面js代码。等本轮事件循环执行完又跳回到 async 函数中等待await后面表达式的返回值，如果返回值为非 promise 则继续执行async后面的代码，否则将 promise 加入队列。<br>换句话说，当函数执行的时候，遇到 await 会立即返回一个 pending 状态的promise。<br>4.await等待的不是所有的异步操作，等待的时Promise.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">async <span class="keyword">function</span> <span class="function"><span class="title">myFunction</span></span>() &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">    await somethingThatReturnsAPromise();</span><br><span class="line">  &#125; catch (err) &#123;</span><br><span class="line">    console.log(err);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(async <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(1);</span><br><span class="line">	await new Promise(resolve =&gt; &#123;</span><br><span class="line">		setTimeout(() =&gt; &#123;</span><br><span class="line">			console.log(2);</span><br><span class="line">			resolve();// 没有这一行就不会输出3</span><br><span class="line">		&#125;, 1000);</span><br><span class="line">	&#125;);</span><br><span class="line">	console.log(3);</span><br><span class="line">&#125;)();</span><br><span class="line">// 1 2 3</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">async <span class="keyword">function</span> myAsync(num) &#123;</span><br><span class="line">	<span class="keyword">if</span> (num &gt; 0) &#123;</span><br><span class="line">		<span class="built_in">return</span> num;// resolve(num)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		throw num;// reject(num)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">myAsync(3).<span class="keyword">then</span>(value =&gt; &#123;</span><br><span class="line">	console.log(value);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">myAsync(0).catch(<span class="keyword">function</span> (v) &#123;</span><br><span class="line">  console.log(v);</span><br><span class="line">&#125;);</span><br><span class="line">// 3 0</span><br></pre></td></tr></table></figure>
+<h3 id="为什么产生"><a href="#为什么产生" class="headerlink" title="为什么产生"></a>为什么产生</h3><p>1.避免回调地狱 ==&gt; Promise ==&gt; async/await<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">getData(a =&gt; &#123;</span><br><span class="line">	getMoreData(a, b =&gt; &#123;</span><br><span class="line">		getMoreMoreData(b, c =&gt; &#123;</span><br><span class="line">			console.log(c);</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">getData()</span><br><span class="line">.<span class="keyword">then</span>(a =&gt; getData(a))</span><br><span class="line">.<span class="keyword">then</span>(b =&gt; getMoreData(b))</span><br><span class="line">.<span class="keyword">then</span>(c =&gt; console.log(c))</span><br><span class="line"></span><br><span class="line">(async () =&gt; &#123;</span><br><span class="line">	const a = await getData();</span><br><span class="line">	const b = await getMoreData(a);</span><br><span class="line">	const c = await getData(b);</span><br><span class="line">	console.log(c);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
+<h2 id="async-await-promise-异步执行顺序"><a href="#async-await-promise-异步执行顺序" class="headerlink" title="async/await , promise 异步执行顺序"></a>async/await , promise 异步执行顺序</h2><p><a href="https://segmentfault.com/a/1190000016329715?utm_source=tag-newest" target="_blank" rel="noopener">https://segmentfault.com/a/1190000016329715?utm_source=tag-newest</a><br>实际上 await 是一个让出线程的标志（遇到 await 会立即返回一个 pending 状态的promise）。await后面的函数会先执行一遍，然后就会跳出整个 async 函数来执行后面js代码。等本轮事件循环执行完又跳回到 async 函数中等待await后面表达式的返回值，如果返回值为非 promise 则继续执行async后面的代码，否则将 promise 加入队列。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">async <span class="keyword">function</span> <span class="function"><span class="title">async1</span></span>() &#123;</span><br><span class="line">    console.log(<span class="string">"async1 start"</span>);</span><br><span class="line">    await async2();</span><br><span class="line">    console.log(<span class="string">"async1 end"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">async <span class="keyword">function</span> <span class="function"><span class="title">async2</span></span>() &#123;</span><br><span class="line">   console.log(<span class="string">"async2"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(<span class="string">"script start"</span>);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    console.log(<span class="string">"settimeout"</span>);</span><br><span class="line">&#125;,0);</span><br><span class="line"></span><br><span class="line">async1();</span><br><span class="line"></span><br><span class="line">new Promise(<span class="keyword">function</span> (resolve) &#123;</span><br><span class="line">    console.log(<span class="string">"promise1"</span>);</span><br><span class="line">    resolve();</span><br><span class="line">&#125;).<span class="keyword">then</span>(<span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    console.log(<span class="string">"promise2"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">console.log(<span class="string">"script end"</span>);</span><br><span class="line">//执行结果：</span><br><span class="line">script start</span><br><span class="line">async1 start</span><br><span class="line">async2</span><br><span class="line">promise1</span><br><span class="line">script end</span><br><span class="line">promise2</span><br><span class="line">async1 end</span><br><span class="line">settimeout</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">testFunc</span></span>() &#123;</span><br><span class="line">    console.log(<span class="string">"testFunc..."</span>);</span><br><span class="line">    <span class="built_in">return</span> <span class="string">"testFunc"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">async <span class="keyword">function</span> <span class="function"><span class="title">testAsync</span></span>() &#123;</span><br><span class="line">    console.log(<span class="string">"testAsync..."</span>);</span><br><span class="line">    <span class="built_in">return</span> Promise.resolve(<span class="string">"hello testAsync"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">async <span class="keyword">function</span> <span class="function"><span class="title">foo</span></span>() &#123;</span><br><span class="line">    console.log(<span class="string">"test start..."</span>);</span><br><span class="line">    const v1 = await testFunc();</span><br><span class="line">    connsole.log(<span class="string">'hello world.'</span>);</span><br><span class="line">    console.log(v1);</span><br><span class="line">    const v2 = await testAsync();</span><br><span class="line">    console.log(v2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo();</span><br><span class="line"></span><br><span class="line">var promise = new Promise(resolve =&gt; &#123; </span><br><span class="line">    console.log(<span class="string">"promise start.."</span>);</span><br><span class="line">    resolve(<span class="string">"promise"</span>); </span><br><span class="line">&#125;);</span><br><span class="line">promise.then(val =&gt; console.log(val));</span><br><span class="line"></span><br><span class="line">console.log(<span class="string">"test end..."</span>);</span><br><span class="line">//执行结果：</span><br><span class="line"><span class="built_in">test</span> start...</span><br><span class="line">testFunc...</span><br><span class="line">promise start..</span><br><span class="line"><span class="built_in">test</span> end...</span><br><span class="line">hello world.</span><br><span class="line">testFunc</span><br><span class="line">testAsync...</span><br><span class="line">promise</span><br><span class="line">hello testAsync</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/08/generator/" data-id="cjqn75xss00021oted8in59hr" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-generator和async函数" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/07/generator和async函数/" class="article-date">
   <time datetime="2019-01-07T11:34:55.743Z" itemprop="datePublished">2019-01-07</time>
 </a>
     
@@ -76,7 +125,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/07/generator/">Generator函数和async函数</a>
+      <a class="article-title" href="/2019/01/07/generator和async函数/">Generator函数和async函数</a>
     </h1>
   
 
@@ -101,7 +150,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/07/generator/" data-id="cjqn22ie90000h4te8wjfjd53" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/07/generator和async函数/" data-id="cjqn75xsu00031otemp4lzbjz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -158,7 +207,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/07/promise/" data-id="cjqn22ig90007h4teenfqqgmc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/07/promise/" data-id="cjqn75xt0000a1otek1rix860" class="article-share-link">Share</a>
       
       
     </footer>
@@ -203,7 +252,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/05/macrotask microtask/" data-id="cjqn22ig60005h4tefbe16dm5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/05/macrotask microtask/" data-id="cjqn75xsz00091otepsqwaji7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -266,7 +315,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/19/this学习/" data-id="cjqn22igk000eh4tet74t89sf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/19/this学习/" data-id="cjqn75xt2000b1ote7s6wuwdl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -312,7 +361,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/18/闭包和立即执行函数/" data-id="cjqn22igp000gh4te0k5ovhkx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/18/闭包和立即执行函数/" data-id="cjqn75xtb000k1oteb8nosytu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -357,7 +406,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/05/异步，同步，回调和class/" data-id="cjqn22igh000ch4teu7pf67bg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/05/异步，同步，回调和class/" data-id="cjqn75xt8000h1ote80ponclb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -404,7 +453,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/28/深浅拷贝/" data-id="cjqn22igu000jh4teg109d3ao" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/28/深浅拷贝/" data-id="cjqn75xta000j1otem6jm3ubq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -443,12 +492,16 @@
 <h3 id="2-以下代码会返回false，解释为什么会这样："><a href="#2-以下代码会返回false，解释为什么会这样：" class="headerlink" title="2.以下代码会返回false，解释为什么会这样："></a>2.以下代码会返回false，解释为什么会这样：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// <span class="literal">false</span></span><br><span class="line">0.2 + 0.1 === 0.3</span><br></pre></td></tr></table></figure>
 <p>答：<br>ES6在Number对象上面，新增了一个极小的常量Number.EPSILON，表示1与大于1的最小浮点数之间的差。<br>对于64位浮点数来说，这个值相当于2的-52次方，是js能够表示的最小精度。误差如果小于这个值，就可以认为不存在误差了。<br>引入这个值的目的，在于为浮点数计算设置一个误差范围，毕竟浮点数的计算是不准确的。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">console.log(Number.EPSILON === Math.pow(2, -52));//<span class="literal">true</span></span><br><span class="line">console.log(Number.EPSILON);//2.220446049250313e-16</span><br><span class="line">//toFixed(num) 方法可把 Number 四舍五入为指定小数位数的数字</span><br><span class="line">console.log(Number.EPSILON.toFixed(20));//0.00000000000000022204</span><br><span class="line"></span><br><span class="line">console.log(0.1 + 0.2);//0.30000000000000004</span><br><span class="line">console.log(0.1 + 0.2 - 0.3);//5.551115123125783e-17</span><br><span class="line">console.log(5.551115123125783e-17.toFixed(20));//0.00000000000000005551</span><br></pre></td></tr></table></figure></p>
 <h3 id="3-JavaScript-中有哪些不同的数据类型？"><a href="#3-JavaScript-中有哪些不同的数据类型？" class="headerlink" title="3.JavaScript 中有哪些不同的数据类型？"></a>3.JavaScript 中有哪些不同的数据类型？</h3><p>答：<br>分为基本数据类型和引用数据类型：<br>基本数据类型:Number String Boolean Undefined Null Symbol(表示独一无二的值)；基本数据类型是按值访问的，可以直接操作保存在变量中的实际值。<br>引用数据类型Object(包括Object,Date.Array,Function)；引用数据类型只能操作对象在栈内存中的引用地址。</p>
-<h3 id="7-“new”关键字在-JavaScript-中有什么作用？"><a href="#7-“new”关键字在-JavaScript-中有什么作用？" class="headerlink" title="7.“new”关键字在 JavaScript 中有什么作用？"></a>7.“new”关键字在 JavaScript 中有什么作用？</h3><p>答：在js中，new是用于实例化对象的运算符。js中new一个对象会做四件事：<br>例如var obj = new Base();<br>7.1 var obj = {};<br>7.2 obj.-proto- = Base.prototype;<br>7.3 Base.call(obj);<br>7.4 return<br>文字说明一下这四步：<br>7.1 创建一个空对象obj；<br>7.2 将这个空对象的-proto-成员指向了Base函数对象的prototype成员对象；<br>7.3 将Base函数对象的this指针换成obj，然后再调用Base函数；<br>7.4 返回该对象。</p>
-<h3 id="8-JavaScript-中有哪些不同的函数调用模式？请详细解释。"><a href="#8-JavaScript-中有哪些不同的函数调用模式？请详细解释。" class="headerlink" title="8.JavaScript 中有哪些不同的函数调用模式？请详细解释。"></a>8.JavaScript 中有哪些不同的函数调用模式？请详细解释。</h3><p>答：五种调用模式：直接调用，函数调用，方法调用，构造器调用，call和apply调用。<br>8.1 直接调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">myFun1</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"myFun1"</span>);</span><br><span class="line">&#125;</span><br><span class="line">myFun1();//myFun1</span><br></pre></td></tr></table></figure></p>
-<p>8.2 函数调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var a = 1;</span><br><span class="line">var myFun2 = <span class="keyword">function</span>(a) &#123;</span><br><span class="line">	var a = 2;</span><br><span class="line">	console.log(this.a);</span><br><span class="line">&#125;</span><br><span class="line">myFun2(2);//1</span><br></pre></td></tr></table></figure></p>
-<p>8.3 作为对象的方法调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">	name: <span class="string">'zhangsan'</span>,</span><br><span class="line">	myFun3: <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		console.log(<span class="string">"myFun3"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">person.myFun3();//myFun3</span><br></pre></td></tr></table></figure></p>
-<p>8.4 构造器调用模式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var obj = <span class="function"><span class="title">function</span></span>() &#123;&#125;</span><br><span class="line">obj.prototype.myFun4 = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"myFun4"</span>);</span><br><span class="line">&#125;</span><br><span class="line">var objItem = new obj();</span><br><span class="line">objItem.myFun4();//myFun4</span><br></pre></td></tr></table></figure></p>
-<p>8.5 通过call,apply调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;;</span><br><span class="line">var myFun5 = <span class="keyword">function</span>(a) &#123;</span><br><span class="line">	<span class="built_in">return</span> a+1;</span><br><span class="line">&#125;</span><br><span class="line">var item1 = myFun5.call(obj,5);</span><br><span class="line">var item2 = myFun5.apply(obj,[5]);</span><br><span class="line">console.log(item1,item2);//6 6</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-“new”关键字在-JavaScript-中有什么作用？"><a href="#4-“new”关键字在-JavaScript-中有什么作用？" class="headerlink" title="4.“new”关键字在 JavaScript 中有什么作用？"></a>4.“new”关键字在 JavaScript 中有什么作用？</h3><p>答：在js中，new是用于实例化对象的运算符。js中new一个对象会做四件事：<br>例如var obj = new Base();<br>4.1 var obj = {};<br>4.2 obj.-proto- = Base.prototype;<br>4.3 Base.call(obj);<br>4.4 return<br>文字说明一下这四步：<br>4.1 创建一个空对象obj；<br>4.2 将这个空对象的-proto-成员指向了Base函数对象的prototype成员对象；<br>4.3 将Base函数对象的this指针换成obj，然后再调用Base函数；<br>4.4 返回该对象。</p>
+<h3 id="5-JavaScript-中有哪些不同的函数调用模式？请详细解释。"><a href="#5-JavaScript-中有哪些不同的函数调用模式？请详细解释。" class="headerlink" title="5.JavaScript 中有哪些不同的函数调用模式？请详细解释。"></a>5.JavaScript 中有哪些不同的函数调用模式？请详细解释。</h3><p>答：五种调用模式：直接调用，函数调用，方法调用，构造器调用，call和apply调用。<br>5.1 直接调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">myFun1</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"myFun1"</span>);</span><br><span class="line">&#125;</span><br><span class="line">myFun1();//myFun1</span><br></pre></td></tr></table></figure></p>
+<p>5.2 函数调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var a = 1;</span><br><span class="line">var myFun2 = <span class="keyword">function</span>(a) &#123;</span><br><span class="line">	var a = 2;</span><br><span class="line">	console.log(this.a);</span><br><span class="line">&#125;</span><br><span class="line">myFun2(2);//1</span><br></pre></td></tr></table></figure></p>
+<p>5.3 作为对象的方法调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">	name: <span class="string">'zhangsan'</span>,</span><br><span class="line">	myFun3: <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		console.log(<span class="string">"myFun3"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">person.myFun3();//myFun3</span><br></pre></td></tr></table></figure></p>
+<p>5.4 构造器调用模式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var obj = <span class="function"><span class="title">function</span></span>() &#123;&#125;</span><br><span class="line">obj.prototype.myFun4 = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"myFun4"</span>);</span><br><span class="line">&#125;</span><br><span class="line">var objItem = new obj();</span><br><span class="line">objItem.myFun4();//myFun4</span><br></pre></td></tr></table></figure></p>
+<p>5.5 通过call,apply调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;;</span><br><span class="line">var myFun5 = <span class="keyword">function</span>(a) &#123;</span><br><span class="line">	<span class="built_in">return</span> a+1;</span><br><span class="line">&#125;</span><br><span class="line">var item1 = myFun5.call(obj,5);</span><br><span class="line">var item2 = myFun5.apply(obj,[5]);</span><br><span class="line">console.log(item1,item2);//6 6</span><br></pre></td></tr></table></figure></p>
+<h3 id="6-reduce用法。"><a href="#6-reduce用法。" class="headerlink" title="6.reduce用法。"></a>6.reduce用法。</h3><p>reduce()方法接收一个函数callbackfn作为累加器(accumulator)，数组中的每一个值（开始合并），最后成为一个值。<br>语法：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array.reduce(callbackfn,[initialValue]);</span><br></pre></td></tr></table></figure></p>
+<p>reduce()方法接收callbackfn函数，而这个函数包含四个参数：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> callbackfn(preValue,curValue,index,array)&#123;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>参数解释：<br>preValue：上一次调用回调返回的值，或者是提供的初始值(initialValue)<br>curValue：数组中当前被处理的数组项<br>index：当前数组项在数组中的索引值<br>array：调用reduce()方法的数组<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1,2,3,4,5];</span><br><span class="line">var sum = arr.reduce((preValue, curValue, index, array) =&gt; &#123;</span><br><span class="line">	<span class="built_in">return</span> preValue + curValue;</span><br><span class="line">&#125;);</span><br><span class="line">console.log(sum);// 15</span><br></pre></td></tr></table></figure></p>
+<h3 id="7-数组降维。"><a href="#7-数组降维。" class="headerlink" title="7.数组降维。"></a>7.数组降维。</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const flattenDeep = (arr) =&gt; Array.isArray(arr)</span><br><span class="line">	? arr.reduce((a, b) =&gt; [...flattenDeep(a), ...flattenDeep(b)] , []): [arr];</span><br><span class="line"></span><br><span class="line">var flatArr = flattenDeep([1, [[2], [3, [4]], 5]]);</span><br><span class="line">console.log(flatArr);// [1, 2, 3, 4, 5]</span><br></pre></td></tr></table></figure>
 <h2 id="JavaScript-前端应用程序设计问题"><a href="#JavaScript-前端应用程序设计问题" class="headerlink" title="JavaScript 前端应用程序设计问题"></a>JavaScript 前端应用程序设计问题</h2><h3 id="1-解释单向数据流和双向数据绑定"><a href="#1-解释单向数据流和双向数据绑定" class="headerlink" title="1.解释单向数据流和双向数据绑定"></a>1.解释单向数据流和双向数据绑定</h3><p>答：<br>单项数据流：指数据只能从一个方向修改数据，例如react中，父组件可以向子组件中传递数据data，当父组件中改变data的值，子组件的data值就会跟着改变；但是反过来，在子组件中对data修改后，父组件的值并不会发生改变。React、Vue等基于单向数据流。<br>双向数据绑定：主要是由mvvm框架实现，例如在vue中由三个部分组成：view,viewmodel,model，其中view和model要通过viewmodel进行通讯。当model部分数据发生改变时，viewmodel通知view更新视图；当view数据发生变化时也会同步到model中。Angular 1.x 基于双向数据绑定。<br>react的双向数据绑定是通过event.target.value实现的。<br>vue的双向数据绑定是通过数据劫持结合发布者-订阅者模式的方式来实现的。它使用MVVM框架，使用了v-model。其基于Object.defineProperty()方法，重新定义了对象获取属性值get和设置属性值set的操作来实现的。原理及实现的参考链接在这里记录一下，方便以后学习：<a href="http://www.cnblogs.com/canfoo/p/6891868.html" target="_blank" rel="noopener">http://www.cnblogs.com/canfoo/p/6891868.html</a><br>单项数据绑定的实现思路是：所有数据只有一份；一旦数据发生变化，就会更新页面（data-页面），但是不存在（页面-data）;如果用户在页面上做了变动，那么就手动收集起来（双向绑定的话就会自动收集），合并到原有数据中。所以说双向数据绑定=单项绑定+事件监听。</p>
 <h2 id="前端基础和理论相关问题"><a href="#前端基础和理论相关问题" class="headerlink" title="前端基础和理论相关问题"></a>前端基础和理论相关问题</h2><h3 id="1-HTML-中-Doctype-的用途是什么？"><a href="#1-HTML-中-Doctype-的用途是什么？" class="headerlink" title="1.HTML 中 Doctype 的用途是什么？"></a>1.HTML 中 Doctype 的用途是什么？</h3><p>对于以下每种情况，将会发生什么：<br>1.1 Doctype 不存在<br>1.2 使用 HTML4 Doctype，但 HTML 页面使用了 HTML5 标签<br>1.3 使用了无效的 Doctype</p>
 <p>答：HTML 中 Doctype是告知浏览器用什么标准解析这个文档。DOCTYPE不存在或格式不正确会导致文档以兼容模式呈现。其拥有如下特点：<br>声明必须在html文档的头部，在<html>标签前。在html5中不区分大小写；<br>&lt;!DOCTYPE&gt;不是一个标签，该声明指示web浏览器关于页面使用哪个HTML版本进行编写的指令；<br>在html4中该声明指向一个DTD，由于HTML4.01基于SGML（标准通用标记语言），所以DTD指定了标记规则以保证浏览器正确渲染内容。HTML5不基于SGML，所以不用指定DTD。<br>HTML5只有一种声明: &lt;!DOCTYPE html&gt;<br>HTML4.01有三种声明：strict, transitional, frameset。</html></p>
@@ -461,7 +514,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/27/前端面试题记录/" data-id="cjqn22igf000bh4tej7fe9ipj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/27/前端面试题记录/" data-id="cjqn75xt5000e1otejbnanl86" class="article-share-link">Share</a>
       
       
     </footer>
@@ -506,46 +559,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/26/水平垂直居中div/" data-id="cjqn22igo000fh4tef0ax5a1y" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-React生命周期" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/11/26/React生命周期/" class="article-date">
-  <time datetime="2018-11-26T02:42:46.435Z" itemprop="datePublished">2018-11-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/26/React生命周期/">React生命周期</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>React生命周期分为三种状态，分别是mounting,updating,unmounting;意味着已插入真实的DOM，正在被重新渲染，已从真实的DOM移除。<br>因此，对应的生命周期方法有：<br>componentWillMount ，componentDidMount ，<br>componentWillReceiveProps ，shouldComponentUpdate ，<br>componentWillUpdate，componentDidUpdate ，<br>componentWillUnmount。</p>
-<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">class TestComp extends React.Component &#123;</span><br><span class="line">	<span class="function"><span class="title">componentWillMount</span></span>() &#123;</span><br><span class="line">		console.log(<span class="string">"componentWillMount"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="title">componentDidMount</span></span>() &#123;</span><br><span class="line">		//可以在该方法中调用setTimeout，setInterval等操作。</span><br><span class="line">		console.log(<span class="string">"componentDidMount"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	componentWillReceiveProps(newProps) &#123;</span><br><span class="line">		console.log(<span class="string">"componentWillReceiveProps"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	shouldComponentUpdate(newProps, newState) &#123;</span><br><span class="line">		console.log(<span class="string">"shouldComponentUpdate"</span>);</span><br><span class="line">		//如果为<span class="literal">false</span>，不会执行后面的生命周期方法</span><br><span class="line">		<span class="built_in">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	componentWillUpdate(newProps, newState) &#123;</span><br><span class="line">		console.log(<span class="string">"componentWillUpdate"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	componentDidUpdate(newProps, newState) &#123;</span><br><span class="line">		console.log(<span class="string">"componentDidUpdate"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="title">componentWillUnmount</span></span>() &#123;</span><br><span class="line">		console.log(<span class="string">"componentWillUnmount"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="title">render</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> (</span><br><span class="line">			&lt;div&gt;</span><br><span class="line">				&lt;h3&gt;&#123;this.props.number&#125;&lt;/h3&gt;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class IncreButton extends React.Component &#123;</span><br><span class="line">	constructor(props) &#123;</span><br><span class="line">		super(props);</span><br><span class="line">		this.state =  &#123;number: 0&#125;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	setNewNumber = () =&gt; &#123;</span><br><span class="line">		this.setState(&#123;number: this.state.number +1&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="title">render</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> (</span><br><span class="line">			&lt;div&gt;</span><br><span class="line">				&lt;button onClick = &#123;this.setNewNumber&#125;&gt;加1&lt;/button&gt;</span><br><span class="line">				&lt;TestComp number = &#123;this.state.number&#125;&gt;&lt;/TestComp&gt;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">	&lt;div&gt;</span><br><span class="line">		&lt;IncreButton /&gt;</span><br><span class="line">	&lt;/div&gt;,</span><br><span class="line">	document.getElementById(<span class="string">"example"</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-<p>注:<br>1.页面一加载，componentWillMount，componentDidMount<br>2.每次点击加1按钮后，componentWillReceiveProps，shouldComponentUpdate，componentWillUpdate，componentDidUpdate</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/26/React生命周期/" data-id="cjqn22ifh0001h4teigp2miq1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/26/水平垂直居中div/" data-id="cjqn75xt9000i1otetkn1twc7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -559,7 +573,7 @@
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -591,7 +605,11 @@
       <ul>
         
           <li>
-            <a href="/2019/01/07/generator/">Generator函数和async函数</a>
+            <a href="/2019/01/08/generator/">Generator函数和async函数</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/07/generator和async函数/">Generator函数和async函数</a>
           </li>
         
           <li>
@@ -604,10 +622,6 @@
         
           <li>
             <a href="/2018/12/19/this学习/">this学习</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/18/闭包和立即执行函数/">闭包和立即执行函数</a>
           </li>
         
       </ul>
