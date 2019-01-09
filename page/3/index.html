@@ -62,6 +62,56 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-构造函数、原型对象、实例等概念" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/20/构造函数、原型对象、实例等概念/" class="article-date">
+  <time datetime="2018-10-20T06:27:49.796Z" itemprop="datePublished">2018-10-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/20/构造函数、原型对象、实例等概念/">记录构造函数、实例、原型这些概念之间的关系</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> Person(name,age) &#123;</span><br><span class="line">	this.name = name;</span><br><span class="line">	this.age = age;</span><br><span class="line">	this.getInfo = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		console.log(this.name+<span class="string">","</span>+this.age);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">var person = new Person(<span class="string">"xiaoming"</span>,24);</span><br><span class="line">person.getInfo();//xiaoming,24</span><br></pre></td></tr></table></figure>
+<p>这里的Person就是一个构造函数，里面的this指向将要生成的实例对象。每一个实例都会有自己的name,age属性，都会有自己的getInfo方法。但是有时候希望不同的实例之间共享一些属性和方法，于是产生了prototype这个东西。</p>
+<h2 id="原型对象"><a href="#原型对象" class="headerlink" title="原型对象"></a>原型对象</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> Person(name,age) &#123;</span><br><span class="line">	this.name = name;</span><br><span class="line">	this.age = age;</span><br><span class="line">	this.getInfo = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		console.log(this.name+<span class="string">","</span>+this.age);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.getType = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"类型是person"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var person1 = new Person(<span class="string">"xiaoming"</span>,24);</span><br><span class="line">person1.getInfo();//xiaoming,24</span><br><span class="line"></span><br><span class="line">var person2 = new Person(<span class="string">"lifang"</span>,18);</span><br><span class="line"></span><br><span class="line">console.log(person1.name === person2.name);//<span class="literal">false</span></span><br><span class="line">console.log(person1.getInfo === person2.getInfo);//<span class="literal">false</span></span><br><span class="line">console.log(person1.getType === person2.getType);//<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>可以看到，getType方法是写在Person的prototype对象中的，这个就是原型对象。我们可以在原型对象中存放希望让所有实例共享的东西。<br>那Person构造函数是如何与这个原型对象关联起来的呢？其实任何一个函数（包括构造函数），都有一个prototype属性，该属性指向该函数的原型对象。这个原型对象中可以有各种属性和方法。</p>
+<p>调试代码的时候，发现一个知识点，稍微记录一下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">Person</span></span>() &#123;</span><br><span class="line">	this.name = <span class="string">'zxt'</span>;</span><br><span class="line">&#125;</span><br><span class="line">var person1 = new Person();</span><br><span class="line">var person2 = new Person();</span><br><span class="line"></span><br><span class="line">console.log(person1.name === person2.name);//<span class="literal">true</span>,如果name属性是个字符串，也就是说不随着传入的参数变化，那么这里就会输出<span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="proto"><a href="#proto" class="headerlink" title="proto"></a><em>proto</em></h2><p>这个时候打开控制台检测，会发现：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">person1.__proto__ === Person.prototype //<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>原来每一个构造函数实例化的对象，都有一个<em>proto</em>属性，这个属性指向对应构造函数的原型对象。有些地方也把<strong>proto</strong>写成[[prototype]]。</p>
+<h2 id="constructor-NaN"><a href="#constructor-NaN" class="headerlink" title="constructor"></a>constructor</h2><p>constructor是原型对象的一个属性。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Person.prototype.constructor === Person //<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>总结一下就是：prototype是构造函数的属性，它指向构造函数的原型对象。这个原型对象里的所有东西被所有的实例共享。特别的，该原型对象里有一个constructor属性，指向该构造函数。<br><strong>proto</strong>是每个实例对象的具有属性，它指向上文提到的原型对象。<br>实例的属性由两部分组成，一个是复制构造函数的属性，每个实例的属性是互相不干扰的；另一个是所有实例共享的原型对象里的属性。</p>
+<h2 id="new一个对象时发生了什么："><a href="#new一个对象时发生了什么：" class="headerlink" title="new一个对象时发生了什么："></a>new一个对象时发生了什么：</h2><p>var person = new Person();</p>
+<p>1.var person = {};//首先创建了一个空对象person<br>2.person.<em>proto</em> = Person.prototype //将这个空对象的<em>proto</em>成员指向了Person函数的prototype成员对象。<br>3.将Perso对象里的this指针换成了person，然后调用Person函数<br>4.返回该对象。</p>
+<p>以上心得参考的链接：(<a href="https://www.cnblogs.com/thonrt/p/5900510.html" target="_blank" rel="noopener">https://www.cnblogs.com/thonrt/p/5900510.html</a>)<br>(<a href="https://www.cnblogs.com/my-blog-yu/p/6627639.html" target="_blank" rel="noopener">https://www.cnblogs.com/my-blog-yu/p/6627639.html</a>)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/20/构造函数、原型对象、实例等概念/" data-id="cjqp42zog000i6ktelqljr01u" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-使用hexo搭建博客" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/17/使用hexo搭建博客/" class="article-date">
@@ -123,7 +173,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/17/使用hexo搭建博客/" data-id="cjqp40m6t000cb8tewxei50ej" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/17/使用hexo搭建博客/" data-id="cjqp42zoc000d6ktepcn5arjc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -168,7 +218,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/17/hello-world/" data-id="cjqp40m6b0002b8teubb9sqmv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/17/hello-world/" data-id="cjqp42znz00026ktefpayxx2h" class="article-share-link">Share</a>
       
       
     </footer>
@@ -214,6 +264,10 @@
       <ul>
         
           <li>
+            <a href="/2019/01/09/js跨域请求/">js跨域请求</a>
+          </li>
+        
+          <li>
             <a href="/2019/01/09/跨域请求/">js跨域请求</a>
           </li>
         
@@ -227,10 +281,6 @@
         
           <li>
             <a href="/2019/01/07/promise/">Promise对象</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/05/macrotask microtask/">macrotask microtask</a>
           </li>
         
       </ul>

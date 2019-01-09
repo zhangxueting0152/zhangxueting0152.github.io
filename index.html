@@ -62,6 +62,64 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-js跨域请求" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/09/js跨域请求/" class="article-date">
+  <time datetime="2019-01-09T11:38:57.548Z" itemprop="datePublished">2019-01-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/09/js跨域请求/">js跨域请求</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="同源"><a href="#同源" class="headerlink" title="同源"></a>同源</h2><p>同源：是指协议，域名和端口相同。<br>同源策略：基于安全考虑，当前域不能访问其他域的东西。<br>如果a的URL是<a href="http://www.a.com:8080/test1/a.js" target="_blank" rel="noopener">http://www.a.com:8080/test1/a.js</a> ，那么<br>1.b的url是<a href="https://www.a.com:8080/test1/a.js" target="_blank" rel="noopener">https://www.a.com:8080/test1/a.js</a> 时，a和b不同源，因为协议不同；<br>2.b的url是<a href="http://www.b.com:8080/test1/a.js" target="_blank" rel="noopener">http://www.b.com:8080/test1/a.js</a> 时，a和b不同源，因为域名不同；<br>3.b的url是<a href="http://www.a.com:3000/test1/a.js" target="_blank" rel="noopener">http://www.a.com:3000/test1/a.js</a> 时，a和b不同源，因为端口不同；<br>4.b的url是<a href="http://www.a.com:8080/test2/a.js" target="_blank" rel="noopener">http://www.a.com:8080/test2/a.js</a> 时，a和b同源，是同意域名下的不同文件夹；<br>5.<a href="http://www.a.com/a.js" target="_blank" rel="noopener">http://www.a.com/a.js</a> 和<a href="http://www.a.com/b.js" target="_blank" rel="noopener">http://www.a.com/b.js</a> 是同源的，在同一域名下。</p>
+<h2 id="跨域请求方式"><a href="#跨域请求方式" class="headerlink" title="跨域请求方式"></a>跨域请求方式</h2><h3 id="1-JSONP"><a href="#1-JSONP" class="headerlink" title="1.JSONP"></a>1.JSONP</h3><p>JSONP 是 JSON with padding（填充式 JSON 或参数式 JSON）的简写。<br>原理就是动态创建script标签，然后利用script标签美欧跨域限制的漏洞。<br>JSONP使用简单，但是只限于get请求。<br>原理如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"http://domain/api?param1=a&amp;param2=b&amp;callback=jsonp"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">	<span class="keyword">function</span> callback(data) &#123;</span><br><span class="line">		console.log(data);</span><br><span class="line">	&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>开发中，可以这样写：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"mydiv"</span>&gt;</span><br><span class="line">    &lt;button id=<span class="string">"btn"</span>&gt;点击&lt;/button&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=<span class="string">"http://domain/api?param1=a&amp;param2=b&amp;callback=jsonp"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">	window.onload = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		var myBtn = document.getElementById(<span class="string">'btn'</span>);</span><br><span class="line">		myBtn.onclick = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">			var script = document.createElement(<span class="string">"script"</span>);</span><br><span class="line">			script.src = <span class="string">"http://domain/api?param1=a&amp;param2=b&amp;callback=jsonp"</span>;</span><br><span class="line">			script.type = <span class="string">"text/javascript"</span>;  </span><br><span class="line">			document.body.insertBefore(script, document.body.firstChild);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> callback(data) &#123;</span><br><span class="line">		console.log(data);</span><br><span class="line">	&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-document-domain-iframe"><a href="#2-document-domain-iframe" class="headerlink" title="2.document.domain + iframe"></a>2.document.domain + iframe</h3><p>该方式只能用于二级域名相同的情况下，比如a.test.com和b.test.com适用于该方式。<br>只需要给页面添加document.domain=”test.com”表示二级域名都相同就可以实现跨域。<br>我们只能把document.domain设置成自身或更高一级的父域，且主域必须相同。<br>页面<a href="http://www.example.com/a.html" target="_blank" rel="noopener">http://www.example.com/a.html</a> 的写法:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe src=<span class="string">"http://example.com/b.html"</span> id=<span class="string">"iframe"</span> onload=<span class="string">"test()"</span>&gt;&lt;/iframe&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">document.domain = <span class="string">'example.com'</span>;// 设置成主域</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">test</span></span>() &#123;</span><br><span class="line">	alert(document.getElementById(<span class="string">'iframe'</span>).contentWindow);</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>页面<a href="http://example.com/b.html" target="_blank" rel="noopener">http://example.com/b.html</a> 的写法:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">document.domain = <span class="string">'example.com'</span>;// 使得这个页面于主页面的document.domain相同</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这样就可以通过js访问到iframe中的各种属性和对象了。</p>
+<h3 id="3-window-name-iframe"><a href="#3-window-name-iframe" class="headerlink" title="3.window.name + iframe"></a>3.window.name + iframe</h3><p>window对象有个name属性，该属性有个特征：即在一个窗口(window)的生命周期内,窗口载入的所有的页面都是共享一个window.name的，每个页面对window.name都有读写的权限，window.name是持久存在一个窗口载入过的所有页面中的，并不会因新页面的载入而进行重置。<br>原理就是在a.html页面中使用一个隐藏的iframe来充当一个中间人角色，由iframe去获取data.html的数据，然后a.html再去得到iframe获取到的数据。<br>页面<a href="http://www.example.com/a.html" target="_blank" rel="noopener">http://www.example.com/a.html</a> 的写法:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe src=<span class="string">"http://www.source.com/data.html"</span> id=<span class="string">"proxy"</span> onload=<span class="string">"getData()"</span> style=<span class="string">"display: none"</span>&gt;&lt;/iframe&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">// iframe载入data.html页面后会执行此函数</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">getData</span></span>() &#123;</span><br><span class="line">	var iframe= document.getElementById(<span class="string">'proxy'</span>);</span><br><span class="line">	iframe.src = <span class="string">'b.html'</span>;// 这里的b.html是任意一个页面，只要和a.html同源即可，便可以保证a.html访问到iframe里的东西。设置成‘’也可以。</span><br><span class="line">	iframe.onload = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		var data = iframe.contentWindow.name;// 获取iframe里的window.name，里面存放着设置的数据。</span><br><span class="line">		alert(data);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>页面<a href="http://www.source.com/data.html" target="_blank" rel="noopener">http://www.source.com/data.html</a> 的写法:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">window.name = <span class="string">'要传给页面a.html的数据，所有可以转化成字符串的数据都可以放在这里'</span>;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-HTML5中window-postMessage方法"><a href="#4-HTML5中window-postMessage方法" class="headerlink" title="4.HTML5中window.postMessage方法"></a>4.HTML5中window.postMessage方法</h3><p>调用postMessage方法的window对象是指要接收消息的那一个window对象，该方法的第一个参数message为要发送的消息，类型只能为字符串；第二个参数targetOrigin用来限定接收消息的那个window对象所在的域，如果不想限定域，可以使用通配符 *  。<br>需要接收消息的window对象，可是通过监听自身的message事件来获取传过来的消息，消息内容储存在该事件对象的data属性中。</p>
+<p>页面<a href="http://a.com/a.html" target="_blank" rel="noopener">http://a.com/a.html</a> 的写法:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe src=<span class="string">"http://b.com/b.html"</span> id=<span class="string">"iframe"</span> onload=<span class="string">"onLoad()"</span>&gt;&lt;/iframe&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">onLoad</span></span>() &#123;</span><br><span class="line">	var iframe= document.getElementById(<span class="string">'iframe'</span>);</span><br><span class="line">	var targetOrigin = <span class="string">'*'</span>;</span><br><span class="line">	iframe.contentWindow.postMessage(<span class="string">'我是来自页面a的消息!'</span>, targetOrigin); </span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>页面<a href="http://b.com/b.html" target="_blank" rel="noopener">http://b.com/b.html</a> 的写法:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">window.onmessage = <span class="keyword">function</span>(e) &#123;// 注册message事件来接收消息</span><br><span class="line">	e = e || event;// 事件对象</span><br><span class="line">	alert(e.data);</span><br><span class="line">&#125;</span><br><span class="line">或者</span><br><span class="line">window.addEventListener(<span class="string">'message'</span>, <span class="keyword">function</span>(event)&#123;</span><br><span class="line">	var origin = event.origin || event.originalEvent.origin；</span><br><span class="line">    // 通过origin属性判断消息来源地址</span><br><span class="line">    <span class="keyword">if</span> (origin == <span class="string">'http://a.com'</span>) &#123;</span><br><span class="line">        alert(event.data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>运行a页面后，会弹出”我是来自页面a的消息!”的alert框。</p>
+<h3 id="5-web-sockets"><a href="#5-web-sockets" class="headerlink" title="5.web sockets"></a>5.web sockets</h3><p>web sockets是一种浏览器的API，它的目标是在一个单独的持久连接上提供全双工、双向通信。<br>同源策略对web sockets不适用。<br>原理：在JS创建了web socket之后，会有一个HTTP请求发送到浏览器以发起连接。取得服务器响应后，建立的连接会使用HTTP升级从HTTP协议交换为web sockt协议。<br>只有在支持web socket协议的服务器上才能正常工作。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">var socket= new WebSocket(<span class="string">'ws://www.baidu.com'</span>);// http-&gt;ws; https-&gt;wss</span><br><span class="line">socket.send(<span class="string">"hello WebSocket"</span>);</span><br><span class="line">socket.onMessage = <span class="keyword">function</span>(event) &#123;</span><br><span class="line">	var data = event.data;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="6-CORS"><a href="#6-CORS" class="headerlink" title="6.CORS"></a>6.CORS</h3><p>Cross-Origin Resource Sharing（CORS）跨域资源共享是一份浏览器技术的规范，它允许浏览器向跨源(协议 + 域名 + 端口)服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制。<br>是 JSONP 模式的现代版。CORS与JSONP的使用目的相同，但是比JSONP更强大。JSONP只支持GET请求，CORS支持所有类型的HTTP请求。<br>实现CORS通信的关键是服务器。只要服务器实现了CORS接口，就可以跨源通信。</p>
+<p>客户端：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> compatibleCORS(method, url) &#123;</span><br><span class="line">    var xhr = new XMLHttpRequest();</span><br><span class="line">    <span class="keyword">if</span> (xhr.withCredentials !== undefined) &#123;</span><br><span class="line">        xhr.open(method, url, <span class="literal">true</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (typeof XDomainRequest !== <span class="string">"undefined"</span>) &#123;</span><br><span class="line">        //XDomainRequest是IE用于支持CORS请求的对象</span><br><span class="line">        xhr = new XDomainRequest();</span><br><span class="line">        xhr.open(method, url);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        xhr = null;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> xhr; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var xhr = compatibleCORS(<span class="string">'GET'</span>, <span class="string">"your url"</span>);</span><br><span class="line"><span class="keyword">if</span> (!xhr) &#123;</span><br><span class="line">    throw new Erorr(<span class="string">"CORS不被支持"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>服务端:<br>通过设置http响应头Access-Control-Allow-Origin: <a href="http://www.xxx.com" target="_blank" rel="noopener">www.xxx.com</a> (这里可以是* , 代表接所有网站都可以访问资源)。</p>
+<p>下面这段代码还不理解是干嘛的：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fetch(url, &#123;</span><br><span class="line">    method: <span class="string">'get'</span>,</span><br><span class="line">    // 头信息配置</span><br><span class="line">&#125;).<span class="keyword">then</span>(() =&gt; &#123;&#125;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="7-location-hash-iframe"><a href="#7-location-hash-iframe" class="headerlink" title="7.location.hash + iframe"></a>7.location.hash + iframe</h3><p>利用 location.hash 来传值。 缺点：数据直接暴露在url中，大小、类型都有限制。<br>例1：<br>原理是利用location.hash来进行传值。<br>假设域名a.com下的文件cs1.html要和cnblogs.com域名下的cs2.html传递信息。<br>1) cs1.html首先创建自动创建一个隐藏的iframe，iframe的src指向cnblogs.com域名下的cs2.html页面<br>2) cs2.html响应请求后再将通过修改cs1.html的hash值来传递数据<br>3) 同时在cs1.html上加一个定时器，隔一段时间来判断location.hash的值有没有变化，一旦有变化则获取获取hash值<br>注：由于两个页面不在同一个域下IE、Chrome不允许修改parent.location.hash的值，所以要借助于a.com域名下的一个代理iframe<br>a.com下的文件cs1.html文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">startRequest</span></span>()&#123;</span><br><span class="line">    var ifr = document.createElement(<span class="string">'iframe'</span>);</span><br><span class="line">    ifr.style.display = <span class="string">'none'</span>;</span><br><span class="line">    ifr.src = <span class="string">'http://www.cnblogs.com/lab/cscript/cs2.html#paramdo'</span>;</span><br><span class="line">    document.body.appendChild(ifr);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">checkHash</span></span>() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        var data = location.hash ? location.hash.substring(1) : <span class="string">''</span>;</span><br><span class="line">        <span class="keyword">if</span> (console.log) &#123;</span><br><span class="line">            console.log(<span class="string">'Now the data is '</span>+data);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch(e) &#123;&#125;;</span><br><span class="line">&#125;</span><br><span class="line">setInterval(checkHash, 2000);</span><br></pre></td></tr></table></figure></p>
+<p>cnblogs.com域名下的cs2.html:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">//模拟一个简单的参数处理操作</span><br><span class="line">switch(location.hash)&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'#paramdo'</span>:</span><br><span class="line">        callBack();</span><br><span class="line">        <span class="built_in">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'#paramset'</span>:</span><br><span class="line">        //<span class="keyword">do</span> something……</span><br><span class="line">        <span class="built_in">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">callBack</span></span>()&#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        parent.location.hash = <span class="string">'somedata'</span>;</span><br><span class="line">    &#125; catch (e) &#123;</span><br><span class="line">        // ie、chrome的安全机制无法修改parent.location.hash，</span><br><span class="line">        // 所以要利用一个中间的cnblogs域下的代理iframe</span><br><span class="line">        var ifrproxy = document.createElement(<span class="string">'iframe'</span>);</span><br><span class="line">        ifrproxy.style.display = <span class="string">'none'</span>;</span><br><span class="line">        ifrproxy.src = <span class="string">'http://a.com/test/cscript/cs3.html#somedata'</span>;    // 注意该文件在<span class="string">"a.com"</span>域下</span><br><span class="line">        document.body.appendChild(ifrproxy);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>a.com下的域名cs3.html<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//因为parent.parent和自身属于同一个域，所以可以改变其location.hash的值</span><br><span class="line">parent.parent.location.hash = self.location.hash.substring(1);</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://www.cnblogs.com/2050/p/3191744.html" target="_blank" rel="noopener">https://www.cnblogs.com/2050/p/3191744.html</a><br><a href="https://blog.csdn.net/joyhen/article/details/21631833" target="_blank" rel="noopener">https://blog.csdn.net/joyhen/article/details/21631833</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/09/js跨域请求/" data-id="cjqp42zoj000m6kteszfr8v4n" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-跨域请求" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/01/09/跨域请求/" class="article-date">
@@ -110,7 +168,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/09/跨域请求/" data-id="cjqp40m6v000eb8teinfcuooh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/09/跨域请求/" data-id="cjqp42zoi000k6ktearhqu461" class="article-share-link">Share</a>
       
       
     </footer>
@@ -147,7 +205,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/09/post和get/" data-id="cjqp40m6f0004b8tes43azsgb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/09/post和get/" data-id="cjqp42zo600086kte2a76kudn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -196,7 +254,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/08/generator和async函数/" data-id="cjqp40m6i0006b8tekmtnw6bw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/08/generator和async函数/" data-id="cjqp42zo000036ktelvh5cnio" class="article-share-link">Share</a>
       
       
     </footer>
@@ -253,7 +311,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/07/promise/" data-id="cjqp40m6h0005b8ter8hw7qt6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/07/promise/" data-id="cjqp42zo700096kteqzyjhdl2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -298,7 +356,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/05/macrotask microtask/" data-id="cjqp40m6r000bb8tez21wu1wy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/05/macrotask microtask/" data-id="cjqp42zo500076ktevlbyckj6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -361,7 +419,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/19/this学习/" data-id="cjqp40m6j0007b8tefau3vyfk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/19/this学习/" data-id="cjqp42zob000c6kte4t3nft3h" class="article-share-link">Share</a>
       
       
     </footer>
@@ -407,7 +465,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/18/闭包和立即执行函数/" data-id="cjqp40m7g000jb8tel9c7c56h" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/18/闭包和立即执行函数/" data-id="cjqp42zoi000l6ktev35oaqx8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -452,7 +510,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/05/异步，同步，回调和class/" data-id="cjqp40m6w000fb8teroink2ac" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/05/异步，同步，回调和class/" data-id="cjqp42zof000h6kteb5yuu7f7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -499,68 +557,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/28/深浅拷贝/" data-id="cjqp40m6y000hb8ter9eefk7c" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-前端面试题记录" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/11/27/前端面试题记录/" class="article-date">
-  <time datetime="2018-11-27T02:55:06.212Z" itemprop="datePublished">2018-11-27</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/27/前端面试题记录/">前端面试题记录</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这篇博客是对网页上前端问题的答案记录：<a href="https://mp.weixin.qq.com/s/uVZnt6HMs2b9-rPxqkZ-bQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/uVZnt6HMs2b9-rPxqkZ-bQ</a><br>在网上有看到别人的答案链接，在这里记录一下地址：<a href="https://ryuurock.com/2018/11/25/frontend-interview/#undefined" target="_blank" rel="noopener">https://ryuurock.com/2018/11/25/frontend-interview/#undefined</a></p>
-<h2 id="基本的JS问题"><a href="#基本的JS问题" class="headerlink" title="基本的JS问题"></a>基本的JS问题</h2><h3 id="1-让下面的代码可以运行"><a href="#1-让下面的代码可以运行" class="headerlink" title="1.让下面的代码可以运行"></a>1.让下面的代码可以运行</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const a = [1, 2, 3, 4, 5];</span><br><span class="line">// Implement this</span><br><span class="line">a.multiply();</span><br><span class="line">console.log(a); // [1, 2, 3, 4, 5, 1, 4, 9, 16, 25]</span><br></pre></td></tr></table></figure>
-<p>答：<br>这道题的思路就是给数组原型上添加一个方法，叫multiply<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.multiply = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	<span class="built_in">let</span> length = this.length;</span><br><span class="line">	//不能在<span class="keyword">for</span>循环里写i&lt;this.length，因为this的长度一直在加长，这样会内存溢出</span><br><span class="line">	<span class="keyword">for</span>(<span class="built_in">let</span> i=0; i&lt;length; i++) &#123;</span><br><span class="line">		this.push(this[i]*this[i]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">myFunction();</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">myFunction</span></span>()&#123;</span><br><span class="line">	const a = [1,2,3,4,5];</span><br><span class="line">	a.multiply();</span><br><span class="line">	console.log(a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>也可以用es6的写法：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.multiply = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	<span class="built_in">let</span> result = this;</span><br><span class="line">	this.forEach(item =&gt; result.push(item*item));//或者写this.push(item*item)</span><br><span class="line">	<span class="built_in">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line">myFunction();</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">myFunction</span></span>()&#123;</span><br><span class="line">	const a = [1,2,3,4,5];</span><br><span class="line">	a.multiply();</span><br><span class="line">	console.log(a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="2-以下代码会返回false，解释为什么会这样："><a href="#2-以下代码会返回false，解释为什么会这样：" class="headerlink" title="2.以下代码会返回false，解释为什么会这样："></a>2.以下代码会返回false，解释为什么会这样：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// <span class="literal">false</span></span><br><span class="line">0.2 + 0.1 === 0.3</span><br></pre></td></tr></table></figure>
-<p>答：<br>ES6在Number对象上面，新增了一个极小的常量Number.EPSILON，表示1与大于1的最小浮点数之间的差。<br>对于64位浮点数来说，这个值相当于2的-52次方，是js能够表示的最小精度。误差如果小于这个值，就可以认为不存在误差了。<br>引入这个值的目的，在于为浮点数计算设置一个误差范围，毕竟浮点数的计算是不准确的。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">console.log(Number.EPSILON === Math.pow(2, -52));//<span class="literal">true</span></span><br><span class="line">console.log(Number.EPSILON);//2.220446049250313e-16</span><br><span class="line">//toFixed(num) 方法可把 Number 四舍五入为指定小数位数的数字</span><br><span class="line">console.log(Number.EPSILON.toFixed(20));//0.00000000000000022204</span><br><span class="line"></span><br><span class="line">console.log(0.1 + 0.2);//0.30000000000000004</span><br><span class="line">console.log(0.1 + 0.2 - 0.3);//5.551115123125783e-17</span><br><span class="line">console.log(5.551115123125783e-17.toFixed(20));//0.00000000000000005551</span><br></pre></td></tr></table></figure></p>
-<h3 id="3-JavaScript-中有哪些不同的数据类型？"><a href="#3-JavaScript-中有哪些不同的数据类型？" class="headerlink" title="3.JavaScript 中有哪些不同的数据类型？"></a>3.JavaScript 中有哪些不同的数据类型？</h3><p>答：<br>分为基本数据类型和引用数据类型：<br>基本数据类型:Number String Boolean Undefined Null Symbol(表示独一无二的值)；基本数据类型是按值访问的，可以直接操作保存在变量中的实际值。<br>引用数据类型Object(包括Object,Date.Array,Function)；引用数据类型只能操作对象在栈内存中的引用地址。</p>
-<h3 id="4-“new”关键字在-JavaScript-中有什么作用？"><a href="#4-“new”关键字在-JavaScript-中有什么作用？" class="headerlink" title="4.“new”关键字在 JavaScript 中有什么作用？"></a>4.“new”关键字在 JavaScript 中有什么作用？</h3><p>答：在js中，new是用于实例化对象的运算符。js中new一个对象会做四件事：<br>例如var obj = new Base();<br>4.1 var obj = {};<br>4.2 obj.-proto- = Base.prototype;<br>4.3 Base.call(obj);<br>4.4 return<br>文字说明一下这四步：<br>4.1 创建一个空对象obj；<br>4.2 将这个空对象的-proto-成员指向了Base函数对象的prototype成员对象；<br>4.3 将Base函数对象的this指针换成obj，然后再调用Base函数；<br>4.4 返回该对象。</p>
-<h3 id="5-JavaScript-中有哪些不同的函数调用模式？请详细解释。"><a href="#5-JavaScript-中有哪些不同的函数调用模式？请详细解释。" class="headerlink" title="5.JavaScript 中有哪些不同的函数调用模式？请详细解释。"></a>5.JavaScript 中有哪些不同的函数调用模式？请详细解释。</h3><p>答：五种调用模式：直接调用，函数调用，方法调用，构造器调用，call和apply调用。<br>5.1 直接调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">myFun1</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"myFun1"</span>);</span><br><span class="line">&#125;</span><br><span class="line">myFun1();//myFun1</span><br></pre></td></tr></table></figure></p>
-<p>5.2 函数调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var a = 1;</span><br><span class="line">var myFun2 = <span class="keyword">function</span>(a) &#123;</span><br><span class="line">	var a = 2;</span><br><span class="line">	console.log(this.a);</span><br><span class="line">&#125;</span><br><span class="line">myFun2(2);//1</span><br></pre></td></tr></table></figure></p>
-<p>5.3 作为对象的方法调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">	name: <span class="string">'zhangsan'</span>,</span><br><span class="line">	myFun3: <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		console.log(<span class="string">"myFun3"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">person.myFun3();//myFun3</span><br></pre></td></tr></table></figure></p>
-<p>5.4 构造器调用模式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var obj = <span class="function"><span class="title">function</span></span>() &#123;&#125;</span><br><span class="line">obj.prototype.myFun4 = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"myFun4"</span>);</span><br><span class="line">&#125;</span><br><span class="line">var objItem = new obj();</span><br><span class="line">objItem.myFun4();//myFun4</span><br></pre></td></tr></table></figure></p>
-<p>5.5 通过call,apply调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;;</span><br><span class="line">var myFun5 = <span class="keyword">function</span>(a) &#123;</span><br><span class="line">	<span class="built_in">return</span> a+1;</span><br><span class="line">&#125;</span><br><span class="line">var item1 = myFun5.call(obj,5);</span><br><span class="line">var item2 = myFun5.apply(obj,[5]);</span><br><span class="line">console.log(item1,item2);//6 6</span><br></pre></td></tr></table></figure></p>
-<h3 id="6-reduce用法。"><a href="#6-reduce用法。" class="headerlink" title="6.reduce用法。"></a>6.reduce用法。</h3><p>reduce()方法接收一个函数callbackfn作为累加器(accumulator)，数组中的每一个值（开始合并），最后成为一个值。<br>语法：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array.reduce(callbackfn,[initialValue]);</span><br></pre></td></tr></table></figure></p>
-<p>reduce()方法接收callbackfn函数，而这个函数包含四个参数：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> callbackfn(preValue,curValue,index,array)&#123;&#125;</span><br></pre></td></tr></table></figure></p>
-<p>参数解释：<br>preValue：上一次调用回调返回的值，或者是提供的初始值(initialValue)<br>curValue：数组中当前被处理的数组项<br>index：当前数组项在数组中的索引值<br>array：调用reduce()方法的数组<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1,2,3,4,5];</span><br><span class="line">var sum = arr.reduce((preValue, curValue, index, array) =&gt; &#123;</span><br><span class="line">	<span class="built_in">return</span> preValue + curValue;</span><br><span class="line">&#125;);</span><br><span class="line">console.log(sum);// 15</span><br></pre></td></tr></table></figure></p>
-<h3 id="7-数组降维。"><a href="#7-数组降维。" class="headerlink" title="7.数组降维。"></a>7.数组降维。</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const flattenDeep = (arr) =&gt; Array.isArray(arr)</span><br><span class="line">	? arr.reduce((a, b) =&gt; [...flattenDeep(a), ...flattenDeep(b)] , []): [arr];</span><br><span class="line"></span><br><span class="line">var flatArr = flattenDeep([1, [[2], [3, [4]], 5]]);</span><br><span class="line">console.log(flatArr);// [1, 2, 3, 4, 5]</span><br></pre></td></tr></table></figure>
-<h2 id="JavaScript-前端应用程序设计问题"><a href="#JavaScript-前端应用程序设计问题" class="headerlink" title="JavaScript 前端应用程序设计问题"></a>JavaScript 前端应用程序设计问题</h2><h3 id="1-解释单向数据流和双向数据绑定"><a href="#1-解释单向数据流和双向数据绑定" class="headerlink" title="1.解释单向数据流和双向数据绑定"></a>1.解释单向数据流和双向数据绑定</h3><p>答：<br>单项数据流：指数据只能从一个方向修改数据，例如react中，父组件可以向子组件中传递数据data，当父组件中改变data的值，子组件的data值就会跟着改变；但是反过来，在子组件中对data修改后，父组件的值并不会发生改变。React、Vue等基于单向数据流。<br>双向数据绑定：主要是由mvvm框架实现，例如在vue中由三个部分组成：view,viewmodel,model，其中view和model要通过viewmodel进行通讯。当model部分数据发生改变时，viewmodel通知view更新视图；当view数据发生变化时也会同步到model中。Angular 1.x 基于双向数据绑定。<br>react的双向数据绑定是通过event.target.value实现的。<br>vue的双向数据绑定是通过数据劫持结合发布者-订阅者模式的方式来实现的。它使用MVVM框架，使用了v-model。其基于Object.defineProperty()方法，重新定义了对象获取属性值get和设置属性值set的操作来实现的。原理及实现的参考链接在这里记录一下，方便以后学习：<a href="http://www.cnblogs.com/canfoo/p/6891868.html" target="_blank" rel="noopener">http://www.cnblogs.com/canfoo/p/6891868.html</a><br>单项数据绑定的实现思路是：所有数据只有一份；一旦数据发生变化，就会更新页面（data-页面），但是不存在（页面-data）;如果用户在页面上做了变动，那么就手动收集起来（双向绑定的话就会自动收集），合并到原有数据中。所以说双向数据绑定=单项绑定+事件监听。</p>
-<h2 id="前端基础和理论相关问题"><a href="#前端基础和理论相关问题" class="headerlink" title="前端基础和理论相关问题"></a>前端基础和理论相关问题</h2><h3 id="1-HTML-中-Doctype-的用途是什么？"><a href="#1-HTML-中-Doctype-的用途是什么？" class="headerlink" title="1.HTML 中 Doctype 的用途是什么？"></a>1.HTML 中 Doctype 的用途是什么？</h3><p>对于以下每种情况，将会发生什么：<br>1.1 Doctype 不存在<br>1.2 使用 HTML4 Doctype，但 HTML 页面使用了 HTML5 标签<br>1.3 使用了无效的 Doctype</p>
-<p>答：HTML 中 Doctype是告知浏览器用什么标准解析这个文档。DOCTYPE不存在或格式不正确会导致文档以兼容模式呈现。其拥有如下特点：<br>声明必须在html文档的头部，在<html>标签前。在html5中不区分大小写；<br>&lt;!DOCTYPE&gt;不是一个标签，该声明指示web浏览器关于页面使用哪个HTML版本进行编写的指令；<br>在html4中该声明指向一个DTD，由于HTML4.01基于SGML（标准通用标记语言），所以DTD指定了标记规则以保证浏览器正确渲染内容。HTML5不基于SGML，所以不用指定DTD。<br>HTML5只有一种声明: &lt;!DOCTYPE html&gt;<br>HTML4.01有三种声明：strict, transitional, frameset。</html></p>
-<h3 id="2-DOM-和-BOM-有什么区别？"><a href="#2-DOM-和-BOM-有什么区别？" class="headerlink" title="2.DOM 和 BOM 有什么区别？"></a>2.DOM 和 BOM 有什么区别？</h3><p>答：<br>2.1 DOM（文档对象模型），用来获取或者设置文档中标签的属性，其操作对象是文档。因为当一个html页面加载到浏览器的时候，浏览器会为每个标签都创建一个对应的对象描述该标签的所有信息。<br>2.2 BOM（浏览器对象模型），用来获取或者设置浏览器的属性和行为。例如<br>window表示当前的窗口，常用的方法有open(),moveTo(),setInterval(),setTimeout()，alert()；<br>location表示地址栏对象，常用的方法有href,reload();<br>screen表示屏幕对象，常用方法有height,width；</p>
-<p>注：javascript由三部分组成：ECMAScript描述了该语言的语法和基本对象，可以理解为是javascript的一个标准；DOM描述处理网页内容和方法的接口；BOM描述与浏览器进行交互的方法和接口。</p>
-<h3 id="3-JavaScript-中的事件处理是如何进行的？"><a href="#3-JavaScript-中的事件处理是如何进行的？" class="headerlink" title="3.JavaScript 中的事件处理是如何进行的？"></a>3.JavaScript 中的事件处理是如何进行的？</h3><p>如下图所示，我们有三个 div 元素。它们每个都有一个与之关联的单击处理程序。处理程序执行以下任务：外部 div 处理程序将 hello outer 打印到控制台。<br>内部 div 处理程序将 hello inner 打印到控制台。最内部的 div 处理程序将 hello innermost 打印到控制台。<br>编写一段代码来分配这些处理程序，以便在单击最里面的 div 时始终打印以下序列。hello inner → hello innermost → hello outer</p>
-<p>答：思路就是使用事件冒泡和事件捕获<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">document.getElementById(<span class="string">"outer"</span>).addEventListener(<span class="string">"click"</span>,<span class="keyword">function</span>(e)&#123;</span><br><span class="line">		alert(<span class="string">'hello outer'</span>);</span><br><span class="line">&#125;);//也可以不写这个参数，默认是<span class="literal">false</span></span><br><span class="line">document.getElementById(<span class="string">"inner"</span>).addEventListener(<span class="string">"click"</span>,<span class="keyword">function</span>(e)&#123;</span><br><span class="line">	alert(<span class="string">'hello inner'</span>);</span><br><span class="line">&#125;,<span class="literal">true</span>);</span><br><span class="line">document.getElementById(<span class="string">"innermost"</span>).addEventListener(<span class="string">"click"</span>,<span class="keyword">function</span>(e)&#123;</span><br><span class="line">	alert(<span class="string">'hello innermost'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>对于这种代码，判断弹出顺序时，可以这样判断：<br>首先，假设所有的都是false，那么正常顺序是innermost→inner→outer，然后由最里层往外层的div一个一个去看，如果碰到一个div是true,那么就把它的位置放在当前顺序的最头部即可。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/27/前端面试题记录/" data-id="cjqp40m6y000ib8tezygwb5zy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/28/深浅拷贝/" data-id="cjqp42zoh000j6kte6p9roha6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -606,6 +603,10 @@
       <ul>
         
           <li>
+            <a href="/2019/01/09/js跨域请求/">js跨域请求</a>
+          </li>
+        
+          <li>
             <a href="/2019/01/09/跨域请求/">js跨域请求</a>
           </li>
         
@@ -619,10 +620,6 @@
         
           <li>
             <a href="/2019/01/07/promise/">Promise对象</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/05/macrotask microtask/">macrotask microtask</a>
           </li>
         
       </ul>
