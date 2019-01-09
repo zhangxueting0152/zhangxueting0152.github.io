@@ -62,6 +62,51 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-水平垂直居中div" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/26/水平垂直居中div/" class="article-date">
+  <time datetime="2018-11-26T07:23:15.629Z" itemprop="datePublished">2018-11-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/26/水平垂直居中div/">水平垂直居中div</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>将id=”container”的div水平垂直居中<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"container"</span>&gt;</span><br><span class="line">我的div要水平垂直居中</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;style <span class="built_in">type</span>=<span class="string">"text/css"</span>&gt;</span><br><span class="line">*&#123;</span><br><span class="line">	margin: 0;</span><br><span class="line">	padding: 0;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure></p>
+<p>水平居中当然都知道，需要margin: 0 auto;即可，但是如何水平垂直居中呢？<br>position:relative 配合top:50%无效，但是left：50%有效。<br>是因为子元素设置的width或者height是百分比的值跟父元素有关。设置width为百分比，不需要父元素明确设置width；但是子元素设置height为百分比，父元素必须明确设置高度。</p>
+<h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><p>使用绝对布局，让left为50%，这样水平方向上div的最左与屏幕的最左相距50%，所以还需将div再向左移动半个宽度，所以margin-left: -100px;，或者通过transform: translate(-50%,-50%);设置。top方向上同理。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#container&#123;</span></span><br><span class="line">	text-align: center;</span><br><span class="line">    background: pink;</span><br><span class="line">    width: 200px;</span><br><span class="line">    height: 200px;</span><br><span class="line">    position: absolute;</span><br><span class="line">    left: 50%;</span><br><span class="line">    top: 50%;</span><br><span class="line">    /*transform: translate(-50%,-50%);*/</span><br><span class="line">    margin-top: -100px;</span><br><span class="line">    margin-left: -100px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>检查元素可以发现：<br>position: absolute时，body元素的高为0,表示body元素的高为整个页面的高度；<br>position: relative时，body元素的高为200px。</p>
+<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><p>使用绝对布局，一定要设置margin:auto,并设置top,right,bottom,right值相等即可，不一定要都是0。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#container&#123;</span></span><br><span class="line">    background: pink;</span><br><span class="line">    width: 200px;</span><br><span class="line">    height: 200px;</span><br><span class="line">    margin: auto;</span><br><span class="line">    position: absolute;</span><br><span class="line">    top: 0px;</span><br><span class="line">    left: 0px;</span><br><span class="line">    right: 0px;</span><br><span class="line">    bottom: 0px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="方法二的原理如下："><a href="#方法二的原理如下：" class="headerlink" title="方法二的原理如下："></a>方法二的原理如下：</h3><p>首先说一下margin的auto属性的作用：它是用来分配剩余空间的，所以说一定对有剩余空间的元素才有效。例如对图片元素这个属性无效，是因为图片是内联元素，不是占一整行的，所以说它没有剩余空间。<br>1.position: absolute;使绝对定位块跳出了内容流。<br>定位元素可以发现，当该属性为absolute时，body元素的高为整个页面的高度；当属性为relative时，body元素的高就刚好只是该元素width值的高度；<br>2.为块级区域设置top: 0; left: 0; bottom: 0; right: 0;将给浏览器重新分配一个边界框，此时该块将填充其所有父元素的所有可用空间，所以margin在垂直方向上有了可分配的空间。<br>3.再设置margin垂直方向上下为auto，即可实现垂直居中。</p>
+<h2 id="对position的absolute和relative属性不清楚，通过链接了解了一些：https-www-cnblogs-com-theWayToAce-p-5264436-html"><a href="#对position的absolute和relative属性不清楚，通过链接了解了一些：https-www-cnblogs-com-theWayToAce-p-5264436-html" class="headerlink" title="对position的absolute和relative属性不清楚，通过链接了解了一些：https://www.cnblogs.com/theWayToAce/p/5264436.html"></a>对position的absolute和relative属性不清楚，通过链接了解了一些：<a href="https://www.cnblogs.com/theWayToAce/p/5264436.html" target="_blank" rel="noopener">https://www.cnblogs.com/theWayToAce/p/5264436.html</a></h2><p>现自己再总结一下如下：<br>1.relative<br><em>生成相对定位的元素，通过top,bottom,left,right的设置相对于其正常（原先本身）位置进行定位。</em><br>定位为relative的元素脱离正常文本流中，但其在文本流中的位置依然存在。<br>无论父级存在不存在，无论有没有TRBL（ “left”, “top”, “right” 以及 “bottom” ），均是以父级的左上角进行定位，但是父级的padding属性会对其影响。</p>
+<p>2.absolute<br><em>生成绝对定位的元素，相对于static定位以外的第一个父元素进行定位。元素的位置通过 “left”, “top”, “right” 以及 “bottom” 属性进行规定。</em><br>定位为absolute的元素脱离正常文本流，但是其在正常流中的位置不再存在。<br>若想把一个定位属性为absolute的元素定位于其父级元素内，只有满足两个条件：设定TRBL和父级设定position属性(无论是absolute还是relative)。这两个条件只要有一个不满足，元素就会以浏览器左上角为原点，从而导致页面布局错位。<br>如果有父级元素，则定位属性为absolute的元素是以父级为左上角；如果没有父级，才会参照浏览器的左上角。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/11/26/水平垂直居中div/" data-id="cjqp40m6x000gb8tefdy3qeae" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-React生命周期" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/11/26/React生命周期/" class="article-date">
@@ -91,7 +136,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/26/React生命周期/" data-id="cjqoiv6280001m8te4cg7o03i" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/26/React生命周期/" data-id="cjqp40m630000b8te0bizq5up" class="article-share-link">Share</a>
       
       
     </footer>
@@ -130,7 +175,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/22/圣杯布局/" data-id="cjqoiv642000cm8teh5neeqvr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/22/圣杯布局/" data-id="cjqp40m7i000kb8tebourjnmu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -169,7 +214,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/01/attr和prop用法/" data-id="cjqoiv64q000km8te5z3ygcr2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/01/attr和prop用法/" data-id="cjqp40m6q000ab8tenimorx0x" class="article-share-link">Share</a>
       
       
     </footer>
@@ -206,7 +251,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/30/js刷新页面方式/" data-id="cjqoiv63x0009m8tetsq6k5ra" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/30/js刷新页面方式/" data-id="cjqp40m6c0003b8te2ymjq7zi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -216,9 +261,9 @@
 
 
   
-    <article id="post-js函数的声明与调用" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-函数的声明与调用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/10/24/js函数的声明与调用/" class="article-date">
+    <a href="/2018/10/24/函数的声明与调用/" class="article-date">
   <time datetime="2018-10-24T00:34:37.280Z" itemprop="datePublished">2018-10-24</time>
 </a>
     
@@ -230,7 +275,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/24/js函数的声明与调用/">函数的声明与调用</a>
+      <a class="article-title" href="/2018/10/24/函数的声明与调用/">函数的声明与调用</a>
     </h1>
   
 
@@ -271,7 +316,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/24/js函数的声明与调用/" data-id="cjqoiv6380003m8te40teet8y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/24/函数的声明与调用/" data-id="cjqp40m6u000db8te2s6872kl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -319,7 +364,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/三目运算/" data-id="cjqoiv641000bm8tedkcm8xm1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/三目运算/" data-id="cjqp40m6o0009b8tescsz3b9w" class="article-share-link">Share</a>
       
       
     </footer>
@@ -370,7 +415,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/js事件冒泡、捕获与委托/" data-id="cjqoiv6360002m8tekhn7qw4i" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/js事件冒泡、捕获与委托/" data-id="cjqp40m680001b8teqfcmacee" class="article-share-link">Share</a>
       
       
     </footer>
@@ -416,7 +461,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/20/js实现继承/" data-id="cjqoiv63v0008m8tec2jyzysc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/20/js实现继承/" data-id="cjqp40m6l0008b8temzctnvc5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -466,78 +511,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/20/构造函数、原型对象、实例等概念/" data-id="cjqoiv648000gm8tetwckq7is" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-使用hexo搭建博客" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/17/使用hexo搭建博客/" class="article-date">
-  <time datetime="2018-10-17T06:48:30.336Z" itemprop="datePublished">2018-10-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/17/使用hexo搭建博客/">使用hexo搭建博客</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>首先说一下什么是Hexo：<br>Hexo是一个快速/简洁/高效的博客框架，使用Markdown作为渲染引擎解析文章，结合丰富的主题，分分钟生成绚丽的静态网页.</p>
-<h2 id="准备相应的环境，包括node-js和github"><a href="#准备相应的环境，包括node-js和github" class="headerlink" title="准备相应的环境，包括node.js和github"></a>准备相应的环境，包括node.js和github</h2><p>github会提供帮助生成博客的方法，而hexo则会为我们的博客加上各种样式。</p>
-<h3 id="安装node-js和配置环境"><a href="#安装node-js和配置环境" class="headerlink" title="安装node.js和配置环境"></a>安装node.js和配置环境</h3><p>傻瓜式操作，在命令行里输入node -v判断安装成功。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ node -v</span><br></pre></td></tr></table></figure></p>
-<p>特别的，网上有些教程会建议自己修改一下npm安装的全局模块所在的路径以及缓存所在的路径，会进行其他的环境变量的配置，可以参考链接：<a href="https://www.cnblogs.com/zhouyu2017/p/6485265.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhouyu2017/p/6485265.html</a><br>在搜资料的过程中，发现自己一直不明白在配置环境变量的时候，什么时候使用用户变量，什么时候使用系统变量，在这里记录一下：操作系统根据Path环境变量查找命令，如果能找到，则执行该命令，否则会出现“xxx不是内部或外部命令，也不是可运行的程序或批处理文件”。而操作系统则根据PATH环境变量来查找命令。用户变量只对当前用户有效，而系统变量对所有用户有效。为减少自己所做的修改对其他人有影响，所以设置用户变量避免影响其他人。一般系统变量优先于用户变量。</p>
-<h3 id="安装和配置git环境"><a href="#安装和配置git环境" class="headerlink" title="安装和配置git环境"></a>安装和配置git环境</h3><h3 id="注册github账户和新建项目，博客仓库名称要遵守账户名-github-io"><a href="#注册github账户和新建项目，博客仓库名称要遵守账户名-github-io" class="headerlink" title="注册github账户和新建项目，博客仓库名称要遵守账户名.github.io"></a>注册github账户和新建项目，博客仓库名称要遵守账户名.github.io</h3><p>个人理解：就是建普通仓库的时候，其实仓库名称xxx随便起就好了，然后如果想让它发布到网上，网址就会是<a href="https://zhangxueting0152.github.io/xxx；" target="_blank" rel="noopener">https://zhangxueting0152.github.io/xxx；</a><br>但是github为写博客做了专门的规定，建立博客仓库的时候，名称要遵守账户名.github.io的形式（我的账户名就是zhangxueting0152），这样github会自动生成一个我的子域名，帮助把代码转成博客，网址就是<a href="https://zhangxueting0152.github.io/" target="_blank" rel="noopener">https://zhangxueting0152.github.io/</a></p>
-<h2 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h2><p>在合适的位置新建文件夹，用于存放安装的东西。进入到文件夹里，</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo –g</span><br></pre></td></tr></table></figure>
-<p>-g表示global，全局安装<br>开始安装。然后输入hexo –v检查是否安装成功。</p>
-<p>初始化该文件夹</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init</span><br></pre></td></tr></table></figure>
-<p>等待知道出现start blogging with Hexo!</p>
-<p>安装所需的组建</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
-<p>生成静态文件(g表示generate)</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br></pre></td></tr></table></figure>
-<p>开启服务器(s表示service,默认打开的端口是4000)</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
-<h2 id="关联Hexo和Github-Page"><a href="#关联Hexo和Github-Page" class="headerlink" title="关联Hexo和Github Page"></a>关联Hexo和Github Page</h2><p>如果是初次使用github，则需要进行相关的配置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name <span class="string">'zhangxueting0152'</span></span><br></pre></td></tr></table></figure></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.email <span class="string">'923944819@qq.com'</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> ~/.ssh</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ls</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"注释内容，一般为邮件地址"</span></span><br></pre></td></tr></table></figure>
-<p>其中，rsa表示加密方式, 连按三个空格即可生成ssh 密钥。</p>
-<p>然后将新生成的key添加到ssh-agent中，ssh-agent是一个密钥管理器，运行ssh-agent以后，使用ssh-add将私钥交给ssh-agent保管<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">eval</span> <span class="string">"<span class="variable">$(ssh-agent -s)</span>"</span></span><br></pre></td></tr></table></figure></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-add ~/.ssh/id_rsa</span><br></pre></td></tr></table></figure>
-<p>接下来，将ssh key（位于ssh/id_rsa.pub）添加到github中。<br>测试添加ssh是否成功。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh –T git@github.com</span><br></pre></td></tr></table></figure></p>
-<p>如果能在Hi后看到你的用户名，就说明成功过了</p>
-<h2 id="配置deployment"><a href="#配置deployment" class="headerlink" title="配置deployment"></a>配置deployment</h2><p>在文件夹里找到_config.yml，文件末尾修改配置信息：<br>deploy:<br>  type: git<br>  repository: <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:zhangxueting0152/zhangxueting0152.github.io.git<br>  branch: master</p>
-<p>新建一篇博客，cmd里输入hexo new post “博客名“,会发现新建的博客位于blog/source/posts文件夹下</p>
-<p>生成以及部署文章之前，需要安装一个扩展<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git –save</span><br></pre></td></tr></table></figure></p>
-<p>使用编辑器编好文章，就可以生成以及部署了。可以使用markdown，也可以使用一些在线的markdown编辑器，比如csdn提供的<a href="http://write.blog.csdn.net/mdeditor" target="_blank" rel="noopener">http://write.blog.csdn.net/mdeditor</a><br>使用编辑器编辑完博客后，你博客站点文件夹下右键空白处，选择Git Bash Here，<br>输入：hexo generate，回车，生成静态页面，</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br></pre></td></tr></table></figure>
-<p>再输入：hexo server，回车，访问<a href="http://localhost:4000/，即可进行本地预览，" target="_blank" rel="noopener">http://localhost:4000/，即可进行本地预览，</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
-<p>最后输入：hexo deploy，回车，同步到github上去就行了。 访问<a href="https://zhangxueting0152.github.io/" target="_blank" rel="noopener">https://zhangxueting0152.github.io/</a><br>即可</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/17/使用hexo搭建博客/" data-id="cjqoiv64k000jm8teu5kygauy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/20/构造函数、原型对象、实例等概念/" data-id="cjqp40m7j000lb8tejkirxbiy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -583,6 +557,10 @@
       <ul>
         
           <li>
+            <a href="/2019/01/09/跨域请求/">js跨域请求</a>
+          </li>
+        
+          <li>
             <a href="/2019/01/09/post和get/">post和get区别</a>
           </li>
         
@@ -596,10 +574,6 @@
         
           <li>
             <a href="/2019/01/05/macrotask microtask/">macrotask microtask</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/19/this学习/">this学习</a>
           </li>
         
       </ul>

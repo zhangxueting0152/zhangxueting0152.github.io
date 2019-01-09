@@ -62,6 +62,64 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-跨域请求" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/09/跨域请求/" class="article-date">
+  <time datetime="2019-01-09T02:53:35.680Z" itemprop="datePublished">2019-01-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/09/跨域请求/">js跨域请求</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="同源"><a href="#同源" class="headerlink" title="同源"></a>同源</h2><p>同源：是指协议，域名和端口相同。<br>同源策略：基于安全考虑，当前域不能访问其他域的东西。<br>如果a的URL是<a href="http://www.a.com:8080/test1/a.js" target="_blank" rel="noopener">http://www.a.com:8080/test1/a.js</a> ，那么<br>1.b的url是<a href="https://www.a.com:8080/test1/a.js" target="_blank" rel="noopener">https://www.a.com:8080/test1/a.js</a> 时，a和b不同源，因为协议不同；<br>2.b的url是<a href="http://www.b.com:8080/test1/a.js" target="_blank" rel="noopener">http://www.b.com:8080/test1/a.js</a> 时，a和b不同源，因为域名不同；<br>3.b的url是<a href="http://www.a.com:3000/test1/a.js" target="_blank" rel="noopener">http://www.a.com:3000/test1/a.js</a> 时，a和b不同源，因为端口不同；<br>4.b的url是<a href="http://www.a.com:8080/test2/a.js" target="_blank" rel="noopener">http://www.a.com:8080/test2/a.js</a> 时，a和b同源，是同意域名下的不同文件夹；<br>5.<a href="http://www.a.com/a.js" target="_blank" rel="noopener">http://www.a.com/a.js</a> 和<a href="http://www.a.com/b.js" target="_blank" rel="noopener">http://www.a.com/b.js</a> 是同源的，在同一域名下。</p>
+<h2 id="跨域请求方式"><a href="#跨域请求方式" class="headerlink" title="跨域请求方式"></a>跨域请求方式</h2><h3 id="1-JSONP"><a href="#1-JSONP" class="headerlink" title="1.JSONP"></a>1.JSONP</h3><p>JSONP 是 JSON with padding（填充式 JSON 或参数式 JSON）的简写。<br>原理就是动态创建script标签，然后利用script标签美欧跨域限制的漏洞。<br>JSONP使用简单，但是只限于get请求。<br>原理如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"http://domain/api?param1=a&amp;param2=b&amp;callback=jsonp"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">	<span class="keyword">function</span> callback(data) &#123;</span><br><span class="line">		console.log(data);</span><br><span class="line">	&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>开发中，可以这样写：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"mydiv"</span>&gt;</span><br><span class="line">    &lt;button id=<span class="string">"btn"</span>&gt;点击&lt;/button&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=<span class="string">"http://domain/api?param1=a&amp;param2=b&amp;callback=jsonp"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">	window.onload = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		var myBtn = document.getElementById(<span class="string">'btn'</span>);</span><br><span class="line">		myBtn.onclick = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">			var script = document.createElement(<span class="string">"script"</span>);</span><br><span class="line">			script.src = <span class="string">"http://domain/api?param1=a&amp;param2=b&amp;callback=jsonp"</span>;</span><br><span class="line">			script.type = <span class="string">"text/javascript"</span>;  </span><br><span class="line">			document.body.insertBefore(script, document.body.firstChild);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> callback(data) &#123;</span><br><span class="line">		console.log(data);</span><br><span class="line">	&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-document-domain-iframe"><a href="#2-document-domain-iframe" class="headerlink" title="2.document.domain + iframe"></a>2.document.domain + iframe</h3><p>该方式只能用于二级域名相同的情况下，比如a.test.com和b.test.com适用于该方式。<br>只需要给页面添加document.domain=”test.com”表示二级域名都相同就可以实现跨域。<br>我们只能把document.domain设置成自身或更高一级的父域，且主域必须相同。<br>页面<a href="http://www.example.com/a.html" target="_blank" rel="noopener">http://www.example.com/a.html</a> 的写法:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe src=<span class="string">"http://example.com/b.html"</span> id=<span class="string">"iframe"</span> onload=<span class="string">"test()"</span>&gt;&lt;/iframe&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">document.domain = <span class="string">'example.com'</span>;// 设置成主域</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">test</span></span>() &#123;</span><br><span class="line">	alert(document.getElementById(<span class="string">'iframe'</span>).contentWindow);</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>页面<a href="http://example.com/b.html" target="_blank" rel="noopener">http://example.com/b.html</a> 的写法:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">document.domain = <span class="string">'example.com'</span>;// 使得这个页面于主页面的document.domain相同</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这样就可以通过js访问到iframe中的各种属性和对象了。</p>
+<h3 id="3-window-name-iframe"><a href="#3-window-name-iframe" class="headerlink" title="3.window.name + iframe"></a>3.window.name + iframe</h3><p>window对象有个name属性，该属性有个特征：即在一个窗口(window)的生命周期内,窗口载入的所有的页面都是共享一个window.name的，每个页面对window.name都有读写的权限，window.name是持久存在一个窗口载入过的所有页面中的，并不会因新页面的载入而进行重置。<br>原理就是在a.html页面中使用一个隐藏的iframe来充当一个中间人角色，由iframe去获取data.html的数据，然后a.html再去得到iframe获取到的数据。<br>页面<a href="http://www.example.com/a.html" target="_blank" rel="noopener">http://www.example.com/a.html</a> 的写法:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe src=<span class="string">"http://www.source.com/data.html"</span> id=<span class="string">"proxy"</span> onload=<span class="string">"getData()"</span> style=<span class="string">"display: none"</span>&gt;&lt;/iframe&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">// iframe载入data.html页面后会执行此函数</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">getData</span></span>() &#123;</span><br><span class="line">	var iframe= document.getElementById(<span class="string">'proxy'</span>);</span><br><span class="line">	iframe.src = <span class="string">'b.html'</span>;// 这里的b.html是任意一个页面，只要和a.html同源即可，便可以保证a.html访问到iframe里的东西。设置成‘’也可以。</span><br><span class="line">	iframe.onload = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		var data = iframe.contentWindow.name;// 获取iframe里的window.name，里面存放着设置的数据。</span><br><span class="line">		alert(data);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>页面<a href="http://www.source.com/data.html" target="_blank" rel="noopener">http://www.source.com/data.html</a> 的写法:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">window.name = <span class="string">'要传给页面a.html的数据，所有可以转化成字符串的数据都可以放在这里'</span>;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-HTML5中window-postMessage方法"><a href="#4-HTML5中window-postMessage方法" class="headerlink" title="4.HTML5中window.postMessage方法"></a>4.HTML5中window.postMessage方法</h3><p>调用postMessage方法的window对象是指要接收消息的那一个window对象，该方法的第一个参数message为要发送的消息，类型只能为字符串；第二个参数targetOrigin用来限定接收消息的那个window对象所在的域，如果不想限定域，可以使用通配符 *  。<br>需要接收消息的window对象，可是通过监听自身的message事件来获取传过来的消息，消息内容储存在该事件对象的data属性中。</p>
+<p>页面<a href="http://a.com/a.html" target="_blank" rel="noopener">http://a.com/a.html</a> 的写法:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe src=<span class="string">"http://b.com/b.html"</span> id=<span class="string">"iframe"</span> onload=<span class="string">"onLoad()"</span>&gt;&lt;/iframe&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">onLoad</span></span>() &#123;</span><br><span class="line">	var iframe= document.getElementById(<span class="string">'iframe'</span>);</span><br><span class="line">	var targetOrigin = <span class="string">'*'</span>;</span><br><span class="line">	iframe.contentWindow.postMessage(<span class="string">'我是来自页面a的消息!'</span>, targetOrigin); </span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>页面<a href="http://b.com/b.html" target="_blank" rel="noopener">http://b.com/b.html</a> 的写法:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">window.onmessage = <span class="keyword">function</span>(e) &#123;// 注册message事件来接收消息</span><br><span class="line">	e = e || event;// 事件对象</span><br><span class="line">	alert(e.data);</span><br><span class="line">&#125;</span><br><span class="line">或者</span><br><span class="line">window.addEventListener(<span class="string">'message'</span>, <span class="keyword">function</span>(event)&#123;</span><br><span class="line">	var origin = event.origin || event.originalEvent.origin；</span><br><span class="line">    // 通过origin属性判断消息来源地址</span><br><span class="line">    <span class="keyword">if</span> (origin == <span class="string">'http://a.com'</span>) &#123;</span><br><span class="line">        alert(event.data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>运行a页面后，会弹出”我是来自页面a的消息!”的alert框。</p>
+<h3 id="5-web-sockets"><a href="#5-web-sockets" class="headerlink" title="5.web sockets"></a>5.web sockets</h3><p>web sockets是一种浏览器的API，它的目标是在一个单独的持久连接上提供全双工、双向通信。<br>同源策略对web sockets不适用。<br>原理：在JS创建了web socket之后，会有一个HTTP请求发送到浏览器以发起连接。取得服务器响应后，建立的连接会使用HTTP升级从HTTP协议交换为web sockt协议。<br>只有在支持web socket协议的服务器上才能正常工作。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">var socket= new WebSocket(<span class="string">'ws://www.baidu.com'</span>);// http-&gt;ws; https-&gt;wss</span><br><span class="line">socket.send(<span class="string">"hello WebSocket"</span>);</span><br><span class="line">socket.onMessage = <span class="keyword">function</span>(event) &#123;</span><br><span class="line">	var data = event.data;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="6-CORS"><a href="#6-CORS" class="headerlink" title="6.CORS"></a>6.CORS</h3><p>Cross-Origin Resource Sharing（CORS）跨域资源共享是一份浏览器技术的规范，它允许浏览器向跨源(协议 + 域名 + 端口)服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制。<br>是 JSONP 模式的现代版。CORS与JSONP的使用目的相同，但是比JSONP更强大。JSONP只支持GET请求，CORS支持所有类型的HTTP请求。<br>实现CORS通信的关键是服务器。只要服务器实现了CORS接口，就可以跨源通信。</p>
+<p>客户端：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> compatibleCORS(method, url) &#123;</span><br><span class="line">    var xhr = new XMLHttpRequest();</span><br><span class="line">    <span class="keyword">if</span> (xhr.withCredentials !== undefined) &#123;</span><br><span class="line">        xhr.open(method, url, <span class="literal">true</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (typeof XDomainRequest !== <span class="string">"undefined"</span>) &#123;</span><br><span class="line">        //XDomainRequest是IE用于支持CORS请求的对象</span><br><span class="line">        xhr = new XDomainRequest();</span><br><span class="line">        xhr.open(method, url);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        xhr = null;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> xhr; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var xhr = compatibleCORS(<span class="string">'GET'</span>, <span class="string">"your url"</span>);</span><br><span class="line"><span class="keyword">if</span> (!xhr) &#123;</span><br><span class="line">    throw new Erorr(<span class="string">"CORS不被支持"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>服务端:<br>通过设置http响应头Access-Control-Allow-Origin: <a href="http://www.xxx.com" target="_blank" rel="noopener">www.xxx.com</a> (这里可以是* , 代表接所有网站都可以访问资源)。</p>
+<p>下面这段代码还不理解是干嘛的：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fetch(url, &#123;</span><br><span class="line">    method: <span class="string">'get'</span>,</span><br><span class="line">    // 头信息配置</span><br><span class="line">&#125;).<span class="keyword">then</span>(() =&gt; &#123;&#125;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="7-location-hash-iframe"><a href="#7-location-hash-iframe" class="headerlink" title="7.location.hash + iframe"></a>7.location.hash + iframe</h3><p>利用 location.hash 来传值。 缺点：数据直接暴露在url中，大小、类型都有限制。<br>例1：<br>原理是利用location.hash来进行传值。<br>假设域名a.com下的文件cs1.html要和cnblogs.com域名下的cs2.html传递信息。<br>1) cs1.html首先创建自动创建一个隐藏的iframe，iframe的src指向cnblogs.com域名下的cs2.html页面<br>2) cs2.html响应请求后再将通过修改cs1.html的hash值来传递数据<br>3) 同时在cs1.html上加一个定时器，隔一段时间来判断location.hash的值有没有变化，一旦有变化则获取获取hash值<br>注：由于两个页面不在同一个域下IE、Chrome不允许修改parent.location.hash的值，所以要借助于a.com域名下的一个代理iframe<br>a.com下的文件cs1.html文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">startRequest</span></span>()&#123;</span><br><span class="line">    var ifr = document.createElement(<span class="string">'iframe'</span>);</span><br><span class="line">    ifr.style.display = <span class="string">'none'</span>;</span><br><span class="line">    ifr.src = <span class="string">'http://www.cnblogs.com/lab/cscript/cs2.html#paramdo'</span>;</span><br><span class="line">    document.body.appendChild(ifr);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">checkHash</span></span>() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        var data = location.hash ? location.hash.substring(1) : <span class="string">''</span>;</span><br><span class="line">        <span class="keyword">if</span> (console.log) &#123;</span><br><span class="line">            console.log(<span class="string">'Now the data is '</span>+data);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch(e) &#123;&#125;;</span><br><span class="line">&#125;</span><br><span class="line">setInterval(checkHash, 2000);</span><br></pre></td></tr></table></figure></p>
+<p>cnblogs.com域名下的cs2.html:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">//模拟一个简单的参数处理操作</span><br><span class="line">switch(location.hash)&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'#paramdo'</span>:</span><br><span class="line">        callBack();</span><br><span class="line">        <span class="built_in">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'#paramset'</span>:</span><br><span class="line">        //<span class="keyword">do</span> something……</span><br><span class="line">        <span class="built_in">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">callBack</span></span>()&#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        parent.location.hash = <span class="string">'somedata'</span>;</span><br><span class="line">    &#125; catch (e) &#123;</span><br><span class="line">        // ie、chrome的安全机制无法修改parent.location.hash，</span><br><span class="line">        // 所以要利用一个中间的cnblogs域下的代理iframe</span><br><span class="line">        var ifrproxy = document.createElement(<span class="string">'iframe'</span>);</span><br><span class="line">        ifrproxy.style.display = <span class="string">'none'</span>;</span><br><span class="line">        ifrproxy.src = <span class="string">'http://a.com/test/cscript/cs3.html#somedata'</span>;    // 注意该文件在<span class="string">"a.com"</span>域下</span><br><span class="line">        document.body.appendChild(ifrproxy);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>a.com下的域名cs3.html<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//因为parent.parent和自身属于同一个域，所以可以改变其location.hash的值</span><br><span class="line">parent.parent.location.hash = self.location.hash.substring(1);</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://www.cnblogs.com/2050/p/3191744.html" target="_blank" rel="noopener">https://www.cnblogs.com/2050/p/3191744.html</a><br><a href="https://blog.csdn.net/joyhen/article/details/21631833" target="_blank" rel="noopener">https://blog.csdn.net/joyhen/article/details/21631833</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/09/跨域请求/" data-id="cjqp40m6v000eb8teinfcuooh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-post和get" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/01/09/post和get/" class="article-date">
@@ -84,12 +142,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>1.<br>post对请求参数的长度没有限制，而get如果请求参数过长，会被浏览器截断。<br>GET：不同的浏览器和服务器不同，一般限制在2~8K之间，更加常见的是1k以内<br>POST方法提交的数据比较大，大小靠服务器的设定值限制。<br>2.<br>get比post更不安全，get请求参数会直接暴露在URL上，所以不适合用来传递敏感信息。post放在request body中。<br>3.<br>get请求可以被浏览器主动缓存，而post请求不可以，除非手动设置。<br>4.<br>get请求只能进行url编码，而post支持多种编码方式。<br>get请求参数会被完整保留在浏览历史记录里，而post中的参数不会被保留。<br>get请求在浏览器回退时是无害的，而post会再次提交请求。<br>get请求产生的URL可以被浏览器缓存，而post不可以。<br>5.<br>get和post本质上就是TCP链接.get产生一个tcp数据包，post产生两个TCP数据包。<br>对于get方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；<br>而对于post，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。</p>
+        <p>1.数据量：<br>post对请求参数的长度没有限制，而get如果请求参数过长，会被浏览器截断。<br>GET：不同的浏览器和服务器不同，一般限制在2~8K之间，更加常见的是1k以内<br>POST方法提交的数据比较大，大小靠服务器的设定值限制。<br>2.安全性：<br>get比post更不安全，get请求参数会直接暴露在URL上，所以不适合用来传递敏感信息。post放在request body中。<br>get请求只能进行url编码，而post支持多种编码方式。<br>get请求参数会被完整保留在浏览历史记录里，而post中的参数不会被保留。<br>get请求在浏览器回退时是无害的，而post会再次提交请求。<br>3.缓存：<br>get请求产生的URL可以被浏览器主动缓存，而post请求不可以，除非手动设置。<br>4.效率：<br>get的意思是”得”，从服务器获取数据（也可以上传数据，参数就是），效率较高；<br>post的意思是“给”，但可以向服务器发送数据和下载数据，效率不如get；<br>get和post本质上就是TCP链接.get产生一个tcp数据包，post产生两个TCP数据包。<br>对于get方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；<br>而对于post，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/09/post和get/" data-id="cjqoiv63b0005m8tezdp9h8qj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/09/post和get/" data-id="cjqp40m6f0004b8tes43azsgb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -138,7 +196,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/08/generator和async函数/" data-id="cjqoiv63a0004m8te23m8nrlb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/08/generator和async函数/" data-id="cjqp40m6i0006b8tekmtnw6bw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -195,7 +253,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/07/promise/" data-id="cjqoiv63s0006m8ted28zhe37" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/07/promise/" data-id="cjqp40m6h0005b8ter8hw7qt6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -240,7 +298,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/05/macrotask microtask/" data-id="cjqoiv646000fm8temewwmyaz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/05/macrotask microtask/" data-id="cjqp40m6r000bb8tez21wu1wy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -303,7 +361,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/19/this学习/" data-id="cjqoiv63t0007m8teee0knnse" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/19/this学习/" data-id="cjqp40m6j0007b8tefau3vyfk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -349,7 +407,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/18/闭包和立即执行函数/" data-id="cjqoiv649000hm8tenahza13z" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/18/闭包和立即执行函数/" data-id="cjqp40m7g000jb8tel9c7c56h" class="article-share-link">Share</a>
       
       
     </footer>
@@ -394,7 +452,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/05/异步，同步，回调和class/" data-id="cjqoiv643000dm8tegwqi8yvp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/05/异步，同步，回调和class/" data-id="cjqp40m6w000fb8teroink2ac" class="article-share-link">Share</a>
       
       
     </footer>
@@ -441,7 +499,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/28/深浅拷贝/" data-id="cjqoiv649000im8teld1sr9r6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/28/深浅拷贝/" data-id="cjqp40m6y000hb8ter9eefk7c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -502,52 +560,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/27/前端面试题记录/" data-id="cjqoiv640000am8tea4ursr76" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-水平垂直居中div" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/11/26/水平垂直居中div/" class="article-date">
-  <time datetime="2018-11-26T07:23:15.629Z" itemprop="datePublished">2018-11-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/26/水平垂直居中div/">水平垂直居中div</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>将id=”container”的div水平垂直居中<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"container"</span>&gt;</span><br><span class="line">我的div要水平垂直居中</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;style <span class="built_in">type</span>=<span class="string">"text/css"</span>&gt;</span><br><span class="line">*&#123;</span><br><span class="line">	margin: 0;</span><br><span class="line">	padding: 0;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure></p>
-<p>水平居中当然都知道，需要margin: 0 auto;即可，但是如何水平垂直居中呢？<br>position:relative 配合top:50%无效，但是left：50%有效。<br>是因为子元素设置的width或者height是百分比的值跟父元素有关。设置width为百分比，不需要父元素明确设置width；但是子元素设置height为百分比，父元素必须明确设置高度。</p>
-<h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><p>使用绝对布局，让left为50%，这样水平方向上div的最左与屏幕的最左相距50%，所以还需将div再向左移动半个宽度，所以margin-left: -100px;，或者通过transform: translate(-50%,-50%);设置。top方向上同理。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#container&#123;</span></span><br><span class="line">	text-align: center;</span><br><span class="line">    background: pink;</span><br><span class="line">    width: 200px;</span><br><span class="line">    height: 200px;</span><br><span class="line">    position: absolute;</span><br><span class="line">    left: 50%;</span><br><span class="line">    top: 50%;</span><br><span class="line">    /*transform: translate(-50%,-50%);*/</span><br><span class="line">    margin-top: -100px;</span><br><span class="line">    margin-left: -100px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>检查元素可以发现：<br>position: absolute时，body元素的高为0,表示body元素的高为整个页面的高度；<br>position: relative时，body元素的高为200px。</p>
-<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><p>使用绝对布局，一定要设置margin:auto,并设置top,right,bottom,right值相等即可，不一定要都是0。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#container&#123;</span></span><br><span class="line">    background: pink;</span><br><span class="line">    width: 200px;</span><br><span class="line">    height: 200px;</span><br><span class="line">    margin: auto;</span><br><span class="line">    position: absolute;</span><br><span class="line">    top: 0px;</span><br><span class="line">    left: 0px;</span><br><span class="line">    right: 0px;</span><br><span class="line">    bottom: 0px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="方法二的原理如下："><a href="#方法二的原理如下：" class="headerlink" title="方法二的原理如下："></a>方法二的原理如下：</h3><p>首先说一下margin的auto属性的作用：它是用来分配剩余空间的，所以说一定对有剩余空间的元素才有效。例如对图片元素这个属性无效，是因为图片是内联元素，不是占一整行的，所以说它没有剩余空间。<br>1.position: absolute;使绝对定位块跳出了内容流。<br>定位元素可以发现，当该属性为absolute时，body元素的高为整个页面的高度；当属性为relative时，body元素的高就刚好只是该元素width值的高度；<br>2.为块级区域设置top: 0; left: 0; bottom: 0; right: 0;将给浏览器重新分配一个边界框，此时该块将填充其所有父元素的所有可用空间，所以margin在垂直方向上有了可分配的空间。<br>3.再设置margin垂直方向上下为auto，即可实现垂直居中。</p>
-<h2 id="对position的absolute和relative属性不清楚，通过链接了解了一些：https-www-cnblogs-com-theWayToAce-p-5264436-html"><a href="#对position的absolute和relative属性不清楚，通过链接了解了一些：https-www-cnblogs-com-theWayToAce-p-5264436-html" class="headerlink" title="对position的absolute和relative属性不清楚，通过链接了解了一些：https://www.cnblogs.com/theWayToAce/p/5264436.html"></a>对position的absolute和relative属性不清楚，通过链接了解了一些：<a href="https://www.cnblogs.com/theWayToAce/p/5264436.html" target="_blank" rel="noopener">https://www.cnblogs.com/theWayToAce/p/5264436.html</a></h2><p>现自己再总结一下如下：<br>1.relative<br><em>生成相对定位的元素，通过top,bottom,left,right的设置相对于其正常（原先本身）位置进行定位。</em><br>定位为relative的元素脱离正常文本流中，但其在文本流中的位置依然存在。<br>无论父级存在不存在，无论有没有TRBL（ “left”, “top”, “right” 以及 “bottom” ），均是以父级的左上角进行定位，但是父级的padding属性会对其影响。</p>
-<p>2.absolute<br><em>生成绝对定位的元素，相对于static定位以外的第一个父元素进行定位。元素的位置通过 “left”, “top”, “right” 以及 “bottom” 属性进行规定。</em><br>定位为absolute的元素脱离正常文本流，但是其在正常流中的位置不再存在。<br>若想把一个定位属性为absolute的元素定位于其父级元素内，只有满足两个条件：设定TRBL和父级设定position属性(无论是absolute还是relative)。这两个条件只要有一个不满足，元素就会以浏览器左上角为原点，从而导致页面布局错位。<br>如果有父级元素，则定位属性为absolute的元素是以父级为左上角；如果没有父级，才会参照浏览器的左上角。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/26/水平垂直居中div/" data-id="cjqoiv644000em8tedg6g6cnq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/27/前端面试题记录/" data-id="cjqp40m6y000ib8tezygwb5zy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -593,6 +606,10 @@
       <ul>
         
           <li>
+            <a href="/2019/01/09/跨域请求/">js跨域请求</a>
+          </li>
+        
+          <li>
             <a href="/2019/01/09/post和get/">post和get区别</a>
           </li>
         
@@ -606,10 +623,6 @@
         
           <li>
             <a href="/2019/01/05/macrotask microtask/">macrotask microtask</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/19/this学习/">this学习</a>
           </li>
         
       </ul>

@@ -62,6 +62,77 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-使用hexo搭建博客" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/17/使用hexo搭建博客/" class="article-date">
+  <time datetime="2018-10-17T06:48:30.336Z" itemprop="datePublished">2018-10-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/17/使用hexo搭建博客/">使用hexo搭建博客</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>首先说一下什么是Hexo：<br>Hexo是一个快速/简洁/高效的博客框架，使用Markdown作为渲染引擎解析文章，结合丰富的主题，分分钟生成绚丽的静态网页.</p>
+<h2 id="准备相应的环境，包括node-js和github"><a href="#准备相应的环境，包括node-js和github" class="headerlink" title="准备相应的环境，包括node.js和github"></a>准备相应的环境，包括node.js和github</h2><p>github会提供帮助生成博客的方法，而hexo则会为我们的博客加上各种样式。</p>
+<h3 id="安装node-js和配置环境"><a href="#安装node-js和配置环境" class="headerlink" title="安装node.js和配置环境"></a>安装node.js和配置环境</h3><p>傻瓜式操作，在命令行里输入node -v判断安装成功。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ node -v</span><br></pre></td></tr></table></figure></p>
+<p>特别的，网上有些教程会建议自己修改一下npm安装的全局模块所在的路径以及缓存所在的路径，会进行其他的环境变量的配置，可以参考链接：<a href="https://www.cnblogs.com/zhouyu2017/p/6485265.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhouyu2017/p/6485265.html</a><br>在搜资料的过程中，发现自己一直不明白在配置环境变量的时候，什么时候使用用户变量，什么时候使用系统变量，在这里记录一下：操作系统根据Path环境变量查找命令，如果能找到，则执行该命令，否则会出现“xxx不是内部或外部命令，也不是可运行的程序或批处理文件”。而操作系统则根据PATH环境变量来查找命令。用户变量只对当前用户有效，而系统变量对所有用户有效。为减少自己所做的修改对其他人有影响，所以设置用户变量避免影响其他人。一般系统变量优先于用户变量。</p>
+<h3 id="安装和配置git环境"><a href="#安装和配置git环境" class="headerlink" title="安装和配置git环境"></a>安装和配置git环境</h3><h3 id="注册github账户和新建项目，博客仓库名称要遵守账户名-github-io"><a href="#注册github账户和新建项目，博客仓库名称要遵守账户名-github-io" class="headerlink" title="注册github账户和新建项目，博客仓库名称要遵守账户名.github.io"></a>注册github账户和新建项目，博客仓库名称要遵守账户名.github.io</h3><p>个人理解：就是建普通仓库的时候，其实仓库名称xxx随便起就好了，然后如果想让它发布到网上，网址就会是<a href="https://zhangxueting0152.github.io/xxx；" target="_blank" rel="noopener">https://zhangxueting0152.github.io/xxx；</a><br>但是github为写博客做了专门的规定，建立博客仓库的时候，名称要遵守账户名.github.io的形式（我的账户名就是zhangxueting0152），这样github会自动生成一个我的子域名，帮助把代码转成博客，网址就是<a href="https://zhangxueting0152.github.io/" target="_blank" rel="noopener">https://zhangxueting0152.github.io/</a></p>
+<h2 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h2><p>在合适的位置新建文件夹，用于存放安装的东西。进入到文件夹里，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo –g</span><br></pre></td></tr></table></figure>
+<p>-g表示global，全局安装<br>开始安装。然后输入hexo –v检查是否安装成功。</p>
+<p>初始化该文件夹</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init</span><br></pre></td></tr></table></figure>
+<p>等待知道出现start blogging with Hexo!</p>
+<p>安装所需的组建</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
+<p>生成静态文件(g表示generate)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br></pre></td></tr></table></figure>
+<p>开启服务器(s表示service,默认打开的端口是4000)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
+<h2 id="关联Hexo和Github-Page"><a href="#关联Hexo和Github-Page" class="headerlink" title="关联Hexo和Github Page"></a>关联Hexo和Github Page</h2><p>如果是初次使用github，则需要进行相关的配置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name <span class="string">'zhangxueting0152'</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.email <span class="string">'923944819@qq.com'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> ~/.ssh</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ls</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"注释内容，一般为邮件地址"</span></span><br></pre></td></tr></table></figure>
+<p>其中，rsa表示加密方式, 连按三个空格即可生成ssh 密钥。</p>
+<p>然后将新生成的key添加到ssh-agent中，ssh-agent是一个密钥管理器，运行ssh-agent以后，使用ssh-add将私钥交给ssh-agent保管<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">eval</span> <span class="string">"<span class="variable">$(ssh-agent -s)</span>"</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-add ~/.ssh/id_rsa</span><br></pre></td></tr></table></figure>
+<p>接下来，将ssh key（位于ssh/id_rsa.pub）添加到github中。<br>测试添加ssh是否成功。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh –T git@github.com</span><br></pre></td></tr></table></figure></p>
+<p>如果能在Hi后看到你的用户名，就说明成功过了</p>
+<h2 id="配置deployment"><a href="#配置deployment" class="headerlink" title="配置deployment"></a>配置deployment</h2><p>在文件夹里找到_config.yml，文件末尾修改配置信息：<br>deploy:<br>  type: git<br>  repository: <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:zhangxueting0152/zhangxueting0152.github.io.git<br>  branch: master</p>
+<p>新建一篇博客，cmd里输入hexo new post “博客名“,会发现新建的博客位于blog/source/posts文件夹下</p>
+<p>生成以及部署文章之前，需要安装一个扩展<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git –save</span><br></pre></td></tr></table></figure></p>
+<p>使用编辑器编好文章，就可以生成以及部署了。可以使用markdown，也可以使用一些在线的markdown编辑器，比如csdn提供的<a href="http://write.blog.csdn.net/mdeditor" target="_blank" rel="noopener">http://write.blog.csdn.net/mdeditor</a><br>使用编辑器编辑完博客后，你博客站点文件夹下右键空白处，选择Git Bash Here，<br>输入：hexo generate，回车，生成静态页面，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br></pre></td></tr></table></figure>
+<p>再输入：hexo server，回车，访问<a href="http://localhost:4000/，即可进行本地预览，" target="_blank" rel="noopener">http://localhost:4000/，即可进行本地预览，</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
+<p>最后输入：hexo deploy，回车，同步到github上去就行了。 访问<a href="https://zhangxueting0152.github.io/" target="_blank" rel="noopener">https://zhangxueting0152.github.io/</a><br>即可</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/17/使用hexo搭建博客/" data-id="cjqp40m6t000cb8tewxei50ej" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/17/hello-world/" class="article-date">
@@ -97,7 +168,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/17/hello-world/" data-id="cjqoiv6110000m8tea4tvnecb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/17/hello-world/" data-id="cjqp40m6b0002b8teubb9sqmv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -143,6 +214,10 @@
       <ul>
         
           <li>
+            <a href="/2019/01/09/跨域请求/">js跨域请求</a>
+          </li>
+        
+          <li>
             <a href="/2019/01/09/post和get/">post和get区别</a>
           </li>
         
@@ -156,10 +231,6 @@
         
           <li>
             <a href="/2019/01/05/macrotask microtask/">macrotask microtask</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/19/this学习/">this学习</a>
           </li>
         
       </ul>

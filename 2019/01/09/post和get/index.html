@@ -7,17 +7,17 @@
   
   <title>post和get区别 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.post对请求参数的长度没有限制，而get如果请求参数过长，会被浏览器截断。GET：不同的浏览器和服务器不同，一般限制在2~8K之间，更加常见的是1k以内POST方法提交的数据比较大，大小靠服务器的设定值限制。2.get比post更不安全，get请求参数会直接暴露在URL上，所以不适合用来传递敏感信息。post放在request body中。3.get请求可以被浏览器主动缓存，而post请求不">
+  <meta name="description" content="1.数据量：post对请求参数的长度没有限制，而get如果请求参数过长，会被浏览器截断。GET：不同的浏览器和服务器不同，一般限制在2~8K之间，更加常见的是1k以内POST方法提交的数据比较大，大小靠服务器的设定值限制。2.安全性：get比post更不安全，get请求参数会直接暴露在URL上，所以不适合用来传递敏感信息。post放在request body中。get请求只能进行url编码，而po">
 <meta property="og:type" content="article">
 <meta property="og:title" content="post和get区别">
 <meta property="og:url" content="http://yoursite.com/2019/01/09/post和get/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1.post对请求参数的长度没有限制，而get如果请求参数过长，会被浏览器截断。GET：不同的浏览器和服务器不同，一般限制在2~8K之间，更加常见的是1k以内POST方法提交的数据比较大，大小靠服务器的设定值限制。2.get比post更不安全，get请求参数会直接暴露在URL上，所以不适合用来传递敏感信息。post放在request body中。3.get请求可以被浏览器主动缓存，而post请求不">
+<meta property="og:description" content="1.数据量：post对请求参数的长度没有限制，而get如果请求参数过长，会被浏览器截断。GET：不同的浏览器和服务器不同，一般限制在2~8K之间，更加常见的是1k以内POST方法提交的数据比较大，大小靠服务器的设定值限制。2.安全性：get比post更不安全，get请求参数会直接暴露在URL上，所以不适合用来传递敏感信息。post放在request body中。get请求只能进行url编码，而po">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-01-09T01:45:07.717Z">
+<meta property="og:updated_time" content="2019-01-09T01:51:13.493Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="post和get区别">
-<meta name="twitter:description" content="1.post对请求参数的长度没有限制，而get如果请求参数过长，会被浏览器截断。GET：不同的浏览器和服务器不同，一般限制在2~8K之间，更加常见的是1k以内POST方法提交的数据比较大，大小靠服务器的设定值限制。2.get比post更不安全，get请求参数会直接暴露在URL上，所以不适合用来传递敏感信息。post放在request body中。3.get请求可以被浏览器主动缓存，而post请求不">
+<meta name="twitter:description" content="1.数据量：post对请求参数的长度没有限制，而get如果请求参数过长，会被浏览器截断。GET：不同的浏览器和服务器不同，一般限制在2~8K之间，更加常见的是1k以内POST方法提交的数据比较大，大小靠服务器的设定值限制。2.安全性：get比post更不安全，get请求参数会直接暴露在URL上，所以不适合用来传递敏感信息。post放在request body中。get请求只能进行url编码，而po">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -86,12 +86,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>1.<br>post对请求参数的长度没有限制，而get如果请求参数过长，会被浏览器截断。<br>GET：不同的浏览器和服务器不同，一般限制在2~8K之间，更加常见的是1k以内<br>POST方法提交的数据比较大，大小靠服务器的设定值限制。<br>2.<br>get比post更不安全，get请求参数会直接暴露在URL上，所以不适合用来传递敏感信息。post放在request body中。<br>3.<br>get请求可以被浏览器主动缓存，而post请求不可以，除非手动设置。<br>4.<br>get请求只能进行url编码，而post支持多种编码方式。<br>get请求参数会被完整保留在浏览历史记录里，而post中的参数不会被保留。<br>get请求在浏览器回退时是无害的，而post会再次提交请求。<br>get请求产生的URL可以被浏览器缓存，而post不可以。<br>5.<br>get和post本质上就是TCP链接.get产生一个tcp数据包，post产生两个TCP数据包。<br>对于get方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；<br>而对于post，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。</p>
+        <p>1.数据量：<br>post对请求参数的长度没有限制，而get如果请求参数过长，会被浏览器截断。<br>GET：不同的浏览器和服务器不同，一般限制在2~8K之间，更加常见的是1k以内<br>POST方法提交的数据比较大，大小靠服务器的设定值限制。<br>2.安全性：<br>get比post更不安全，get请求参数会直接暴露在URL上，所以不适合用来传递敏感信息。post放在request body中。<br>get请求只能进行url编码，而post支持多种编码方式。<br>get请求参数会被完整保留在浏览历史记录里，而post中的参数不会被保留。<br>get请求在浏览器回退时是无害的，而post会再次提交请求。<br>3.缓存：<br>get请求产生的URL可以被浏览器主动缓存，而post请求不可以，除非手动设置。<br>4.效率：<br>get的意思是”得”，从服务器获取数据（也可以上传数据，参数就是），效率较高；<br>post的意思是“给”，但可以向服务器发送数据和下载数据，效率不如get；<br>get和post本质上就是TCP链接.get产生一个tcp数据包，post产生两个TCP数据包。<br>对于get方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；<br>而对于post，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/09/post和get/" data-id="cjqoiv63b0005m8tezdp9h8qj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/09/post和get/" data-id="cjqp40m6f0004b8tes43azsgb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -99,6 +99,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2019/01/09/跨域请求/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          js跨域请求
+        
+      </div>
+    </a>
   
   
     <a href="/2019/01/08/generator和async函数/" id="article-nav-older" class="article-nav-link-wrap">
@@ -140,6 +149,10 @@
       <ul>
         
           <li>
+            <a href="/2019/01/09/跨域请求/">js跨域请求</a>
+          </li>
+        
+          <li>
             <a href="/2019/01/09/post和get/">post和get区别</a>
           </li>
         
@@ -153,10 +166,6 @@
         
           <li>
             <a href="/2019/01/05/macrotask microtask/">macrotask microtask</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/19/this学习/">this学习</a>
           </li>
         
       </ul>
