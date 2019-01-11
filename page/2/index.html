@@ -62,6 +62,114 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-深浅拷贝" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/28/深浅拷贝/" class="article-date">
+  <time datetime="2018-11-28T10:43:19.199Z" itemprop="datePublished">2018-11-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/28/深浅拷贝/">深浅拷贝</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本篇文章记录一下对浅拷贝和深拷贝的理解。</p>
+<h2 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var me = &#123;name:<span class="string">"zxt"</span>&#125;</span><br><span class="line">//浅拷贝</span><br><span class="line">var brother = me;</span><br><span class="line">brother.name = <span class="string">"brother"</span>;</span><br><span class="line">console.log(me.name);//brother</span><br></pre></td></tr></table></figure>
+<p>因为me对象里在栈内存中存的是一个地址，该地址指向位于堆内存中的一个对象{name:”zxt”}。所以通过浅拷贝，brother里面也存的是地址，也就是说brother和me指向了同一个地方，<br>因此修改brother里的name属性会对me产生影响。</p>
+<h2 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h2><h3 id="1-一层slice-和concat"><a href="#1-一层slice-和concat" class="headerlink" title="1.一层slice()和concat()"></a>1.一层slice()和concat()</h3><p>数组的slice()方法：返回从原数组中指定下标到结束下标之间的项组成的新数组，不包含结束位置的项。<br>数组的concat()方法：将参数添加到原数组中。这个方法会先创建当前数组的一个副本，然后将接收到的参数添加到这个副本的末尾，最后返回新数组。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1,2,3];</span><br><span class="line">var arrShallow = arr;</span><br><span class="line">var arrSlice = arr.slice(0);</span><br><span class="line">var arrConcat = arr.concat();</span><br><span class="line"></span><br><span class="line">console.log(arr === arrShallow);//<span class="literal">true</span></span><br><span class="line">console.log(arr === arrSlice);//<span class="literal">false</span></span><br><span class="line">console.log(arr === arrConcat);//<span class="literal">false</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1,[2,2],3];</span><br><span class="line">var arrShallow = arr;</span><br><span class="line">var arrSlice = arr.slice(0);</span><br><span class="line">var arrConcat = arr.concat();</span><br><span class="line"></span><br><span class="line">arr[1][0] = 6;</span><br><span class="line">arr[0] = 8;</span><br><span class="line">console.log(arr);//[8,[6,2],3]</span><br><span class="line">console.log(arrShallow);//[8,[6,2],3]</span><br><span class="line">console.log(arrSlice);//[1,[6,2],3]</span><br><span class="line">console.log(arrConcat);//[1,[6,2],3]</span><br></pre></td></tr></table></figure>
+<p>可以看到，slice()和concat()没有执行真正的深拷贝，当数组中存放的还是一个数组或者对象时，也是只复制了引用。</p>
+<h3 id="2-一层Object-assign"><a href="#2-一层Object-assign" class="headerlink" title="2.一层Object.assign()"></a>2.一层Object.assign()</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> a = &#123;age: 1&#125;;</span><br><span class="line"><span class="built_in">let</span> b = Object.assign(&#123;&#125;, a);</span><br><span class="line">a.age = 2;</span><br><span class="line">console.log(b.age);//1</span><br></pre></td></tr></table></figure>
+<h3 id="3-JSON-parse-和JSON-stringify"><a href="#3-JSON-parse-和JSON-stringify" class="headerlink" title="3.JSON.parse()和JSON.stringify()"></a>3.JSON.parse()和JSON.stringify()</h3><p>JSON.parse():从一个字符串中解析出json对象<br>JSON.stringify():从一个对象中解析出字符串<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var data1 = <span class="string">'&#123;"name":"zxt"&#125;'</span>;</span><br><span class="line">console.log(JSON.parse(data1));//&#123;name: <span class="string">"zxt"</span>&#125;注意这个name没有加引号</span><br><span class="line"></span><br><span class="line">var data2 = &#123;<span class="string">"name"</span>:<span class="string">"zxt"</span>&#125;;</span><br><span class="line">console.log(JSON.stringify(data2));//&#123;<span class="string">"name"</span>:<span class="string">"zxt"</span>&#125;注意这个name加了引号</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var me = [1,[2,2],3];</span><br><span class="line">var brother = JSON.parse(JSON.stringify(me));</span><br><span class="line">me[1][0] = 6;</span><br><span class="line">me[0] = 8;</span><br><span class="line">console.log(me);//[8,[6,2],3]</span><br><span class="line">console.log(brother);//[1,[2,2],3]</span><br></pre></td></tr></table></figure>
+<p>该方法对数据的类型由要求限制，必须是能用json方法的格式。</p>
+<h3 id="4-jQuery中的extend"><a href="#4-jQuery中的extend" class="headerlink" title="4.jQuery中的extend"></a>4.jQuery中的extend</h3><p>jQuery.extend() 函数用于将一个或多个对象的内容合并到目标对象。<br>$.extend( [deep ], target, object1 [, objectN ] ) :<br>deep:可选。 Boolean类型 指示是否深度合并对象，默认为false。<br>target:Object类型 目标对象，其他对象的成员属性将被附加到该对象上。<br>objectN: 可选。 Object类型 第N个被合并的对象。<br>这个链接分析了jQuery中的extend的实现原理，并且自己实现了一个深拷贝，记录一下，方便以后学习：<a href="https://www.cnblogs.com/tracylin/p/5346314.html" target="_blank" rel="noopener">https://www.cnblogs.com/tracylin/p/5346314.html</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var me = [1,[2,2],3];</span><br><span class="line">var brother = [];</span><br><span class="line">$.extend(brother,me);</span><br><span class="line">me[1][0] = 6;</span><br><span class="line">me[0] = 8;</span><br><span class="line">console.log(me);//[8,[6,2],3]</span><br><span class="line">console.log(brother);//[1,[6,2],3]</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var me = [1,[2,2],3];</span><br><span class="line">var brother = [];</span><br><span class="line">$.extend(<span class="literal">true</span>,brother,me);</span><br><span class="line">me[1][0] = 6;</span><br><span class="line">me[0] = 8;</span><br><span class="line">console.log(me);//[8,[6,2],3]</span><br><span class="line">console.log(brother);//[1,[2,2],3]</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/11/28/深浅拷贝/" data-id="cjqrhd64z000njotel7zynre2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-前端面试题记录" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/27/前端面试题记录/" class="article-date">
+  <time datetime="2018-11-27T02:55:06.212Z" itemprop="datePublished">2018-11-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/27/前端面试题记录/">前端面试题记录</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这篇博客是对网页上前端问题的答案记录：<a href="https://mp.weixin.qq.com/s/uVZnt6HMs2b9-rPxqkZ-bQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/uVZnt6HMs2b9-rPxqkZ-bQ</a><br>在网上有看到别人的答案链接，在这里记录一下地址：<a href="https://ryuurock.com/2018/11/25/frontend-interview/#undefined" target="_blank" rel="noopener">https://ryuurock.com/2018/11/25/frontend-interview/#undefined</a></p>
+<h2 id="基本的JS问题"><a href="#基本的JS问题" class="headerlink" title="基本的JS问题"></a>基本的JS问题</h2><h3 id="1-让下面的代码可以运行"><a href="#1-让下面的代码可以运行" class="headerlink" title="1.让下面的代码可以运行"></a>1.让下面的代码可以运行</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const a = [1, 2, 3, 4, 5];</span><br><span class="line">// Implement this</span><br><span class="line">a.multiply();</span><br><span class="line">console.log(a); // [1, 2, 3, 4, 5, 1, 4, 9, 16, 25]</span><br></pre></td></tr></table></figure>
+<p>答：<br>这道题的思路就是给数组原型上添加一个方法，叫multiply<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.multiply = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	<span class="built_in">let</span> length = this.length;</span><br><span class="line">	//不能在<span class="keyword">for</span>循环里写i&lt;this.length，因为this的长度一直在加长，这样会内存溢出</span><br><span class="line">	<span class="keyword">for</span>(<span class="built_in">let</span> i=0; i&lt;length; i++) &#123;</span><br><span class="line">		this.push(this[i]*this[i]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">myFunction();</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">myFunction</span></span>()&#123;</span><br><span class="line">	const a = [1,2,3,4,5];</span><br><span class="line">	a.multiply();</span><br><span class="line">	console.log(a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>也可以用es6的写法：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.multiply = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	<span class="built_in">let</span> result = this;</span><br><span class="line">	this.forEach(item =&gt; result.push(item*item));//或者写this.push(item*item)</span><br><span class="line">	<span class="built_in">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line">myFunction();</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">myFunction</span></span>()&#123;</span><br><span class="line">	const a = [1,2,3,4,5];</span><br><span class="line">	a.multiply();</span><br><span class="line">	console.log(a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-以下代码会返回false，解释为什么会这样："><a href="#2-以下代码会返回false，解释为什么会这样：" class="headerlink" title="2.以下代码会返回false，解释为什么会这样："></a>2.以下代码会返回false，解释为什么会这样：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// <span class="literal">false</span></span><br><span class="line">0.2 + 0.1 === 0.3</span><br></pre></td></tr></table></figure>
+<p>答：<br>ES6在Number对象上面，新增了一个极小的常量Number.EPSILON，表示1与大于1的最小浮点数之间的差。<br>对于64位浮点数来说，这个值相当于2的-52次方，是js能够表示的最小精度。误差如果小于这个值，就可以认为不存在误差了。<br>引入这个值的目的，在于为浮点数计算设置一个误差范围，毕竟浮点数的计算是不准确的。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">console.log(Number.EPSILON === Math.pow(2, -52));//<span class="literal">true</span></span><br><span class="line">console.log(Number.EPSILON);//2.220446049250313e-16</span><br><span class="line">//toFixed(num) 方法可把 Number 四舍五入为指定小数位数的数字</span><br><span class="line">console.log(Number.EPSILON.toFixed(20));//0.00000000000000022204</span><br><span class="line"></span><br><span class="line">console.log(0.1 + 0.2);//0.30000000000000004</span><br><span class="line">console.log(0.1 + 0.2 - 0.3);//5.551115123125783e-17</span><br><span class="line">console.log(5.551115123125783e-17.toFixed(20));//0.00000000000000005551</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-JavaScript-中有哪些不同的数据类型？"><a href="#3-JavaScript-中有哪些不同的数据类型？" class="headerlink" title="3.JavaScript 中有哪些不同的数据类型？"></a>3.JavaScript 中有哪些不同的数据类型？</h3><p>答：<br>分为基本数据类型和引用数据类型：<br>基本数据类型:Number String Boolean Undefined Null Symbol(表示独一无二的值)；基本数据类型是按值访问的，可以直接操作保存在变量中的实际值。<br>引用数据类型Object(包括Object,Date.Array,Function)；引用数据类型只能操作对象在栈内存中的引用地址。</p>
+<h3 id="4-“new”关键字在-JavaScript-中有什么作用？"><a href="#4-“new”关键字在-JavaScript-中有什么作用？" class="headerlink" title="4.“new”关键字在 JavaScript 中有什么作用？"></a>4.“new”关键字在 JavaScript 中有什么作用？</h3><p>答：在js中，new是用于实例化对象的运算符。js中new一个对象会做四件事：<br>例如var obj = new Base();<br>4.1 var obj = {};<br>4.2 obj.-proto- = Base.prototype;<br>4.3 Base.call(obj);<br>4.4 return<br>文字说明一下这四步：<br>4.1 创建一个空对象obj；<br>4.2 将这个空对象的-proto-成员指向了Base函数对象的prototype成员对象；<br>4.3 将Base函数对象的this指针换成obj，然后再调用Base函数；<br>4.4 返回该对象。</p>
+<h3 id="5-JavaScript-中有哪些不同的函数调用模式？请详细解释。"><a href="#5-JavaScript-中有哪些不同的函数调用模式？请详细解释。" class="headerlink" title="5.JavaScript 中有哪些不同的函数调用模式？请详细解释。"></a>5.JavaScript 中有哪些不同的函数调用模式？请详细解释。</h3><p>答：五种调用模式：直接调用，函数调用，方法调用，构造器调用，call和apply调用。<br>5.1 直接调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">myFun1</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"myFun1"</span>);</span><br><span class="line">&#125;</span><br><span class="line">myFun1();//myFun1</span><br></pre></td></tr></table></figure></p>
+<p>5.2 函数调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var a = 1;</span><br><span class="line">var myFun2 = <span class="keyword">function</span>(a) &#123;</span><br><span class="line">	var a = 2;</span><br><span class="line">	console.log(this.a);</span><br><span class="line">&#125;</span><br><span class="line">myFun2(2);//1</span><br></pre></td></tr></table></figure></p>
+<p>5.3 作为对象的方法调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">	name: <span class="string">'zhangsan'</span>,</span><br><span class="line">	myFun3: <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		console.log(<span class="string">"myFun3"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">person.myFun3();//myFun3</span><br></pre></td></tr></table></figure></p>
+<p>5.4 构造器调用模式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var obj = <span class="function"><span class="title">function</span></span>() &#123;&#125;</span><br><span class="line">obj.prototype.myFun4 = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"myFun4"</span>);</span><br><span class="line">&#125;</span><br><span class="line">var objItem = new obj();</span><br><span class="line">objItem.myFun4();//myFun4</span><br></pre></td></tr></table></figure></p>
+<p>5.5 通过call,apply调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;;</span><br><span class="line">var myFun5 = <span class="keyword">function</span>(a) &#123;</span><br><span class="line">	<span class="built_in">return</span> a+1;</span><br><span class="line">&#125;</span><br><span class="line">var item1 = myFun5.call(obj,5);</span><br><span class="line">var item2 = myFun5.apply(obj,[5]);</span><br><span class="line">console.log(item1,item2);//6 6</span><br></pre></td></tr></table></figure></p>
+<h3 id="6-reduce用法。"><a href="#6-reduce用法。" class="headerlink" title="6.reduce用法。"></a>6.reduce用法。</h3><p>reduce()方法接收一个函数callbackfn作为累加器(accumulator)，数组中的每一个值（开始合并），最后成为一个值。<br>语法：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array.reduce(callbackfn,[initialValue]);</span><br></pre></td></tr></table></figure></p>
+<p>reduce()方法接收callbackfn函数，而这个函数包含四个参数：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> callbackfn(preValue,curValue,index,array)&#123;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>参数解释：<br>preValue：上一次调用回调返回的值，或者是提供的初始值(initialValue)<br>curValue：数组中当前被处理的数组项<br>index：当前数组项在数组中的索引值<br>array：调用reduce()方法的数组<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1,2,3,4,5];</span><br><span class="line">var sum = arr.reduce((preValue, curValue, index, array) =&gt; &#123;</span><br><span class="line">	<span class="built_in">return</span> preValue + curValue;</span><br><span class="line">&#125;);</span><br><span class="line">console.log(sum);// 15</span><br></pre></td></tr></table></figure></p>
+<h3 id="7-数组降维。"><a href="#7-数组降维。" class="headerlink" title="7.数组降维。"></a>7.数组降维。</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const flattenDeep = (arr) =&gt; Array.isArray(arr)</span><br><span class="line">	? arr.reduce((a, b) =&gt; [...flattenDeep(a), ...flattenDeep(b)] , []): [arr];</span><br><span class="line"></span><br><span class="line">var flatArr = flattenDeep([1, [[2], [3, [4]], 5]]);</span><br><span class="line">console.log(flatArr);// [1, 2, 3, 4, 5]</span><br></pre></td></tr></table></figure>
+<h2 id="JavaScript-前端应用程序设计问题"><a href="#JavaScript-前端应用程序设计问题" class="headerlink" title="JavaScript 前端应用程序设计问题"></a>JavaScript 前端应用程序设计问题</h2><h3 id="1-解释单向数据流和双向数据绑定"><a href="#1-解释单向数据流和双向数据绑定" class="headerlink" title="1.解释单向数据流和双向数据绑定"></a>1.解释单向数据流和双向数据绑定</h3><p>答：<br>单项数据流：指数据只能从一个方向修改数据，例如react中，父组件可以向子组件中传递数据data，当父组件中改变data的值，子组件的data值就会跟着改变；但是反过来，在子组件中对data修改后，父组件的值并不会发生改变。React、Vue等基于单向数据流。<br>双向数据绑定：主要是由mvvm框架实现，例如在vue中由三个部分组成：view,viewmodel,model，其中view和model要通过viewmodel进行通讯。当model部分数据发生改变时，viewmodel通知view更新视图；当view数据发生变化时也会同步到model中。Angular 1.x 基于双向数据绑定。<br>react的双向数据绑定是通过event.target.value实现的。<br>vue的双向数据绑定是通过数据劫持结合发布者-订阅者模式的方式来实现的。它使用MVVM框架，使用了v-model。其基于Object.defineProperty()方法，重新定义了对象获取属性值get和设置属性值set的操作来实现的。原理及实现的参考链接在这里记录一下，方便以后学习：<a href="http://www.cnblogs.com/canfoo/p/6891868.html" target="_blank" rel="noopener">http://www.cnblogs.com/canfoo/p/6891868.html</a><br>单项数据绑定的实现思路是：所有数据只有一份；一旦数据发生变化，就会更新页面（data-页面），但是不存在（页面-data）;如果用户在页面上做了变动，那么就手动收集起来（双向绑定的话就会自动收集），合并到原有数据中。所以说双向数据绑定=单项绑定+事件监听。</p>
+<h2 id="前端基础和理论相关问题"><a href="#前端基础和理论相关问题" class="headerlink" title="前端基础和理论相关问题"></a>前端基础和理论相关问题</h2><h3 id="1-HTML-中-Doctype-的用途是什么？"><a href="#1-HTML-中-Doctype-的用途是什么？" class="headerlink" title="1.HTML 中 Doctype 的用途是什么？"></a>1.HTML 中 Doctype 的用途是什么？</h3><p>对于以下每种情况，将会发生什么：<br>1.1 Doctype 不存在<br>1.2 使用 HTML4 Doctype，但 HTML 页面使用了 HTML5 标签<br>1.3 使用了无效的 Doctype</p>
+<p>答：HTML 中 Doctype是告知浏览器用什么标准解析这个文档。DOCTYPE不存在或格式不正确会导致文档以兼容模式呈现。其拥有如下特点：<br>声明必须在html文档的头部，在<html>标签前。在html5中不区分大小写；<br>&lt;!DOCTYPE&gt;不是一个标签，该声明指示web浏览器关于页面使用哪个HTML版本进行编写的指令；<br>在html4中该声明指向一个DTD，由于HTML4.01基于SGML（标准通用标记语言），所以DTD指定了标记规则以保证浏览器正确渲染内容。HTML5不基于SGML，所以不用指定DTD。<br>HTML5只有一种声明: &lt;!DOCTYPE html&gt;<br>HTML4.01有三种声明：strict, transitional, frameset。</html></p>
+<h3 id="2-DOM-和-BOM-有什么区别？"><a href="#2-DOM-和-BOM-有什么区别？" class="headerlink" title="2.DOM 和 BOM 有什么区别？"></a>2.DOM 和 BOM 有什么区别？</h3><p>答：<br>2.1 DOM（文档对象模型），用来获取或者设置文档中标签的属性，其操作对象是文档。因为当一个html页面加载到浏览器的时候，浏览器会为每个标签都创建一个对应的对象描述该标签的所有信息。<br>2.2 BOM（浏览器对象模型），用来获取或者设置浏览器的属性和行为。例如<br>window表示当前的窗口，常用的方法有open(),moveTo(),setInterval(),setTimeout()，alert()；<br>location表示地址栏对象，常用的方法有href,reload();<br>screen表示屏幕对象，常用方法有height,width；</p>
+<p>注：javascript由三部分组成：ECMAScript描述了该语言的语法和基本对象，可以理解为是javascript的一个标准；DOM描述处理网页内容和方法的接口；BOM描述与浏览器进行交互的方法和接口。</p>
+<h3 id="3-JavaScript-中的事件处理是如何进行的？"><a href="#3-JavaScript-中的事件处理是如何进行的？" class="headerlink" title="3.JavaScript 中的事件处理是如何进行的？"></a>3.JavaScript 中的事件处理是如何进行的？</h3><p>如下图所示，我们有三个 div 元素。它们每个都有一个与之关联的单击处理程序。处理程序执行以下任务：外部 div 处理程序将 hello outer 打印到控制台。<br>内部 div 处理程序将 hello inner 打印到控制台。最内部的 div 处理程序将 hello innermost 打印到控制台。<br>编写一段代码来分配这些处理程序，以便在单击最里面的 div 时始终打印以下序列。hello inner → hello innermost → hello outer</p>
+<p>答：思路就是使用事件冒泡和事件捕获<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">document.getElementById(<span class="string">"outer"</span>).addEventListener(<span class="string">"click"</span>,<span class="keyword">function</span>(e)&#123;</span><br><span class="line">		alert(<span class="string">'hello outer'</span>);</span><br><span class="line">&#125;);//也可以不写这个参数，默认是<span class="literal">false</span></span><br><span class="line">document.getElementById(<span class="string">"inner"</span>).addEventListener(<span class="string">"click"</span>,<span class="keyword">function</span>(e)&#123;</span><br><span class="line">	alert(<span class="string">'hello inner'</span>);</span><br><span class="line">&#125;,<span class="literal">true</span>);</span><br><span class="line">document.getElementById(<span class="string">"innermost"</span>).addEventListener(<span class="string">"click"</span>,<span class="keyword">function</span>(e)&#123;</span><br><span class="line">	alert(<span class="string">'hello innermost'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>对于这种代码，判断弹出顺序时，可以这样判断：<br>首先，假设所有的都是false，那么正常顺序是innermost→inner→outer，然后由最里层往外层的div一个一个去看，如果碰到一个div是true,那么就把它的位置放在当前顺序的最头部即可。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/11/27/前端面试题记录/" data-id="cjqrhd64n000ijotegs5o7n3l" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-水平垂直居中div" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/11/26/水平垂直居中div/" class="article-date">
@@ -97,7 +205,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/26/水平垂直居中div/" data-id="cjqp4rnuy000jsstem1wkqzh8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/26/水平垂直居中div/" data-id="cjqrhd64p000kjotel4soj352" class="article-share-link">Share</a>
       
       
     </footer>
@@ -136,7 +244,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/26/React生命周期/" data-id="cjqp4rnue0000sste4g3ykjv1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/26/React生命周期/" data-id="cjqrhd63x0000jotewbfxa91t" class="article-share-link">Share</a>
       
       
     </footer>
@@ -175,7 +283,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/22/圣杯布局/" data-id="cjqp4rnuy000fssteyuleohmp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/22/圣杯布局/" data-id="cjqrhd64i000djotesoasfqq4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -214,7 +322,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/01/attr和prop用法/" data-id="cjqp4rnue0002ssteupgv8dy2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/01/attr和prop用法/" data-id="cjqrhd6460004jotevc7j2cvy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -251,7 +359,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/30/js刷新页面方式/" data-id="cjqp4rnuo0004ssteg0zyv8j2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/30/js刷新页面方式/" data-id="cjqrhd6480006joteoxeb0vh4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -316,7 +424,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/24/函数的声明与调用/" data-id="cjqp4rnuo000csstepqcfwg3f" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/24/函数的声明与调用/" data-id="cjqrhd64h000cjotenytkivm8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -364,7 +472,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/三目运算/" data-id="cjqp4rnuo000asstebfsjgshk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/三目运算/" data-id="cjqrhd64e000ajotewvghst8c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -415,103 +523,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/js事件冒泡、捕获与委托/" data-id="cjqp4rnuo0005sstettcsyjiy" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-js实现继承" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/20/js实现继承/" class="article-date">
-  <time datetime="2018-10-20T07:21:50.161Z" itemprop="datePublished">2018-10-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/20/js实现继承/">记录js实现继承的四种方式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这里记录四种继承方式，但是由于第二种继承方式用了改变this指向的方法bind，因此可以举一反三，换成call和apply方法，这样就又多了两种。</p>
-<h2 id="1-基于原型的继承"><a href="#1-基于原型的继承" class="headerlink" title="1.基于原型的继承"></a>1.基于原型的继承</h2><p>基于原型的继承，其实就是将子类的原型对象的<em>proto</em>指向father的原型对象。但是这样的话，由子类构造的实例之间很多属性全都是共享的了，没法单独操作。<br>该方法原型链变化了，因为改变了子类原型对象的原型属性的指向。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">father</span></span>() &#123;</span><br><span class="line">	this.faName = <span class="string">'father'</span>;</span><br><span class="line">	this.nums = [11,22];</span><br><span class="line">&#125;</span><br><span class="line">father.prototype.getFather = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"获取父亲名称"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">child</span></span>() &#123;</span><br><span class="line">	this.chName = <span class="string">'child'</span>;</span><br><span class="line">&#125;</span><br><span class="line">child.prototype = new father();</span><br><span class="line">child.prototype.constructor = child;//上句代码会使得child原型对象里的constructor属性指向father，所以这里要改一下</span><br><span class="line">child.prototype.getChild = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"获取孩子姓名"</span>);</span><br><span class="line">&#125;</span><br><span class="line">var c1 = new child();</span><br><span class="line">var c2 = new child();</span><br><span class="line">c1.nums.push(33);</span><br><span class="line">console.log(c1.nums);//[11, 22, 33]</span><br><span class="line">console.log(c2.nums);//[11, 22, 33]</span><br><span class="line">console.log(c1.chName === c2.chName);//<span class="literal">true</span></span><br><span class="line">console.log(c1.faName === c2.faName);//<span class="literal">true</span></span><br><span class="line">console.log(c1.getFather === c2.getFather);//<span class="literal">true</span></span><br><span class="line">console.log(c1.getFather === c1.__proto__.__proto__.getFather);//<span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h2 id="2-原型继承-构造函数继承（改变this指向）来组合实现继承"><a href="#2-原型继承-构造函数继承（改变this指向）来组合实现继承" class="headerlink" title="2.原型继承+构造函数继承（改变this指向）来组合实现继承"></a>2.原型继承+构造函数继承（改变this指向）来组合实现继承</h2><p>可以看到，c1.nums存在，c1.<strong>proto</strong>.nums存在。所以说子类继承父类的属性，一部分是在子类的实例上，一部分是在子类的原型上。这样产生了不必要的重复。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">father</span></span>() &#123;</span><br><span class="line">	this.faName = <span class="string">'father'</span>;</span><br><span class="line">	this.nums = [11,22];</span><br><span class="line">&#125;</span><br><span class="line">father.prototype.getFather = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"获取父亲名称"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">child</span></span>() &#123;</span><br><span class="line">	this.chName = <span class="string">'child'</span>;</span><br><span class="line">	console.log(this);//child &#123;chName: <span class="string">"child"</span>&#125;</span><br><span class="line">	father.apply(this,[]);//调用父类的构造函数</span><br><span class="line">	console.log(this);//child &#123;chName: <span class="string">"child"</span>, faName: <span class="string">"father"</span>, nums: Array(2)&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">child.prototype = new father();//调用父类的构造函数</span><br><span class="line">child.prototype.constructor = child;//</span><br><span class="line">child.prototype.getChild = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"获取孩子姓名"</span>);</span><br><span class="line">&#125;</span><br><span class="line">var c1 = new child();</span><br><span class="line">var c2 = new child();</span><br><span class="line">c1.nums.push(33);</span><br><span class="line">console.log(c1.nums);//[11, 22, 33]</span><br><span class="line">console.log(c1.__proto__.nums);//[11, 22]</span><br><span class="line">console.log(c2.nums);//[11, 22]</span><br><span class="line">console.log(c2.__proto__.nums);//[11, 22]</span><br><span class="line">console.log(c1.__proto__.nums === c2.__proto__.nums);//<span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="3-寄生组合实现继承"><a href="#3-寄生组合实现继承" class="headerlink" title="3.寄生组合实现继承"></a>3.寄生组合实现继承</h2><p>这种方式就是建立了一个对象，这个对象模拟了子类的原型里的特性，并且这个对象的<em>proto</em>指向了父类，相当于在子类和父类之间架起了一座桥梁。<br>该方法避免了重复属性的存在。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">father</span></span>() &#123;</span><br><span class="line">	this.name = <span class="string">'father'</span>;</span><br><span class="line">&#125;</span><br><span class="line">father.prototype.getFaName = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"获取父亲名字"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">child</span></span>() &#123;</span><br><span class="line">	this.name = <span class="string">'child'</span>;</span><br><span class="line">	father.apply(this,[]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> makeObj(o) &#123;//创造一个原型属性是o的对象</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">F</span></span>() &#123;&#125;;</span><br><span class="line">	F.prototype = o;</span><br><span class="line">	<span class="built_in">return</span> new F();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> inheritProto(child, father) &#123;</span><br><span class="line">	var prototype = makeObj(father.prototype);</span><br><span class="line">	prototype.constructor = child;</span><br><span class="line">	child.prototype = prototype;</span><br><span class="line">&#125;</span><br><span class="line">inheritProto(child, father);</span><br><span class="line">child.prototype.getChName = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"获取孩子名字"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var c1 = new child();</span><br><span class="line">console.log(child.prototype.isPrototypeOf(c1));//<span class="literal">true</span></span><br><span class="line">console.log(c1 instanceof child);//<span class="literal">true</span></span><br><span class="line">console.log(c1.__proto__);//father &#123;constructor: ƒ, getChName: ƒ&#125;</span><br><span class="line">console.log(child.prototype);//father &#123;constructor: ƒ, getChName: ƒ&#125;</span><br><span class="line">console.log(c1.__proto__.__proto__);//&#123;getFaName: ƒ, constructor: ƒ&#125;</span><br><span class="line">console.log(c1.__proto__.__proto__.getFaName);//ƒ () &#123;console.log(<span class="string">"获取父亲名字"</span>);&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="4-es6实现继承"><a href="#4-es6实现继承" class="headerlink" title="4.es6实现继承"></a>4.es6实现继承</h2><p>这个跟其他语言的继承就很像了，值得注意的是，类里面的方法都是定义在prototype对象上的。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">class father&#123;</span><br><span class="line">	constructor(name) &#123;</span><br><span class="line">		this.name = name;</span><br><span class="line">		this.nums = [11,22];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="title">getname</span></span>() &#123;</span><br><span class="line">		console.log(this.name);</span><br><span class="line">	&#125;</span><br><span class="line">	static <span class="function"><span class="title">getStaticFa</span></span>() &#123;</span><br><span class="line">		console.log(<span class="string">"静态父亲"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">class child extends father&#123;</span><br><span class="line">	constructor(name) &#123;</span><br><span class="line">		super(name);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="title">getChild</span></span>() &#123;</span><br><span class="line">		console.log(<span class="string">"我还是个宝宝"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	static <span class="function"><span class="title">getStaticCh</span></span>() &#123;</span><br><span class="line">		console.log(<span class="string">"静态宝宝"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var c1 = new child(<span class="string">"zxt"</span>);</span><br><span class="line">c1.getname();//zxt</span><br><span class="line">c1.getChild();//我还是个宝宝</span><br><span class="line">father.getStaticFa();//静态父亲</span><br><span class="line">child.getStaticCh();//静态宝宝</span><br><span class="line">c1.nums.push(33);</span><br><span class="line">var c2 = new child(<span class="string">"tom"</span>);</span><br><span class="line">console.log(c1.nums);//[11, 22, 33]</span><br><span class="line">console.log(c2.nums);//[11, 22]</span><br><span class="line">console.log(father.getname);//undefined</span><br><span class="line">console.log(father.prototype.getname);//ƒ <span class="function"><span class="title">getname</span></span>() &#123;console.log(<span class="string">"我还是个宝宝"</span>);&#125;</span><br><span class="line">console.log(child.prototype.getChild);//ƒ ƒ <span class="function"><span class="title">getChild</span></span>() &#123;</span><br><span class="line">		console.log(<span class="string">"我还是个宝宝"</span>);</span><br><span class="line">	&#125;() &#123;console.log(this.name);&#125;</span><br><span class="line">console.log(c1.__proto__.getname === c2.__proto__.getname);//<span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>总结一下：<br>1.第一种是基于原型的，让子类的原型对象的原型属性指向了父类的原型对象。但是这样基本上所有子类实例的属性都是共享的。<br>2.为了解决这个问题，有个第二种方法。第二种方法在第一类的基础上，添加了改变父类的指针，这样子类实例就可以拥有和父类中同样的，但是是属于自己的属性。但是这样在子类实例中会存在重复的属性，一个是在子类实例中，一个是在子类的原型属性上。<br>3.第三种则是新建了一个对象，这个对象模拟了子类的原型对象的特点，并且使得该新对象的原型属性指向了父类的原型对象，相当于子类和父类之间的桥梁。<br>4.第四种es6则是模拟java语言的继承写法，值得注意的是，类中的函数都是定义在原型对象上的。</p>
-<p>参考的学习链接：<a href="https://segmentfault.com/a/1190000011468559" target="_blank" rel="noopener">https://segmentfault.com/a/1190000011468559</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/20/js实现继承/" data-id="cjqp4rnuo0007sste1m2bldgl" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-构造函数、原型对象、实例等概念" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/20/构造函数、原型对象、实例等概念/" class="article-date">
-  <time datetime="2018-10-20T06:27:49.796Z" itemprop="datePublished">2018-10-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/20/构造函数、原型对象、实例等概念/">记录构造函数、实例、原型这些概念之间的关系</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> Person(name,age) &#123;</span><br><span class="line">	this.name = name;</span><br><span class="line">	this.age = age;</span><br><span class="line">	this.getInfo = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		console.log(this.name+<span class="string">","</span>+this.age);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">var person = new Person(<span class="string">"xiaoming"</span>,24);</span><br><span class="line">person.getInfo();//xiaoming,24</span><br></pre></td></tr></table></figure>
-<p>这里的Person就是一个构造函数，里面的this指向将要生成的实例对象。每一个实例都会有自己的name,age属性，都会有自己的getInfo方法。但是有时候希望不同的实例之间共享一些属性和方法，于是产生了prototype这个东西。</p>
-<h2 id="原型对象"><a href="#原型对象" class="headerlink" title="原型对象"></a>原型对象</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> Person(name,age) &#123;</span><br><span class="line">	this.name = name;</span><br><span class="line">	this.age = age;</span><br><span class="line">	this.getInfo = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		console.log(this.name+<span class="string">","</span>+this.age);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.getType = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">"类型是person"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var person1 = new Person(<span class="string">"xiaoming"</span>,24);</span><br><span class="line">person1.getInfo();//xiaoming,24</span><br><span class="line"></span><br><span class="line">var person2 = new Person(<span class="string">"lifang"</span>,18);</span><br><span class="line"></span><br><span class="line">console.log(person1.name === person2.name);//<span class="literal">false</span></span><br><span class="line">console.log(person1.getInfo === person2.getInfo);//<span class="literal">false</span></span><br><span class="line">console.log(person1.getType === person2.getType);//<span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>可以看到，getType方法是写在Person的prototype对象中的，这个就是原型对象。我们可以在原型对象中存放希望让所有实例共享的东西。<br>那Person构造函数是如何与这个原型对象关联起来的呢？其实任何一个函数（包括构造函数），都有一个prototype属性，该属性指向该函数的原型对象。这个原型对象中可以有各种属性和方法。</p>
-<p>调试代码的时候，发现一个知识点，稍微记录一下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">Person</span></span>() &#123;</span><br><span class="line">	this.name = <span class="string">'zxt'</span>;</span><br><span class="line">&#125;</span><br><span class="line">var person1 = new Person();</span><br><span class="line">var person2 = new Person();</span><br><span class="line"></span><br><span class="line">console.log(person1.name === person2.name);//<span class="literal">true</span>,如果name属性是个字符串，也就是说不随着传入的参数变化，那么这里就会输出<span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="proto"><a href="#proto" class="headerlink" title="proto"></a><em>proto</em></h2><p>这个时候打开控制台检测，会发现：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">person1.__proto__ === Person.prototype //<span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>原来每一个构造函数实例化的对象，都有一个<em>proto</em>属性，这个属性指向对应构造函数的原型对象。有些地方也把<strong>proto</strong>写成[[prototype]]。</p>
-<h2 id="constructor-NaN"><a href="#constructor-NaN" class="headerlink" title="constructor"></a>constructor</h2><p>constructor是原型对象的一个属性。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Person.prototype.constructor === Person //<span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>总结一下就是：prototype是构造函数的属性，它指向构造函数的原型对象。这个原型对象里的所有东西被所有的实例共享。特别的，该原型对象里有一个constructor属性，指向该构造函数。<br><strong>proto</strong>是每个实例对象的具有属性，它指向上文提到的原型对象。<br>实例的属性由两部分组成，一个是复制构造函数的属性，每个实例的属性是互相不干扰的；另一个是所有实例共享的原型对象里的属性。</p>
-<h2 id="new一个对象时发生了什么："><a href="#new一个对象时发生了什么：" class="headerlink" title="new一个对象时发生了什么："></a>new一个对象时发生了什么：</h2><p>var person = new Person();</p>
-<p>1.var person = {};//首先创建了一个空对象person<br>2.person.<em>proto</em> = Person.prototype //将这个空对象的<em>proto</em>成员指向了Person函数的prototype成员对象。<br>3.将Perso对象里的this指针换成了person，然后调用Person函数<br>4.返回该对象。</p>
-<p>以上心得参考的链接：(<a href="https://www.cnblogs.com/thonrt/p/5900510.html" target="_blank" rel="noopener">https://www.cnblogs.com/thonrt/p/5900510.html</a>)<br>(<a href="https://www.cnblogs.com/my-blog-yu/p/6627639.html" target="_blank" rel="noopener">https://www.cnblogs.com/my-blog-yu/p/6627639.html</a>)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/20/构造函数、原型对象、实例等概念/" data-id="cjqp4rnuy000isstey6k5u10s" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/js事件冒泡、捕获与委托/" data-id="cjqrhd6470005jote5bw48pko" class="article-share-link">Share</a>
       
       
     </footer>
@@ -557,6 +569,14 @@
       <ul>
         
           <li>
+            <a href="/2019/01/11/渲染机制/">渲染机制</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/10/存储/">存储</a>
+          </li>
+        
+          <li>
             <a href="/2019/01/09/跨域请求/">js跨域请求</a>
           </li>
         
@@ -566,14 +586,6 @@
         
           <li>
             <a href="/2019/01/08/generator和async函数/">Generator函数和async函数</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/07/promise/">Promise对象</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/05/macrotask microtask/">macrotask microtask</a>
           </li>
         
       </ul>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>存储 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="cookie，localStorage，sessionStorage，indexDBWeb Storage（Local Storage和Session Storage）使用简单字符串键值对在本地存储数据，方便灵活，但是不适于大量结构化数据存储。indexDB是为了能够在客户端存储大量的结构化数据，并且使用索引高效检索的API。对于简单的数据，应该使用localstorage，但当存储大量数据时，i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="存储">
+<meta property="og:url" content="http://yoursite.com/2019/01/10/存储/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="cookie，localStorage，sessionStorage，indexDBWeb Storage（Local Storage和Session Storage）使用简单字符串键值对在本地存储数据，方便灵活，但是不适于大量结构化数据存储。indexDB是为了能够在客户端存储大量的结构化数据，并且使用索引高效检索的API。对于简单的数据，应该使用localstorage，但当存储大量数据时，i">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-01-11T01:34:57.312Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="存储">
+<meta name="twitter:description" content="cookie，localStorage，sessionStorage，indexDBWeb Storage（Local Storage和Session Storage）使用简单字符串键值对在本地存储数据，方便灵活，但是不适于大量结构化数据存储。indexDB是为了能够在客户端存储大量的结构化数据，并且使用索引高效检索的API。对于简单的数据，应该使用localstorage，但当存储大量数据时，i">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-存储" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/10/存储/" class="article-date">
+  <time datetime="2019-01-10T10:34:46.906Z" itemprop="datePublished">2019-01-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      存储
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>cookie，localStorage，sessionStorage，indexDB<br>Web Storage（Local Storage和Session Storage）使用简单字符串键值对在本地存储数据，方便灵活，但是不适于大量结构化数据存储。<br>indexDB是为了能够在客户端存储大量的结构化数据，并且使用索引高效检索的API。<br>对于简单的数据，应该使用localstorage，但当存储大量数据时，indexDB会更适合，indexDB能提供更为复杂的查询数据的方式。</p>
+<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><p>cookie由服务器生成，可以设置过期时间；<br>数据存储大小是4k；<br>参与与服务端通信时，每次都会携带在header中，对于请求性能影响。<br>不建议用于存储。<br>对于cookie,需要注意安全问题：<br>1.value属性用于保存用户登录状态，应该将该值加密，不能使用明文的用户标识；<br>2.http-only属性：若此属性为true，则只有在http请求头中会带有此cookie的信息，而不能通过document.cookie来访问此cookie。<br>从而减少XSS攻击。<br>3.secure属性：设置是否只能通过https来传递此条cookie；<br>4.same-site：规定浏览器不能在跨域请求中携带cookie，减少CSRF攻击。</p>
+<h2 id="localStorage"><a href="#localStorage" class="headerlink" title="localStorage"></a>localStorage</h2><p>localStorage除非被清理，否则一直存在；<br>数据存储大小是5M；<br>不参与与服务端通信。<br><a href="https://www.cnblogs.com/st-leslie/p/5617130.html" target="_blank" rel="noopener">https://www.cnblogs.com/st-leslie/p/5617130.html</a><br>localStorage主要是用来作为本地存储来使用的。</p>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><p>1.优点：<br>localStorage拓展了cookie的4K限制，解决了cookie存储空间不足的问题，localStorage中一般浏览器支持的是5M大小。<br>localStorage可以将第一次请求的数据直接存储到本地。<br>2.局限：<br>localStorage的值类型限定为string类型，所以对我们JSON对象类型需要一些转换。<br>localStorage在浏览器的隐私模式下面是不可读取的。<br>localStorage本质上是对字符串的读取，如果存储内容多的话会消耗内存空间，会导致页面变卡。<br>localStorage不能被爬虫抓取到。</p>
+<h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><p>setItem(),getItem(),clear(),removeItem(),storage.keyName = value<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!window.localStorage)&#123;</span><br><span class="line">    alert(<span class="string">"浏览器不支持localstorage"</span>);</span><br><span class="line">    <span class="built_in">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    var storage = window.localStorage;</span><br><span class="line">    var data = &#123;</span><br><span class="line">    	name: <span class="string">'zxt'</span>,</span><br><span class="line">    	age: 23,</span><br><span class="line">    &#125;;</span><br><span class="line">    storage.setItem(<span class="string">"a"</span>,4);</span><br><span class="line">    storage.setItem(<span class="string">"b"</span>,5);</span><br><span class="line">    storage.setItem(<span class="string">"data"</span>,JSON.stringify(data));</span><br><span class="line">    console.log(storage.getItem(<span class="string">"a"</span>));// 4</span><br><span class="line">    storage.a = 7;// 修改值</span><br><span class="line">    console.log(storage.getItem(<span class="string">"a"</span>));// 7</span><br><span class="line">    storage.removeItem(<span class="string">"a"</span>);</span><br><span class="line">    // storage.clear();// 清除storage的所有内容</span><br><span class="line">    console.log(storage.key(0));// b 输入索引即可获取对应的键</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="sessionStorage"><a href="#sessionStorage" class="headerlink" title="sessionStorage"></a>sessionStorage</h2><p>sessionStorage页面关闭就被清理；<br>数据存储大小是5M；<br>不参与与服务端通信。</p>
+<p>localStorage与sessionStorage的区别是localStorage属于永久性存储，而sessionStorage属于当会话结束(例如页面关闭)的时候，sessionStorage中的键值对会被清空.</p>
+<h2 id="indexDB"><a href="#indexDB" class="headerlink" title="indexDB"></a>indexDB</h2><p>sessionStorage除非被清理，否则一直存在；<br>数据存储大小是无限的；<br>不参与与服务端通信。<br><a href="https://www.cnblogs.com/dolphinX/p/3415761.html" target="_blank" rel="noopener">https://www.cnblogs.com/dolphinX/p/3415761.html</a><br>indexedDB是一个非关系型数据库系统,然而它是使用JavaScript对象,而不是列数固定的表格来存储数据的。<br>indexedDB中没有表的概念，而是objectStore，一个数据库中可以包含多个objectStore，objectStore是一个灵活的数据结构，可s以存放多种类型数据。也就是说一个objectStore相当于一张表，里面存储的每条数据和一个键相关联。</p>
+<h2 id="Service-Worker"><a href="#Service-Worker" class="headerlink" title="Service Worker"></a>Service Worker</h2><p>待学习~<br>站渐进式增强体验(PWA)改造：Service Worker 应用<br>Service Worker 最主要的特点是：在页面中注册并安装成功后，运行于浏览器后台，不受页面刷新的影响，可以监听和截拦作用域范围内所有页面的 HTTP 请求。</p>
+<p>基于 Service Worker API 的特性，结合 Fetch API、Cache API、Push API、postMessage API 和 Notification API，可以在基于浏览器的 web 应用中实现如离线缓存、消息推送、静默更新等 native 应用常见的功能，以给 web 应用提供更好更丰富的使用体验。<br><a href="http://lzw.me/a/pwa-service-worker.html" target="_blank" rel="noopener">http://lzw.me/a/pwa-service-worker.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/10/存储/" data-id="cjqrhd64j000ejote57a8m5a8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/01/11/渲染机制/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          渲染机制
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/01/09/跨域请求/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">js跨域请求</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/01/11/渲染机制/">渲染机制</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/10/存储/">存储</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/09/跨域请求/">js跨域请求</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/09/post和get/">post和get区别</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/08/generator和async函数/">Generator函数和async函数</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

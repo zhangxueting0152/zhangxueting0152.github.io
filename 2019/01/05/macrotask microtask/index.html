@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="macrotask翻译过来，是宏任务的意思，我们常说的任务队列就指的是macrotask；microtask翻译过来，是微任务的意思 js是单线程的，意味着所有任务都需要排队，前一个任务结束，才会执行后一个任务。因此，将所有的任务分成两种，一种是同步任务synchronous，另一种是异步任务asynchronous。同步任务指的是在主线程上排队执行的任务，也就是平常所说的执行队列，这个里面的任务">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-01-07T01:48:07.428Z">
+<meta property="og:updated_time" content="2019-01-10T07:40:04.230Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="macrotask microtask">
 <meta name="twitter:description" content="macrotask翻译过来，是宏任务的意思，我们常说的任务队列就指的是macrotask；microtask翻译过来，是微任务的意思 js是单线程的，意味着所有任务都需要排队，前一个任务结束，才会执行后一个任务。因此，将所有的任务分成两种，一种是同步任务synchronous，另一种是异步任务asynchronous。同步任务指的是在主线程上排队执行的任务，也就是平常所说的执行队列，这个里面的任务">
@@ -89,7 +89,8 @@
         <p>macrotask翻译过来，是宏任务的意思，我们常说的任务队列就指的是macrotask；<br>microtask翻译过来，是微任务的意思</p>
 <p>js是单线程的，意味着所有任务都需要排队，前一个任务结束，才会执行后一个任务。因此，将所有的任务分成两种，一种是同步任务synchronous，另一种是异步任务asynchronous。<br>同步任务指的是在主线程上排队执行的任务，也就是平常所说的执行队列，这个里面的任务必须要个按照次序依次执行，只有前一个执行完了，才可以执行下一个。<br>异步任务指的是不进入主线程，而进入“任务队列”task queue的任务，只有当“任务队列”通知主线程某个异步任务可以执行了，该任务才可以进入主线程执行。异步任务执行的时候，执行的就是定义的回调函数。</p>
 <h2 id="任务队列"><a href="#任务队列" class="headerlink" title="任务队列"></a>任务队列</h2><p><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2014/10/event-loop.html</a><br>异步执行的运行机制如下：<br>1.所有同步任务都是在主线程上执行，形成一个执行栈execution context stack。<br>2.主线程之外，还存在一个“任务队列”。只要异步任务有了运行结果，就在“任务队列”之中放置一个事件。<br>3.一旦“执行栈”中的所有同步任务执行完毕，系统就会读取“任务队列”，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。<br>4.主线程不断重复上面的第三步。</p>
-<h2 id="macrotask-microtask"><a href="#macrotask-microtask" class="headerlink" title="macrotask microtask"></a>macrotask microtask</h2><p>macrotask和microtask都属于上述的异步任务中的一种，其中：<br>macrotasks: setTimeout, setInterval, setImmediate, I/O, UI rendering，requestAnimationFrame；<br>microtasks: process.nextTick, Promise, MutationObserver，Object.observe；<br>microtasks的作用是用来调度应在当前执行的脚本执行结束后立即执行的任务，例如响应时间，以避免付出额外的一个task代价。</p>
+<h2 id="macrotask-microtask"><a href="#macrotask-microtask" class="headerlink" title="macrotask microtask"></a>macrotask microtask</h2><p>macrotask和microtask都属于上述的异步任务中的一种，其中：<br>macrotasks: script,setTimeout, setInterval, setImmediate, I/O, UI rendering，requestAnimationFrame；<br>microtasks: process.nextTick, Promise, MutationObserver，Object.observe；<br>microtasks的作用是用来调度应在当前执行的脚本执行结束后立即执行的任务，例如响应时间，以避免付出额外的一个task代价。</p>
+<p>我们看到的很多代码是这样的：<br>因为宏任务包括了script，所以浏览器会执行一个宏任务，接下来有异步代码的话就先执行微任务。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="例1"><a href="#例1" class="headerlink" title="例1"></a>例1</h3><p>macrotask就是常说的任务队列task queue。<br>js执行顺序如下：<br>开始 -&gt; 取任务队列的第一个task执行 -&gt; 取microtask全部任务依次执行 -&gt; 取任务队列的第一个task执行 -&gt; 取microtask全部任务依次执行…循环往复<br>直到两个队列全部任务执行完毕</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">setTimeout(()=&gt;&#123;</span><br><span class="line">  console.log(<span class="string">'setTimeout'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">let</span> p1 = new Promise((resolve)=&gt;&#123;</span><br><span class="line">  console.log(<span class="string">'Promise1'</span>)</span><br><span class="line">  resolve(<span class="string">'Promise2'</span>)</span><br><span class="line">&#125;)</span><br><span class="line">p1.then((res)=&gt;&#123;</span><br><span class="line">  console.log(res)</span><br><span class="line">&#125;)</span><br><span class="line">console.log(1)</span><br><span class="line">//Promise1 1 Promise2 setTimeout</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
 <p>整个script代码，放在了macrotask queue中,执行到setTimeout时会新建一个macrotask queue，promise.then放到了另一个microtask queue中。<br>script的执行引擎会取1个macrotask queue中的task，执行之。<br>然后把所有microtask queue顺序执行完，再取setTimeout所在的macrotask queue按顺序开始执行。</p>
@@ -99,7 +100,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/05/macrotask microtask/" data-id="cjqp4rnuo0006sste3mxfc8x8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/05/macrotask microtask/" data-id="cjqrhd6450003jotehqznmysn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -157,6 +158,14 @@
       <ul>
         
           <li>
+            <a href="/2019/01/11/渲染机制/">渲染机制</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/10/存储/">存储</a>
+          </li>
+        
+          <li>
             <a href="/2019/01/09/跨域请求/">js跨域请求</a>
           </li>
         
@@ -166,14 +175,6 @@
         
           <li>
             <a href="/2019/01/08/generator和async函数/">Generator函数和async函数</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/07/promise/">Promise对象</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/05/macrotask microtask/">macrotask microtask</a>
           </li>
         
       </ul>
