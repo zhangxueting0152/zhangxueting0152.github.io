@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>防抖和节流 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="附上学习连接https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/5 防抖触发高频事件后n秒内函数只会执行一次，如果n秒内高频事件再次被触发，则重新计算时间;每次触发事件时都取消之前的延时调用方法12345678910111213141516&amp;lt;input id=&apos;inp&apos; type=&quot;text&quot; name=&quot;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="防抖和节流">
+<meta property="og:url" content="http://yoursite.com/2019/02/22/防抖和节流/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="附上学习连接https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/5 防抖触发高频事件后n秒内函数只会执行一次，如果n秒内高频事件再次被触发，则重新计算时间;每次触发事件时都取消之前的延时调用方法12345678910111213141516&amp;lt;input id=&apos;inp&apos; type=&quot;text&quot; name=&quot;">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-02-22T03:25:03.064Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="防抖和节流">
+<meta name="twitter:description" content="附上学习连接https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/5 防抖触发高频事件后n秒内函数只会执行一次，如果n秒内高频事件再次被触发，则重新计算时间;每次触发事件时都取消之前的延时调用方法12345678910111213141516&amp;lt;input id=&apos;inp&apos; type=&quot;text&quot; name=&quot;">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-防抖和节流" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/22/防抖和节流/" class="article-date">
+  <time datetime="2019-02-22T02:46:41.953Z" itemprop="datePublished">2019-02-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      防抖和节流
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>附上学习连接<a href="https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/5" target="_blank" rel="noopener">https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/5</a></p>
+<h2 id="防抖"><a href="#防抖" class="headerlink" title="防抖"></a>防抖</h2><p>触发高频事件后n秒内函数只会执行一次，如果n秒内高频事件再次被触发，则重新计算时间;<br>每次触发事件时都取消之前的延时调用方法<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;input id=<span class="string">'inp'</span> <span class="built_in">type</span>=<span class="string">"text"</span> name=<span class="string">""</span>&gt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> debounce(fn) &#123;</span><br><span class="line">	<span class="built_in">let</span> timeout = null;// 创建一个标记用来存放定时器的返回值</span><br><span class="line">	<span class="built_in">return</span> <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		clearTimeout(timeout);// 每当用户输入的时候把前一个setTimeout clear掉</span><br><span class="line">		timeout = setTimeout(() =&gt; &#123;</span><br><span class="line">			fn.apply(this, arguments);</span><br><span class="line">		&#125;, 500);</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">sayHi</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">'防抖成功'</span>);</span><br><span class="line">&#125;</span><br><span class="line">var inp = document.getElementById(<span class="string">'inp'</span>);</span><br><span class="line">inp.addEventListener(<span class="string">'input'</span>, debounce(sayHi));</span><br></pre></td></tr></table></figure></p>
+<h2 id="节流"><a href="#节流" class="headerlink" title="节流"></a>节流</h2><p>高频事件触发，但在n秒内只会执行一次，所以节流会稀释函数的执行频率;<br>每次触发事件时都判断当前是否有等待执行的延时函数<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> throttle(fn) &#123;</span><br><span class="line">	<span class="built_in">let</span> canRun = <span class="literal">true</span>;// 通过闭包保存一个标记</span><br><span class="line">	<span class="built_in">return</span> <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		<span class="keyword">if</span> (!canRun) <span class="built_in">return</span>;</span><br><span class="line">		canRun = <span class="literal">false</span>; // 立即设置为<span class="literal">false</span></span><br><span class="line">		setTimeout(() =&gt; &#123;</span><br><span class="line">			fn.apply(this, arguments);</span><br><span class="line">			canRun = <span class="literal">true</span>;</span><br><span class="line">		&#125;, 500);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> sayHi(e) &#123;</span><br><span class="line">	console.log(e.target.innerWidth, e.target.innerHeight);</span><br><span class="line">&#125;</span><br><span class="line">window.addEventListener(<span class="string">'resize'</span>, throttle(sayHi));</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/22/防抖和节流/" data-id="cjsfhtd63000j4stexbcfo54v" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/01/11/渲染机制/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">渲染机制</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/02/22/防抖和节流/">防抖和节流</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/11/渲染机制/">渲染机制</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/10/存储/">存储</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/09/跨域请求/">js跨域请求</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/09/post和get/">post和get区别</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

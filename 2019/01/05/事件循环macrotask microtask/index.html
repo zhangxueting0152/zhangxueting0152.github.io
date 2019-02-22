@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>事件循环 macrotask microtask | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="附上一个讲事件循环很好的链接https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/7 macrotask翻译过来，是宏任务的意思microtask翻译过来，是微任务的意思 js是单线程的，意味着所有任务都需要排队，前一个任务结束，才会执行后一个任务。因此，将所有的任务分成两种，一种是同步任务synchronous，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="事件循环 macrotask microtask">
+<meta property="og:url" content="http://yoursite.com/2019/01/05/事件循环macrotask microtask/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="附上一个讲事件循环很好的链接https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/7 macrotask翻译过来，是宏任务的意思microtask翻译过来，是微任务的意思 js是单线程的，意味着所有任务都需要排队，前一个任务结束，才会执行后一个任务。因此，将所有的任务分成两种，一种是同步任务synchronous，">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-02-22T03:00:30.807Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="事件循环 macrotask microtask">
+<meta name="twitter:description" content="附上一个讲事件循环很好的链接https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/7 macrotask翻译过来，是宏任务的意思microtask翻译过来，是微任务的意思 js是单线程的，意味着所有任务都需要排队，前一个任务结束，才会执行后一个任务。因此，将所有的任务分成两种，一种是同步任务synchronous，">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-事件循环macrotask microtask" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/05/事件循环macrotask microtask/" class="article-date">
+  <time datetime="2019-01-05T02:02:14.058Z" itemprop="datePublished">2019-01-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      事件循环 macrotask microtask
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>附上一个讲事件循环很好的链接<a href="https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/7" target="_blank" rel="noopener">https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/7</a></p>
+<p>macrotask翻译过来，是宏任务的意思<br>microtask翻译过来，是微任务的意思</p>
+<p>js是单线程的，意味着所有任务都需要排队，前一个任务结束，才会执行后一个任务。因此，将所有的任务分成两种，一种是同步任务synchronous，另一种是异步任务asynchronous。<br>同步任务指的是在主线程上排队执行的任务，也就是平常所说的执行队列，这个里面的任务必须要个按照次序依次执行，只有前一个执行完了，才可以执行下一个。<br>异步任务指的是不进入主线程，而进入“任务队列”task queue的任务，只有当“任务队列”通知主线程某个异步任务可以执行了，该任务才可以进入主线程执行。异步任务执行的时候，执行的就是定义的回调函数。</p>
+<h2 id="任务队列"><a href="#任务队列" class="headerlink" title="任务队列"></a>任务队列</h2><p><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2014/10/event-loop.html</a><br>异步执行的运行机制如下：<br>1.所有同步任务都是在主线程上执行，形成一个执行栈execution context stack。<br>2.主线程之外，还存在一个“任务队列”。只要异步任务有了运行结果，就在“任务队列”之中放置一个事件。<br>3.一旦“执行栈”中的所有同步任务执行完毕，系统就会读取“任务队列”，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。<br>4.主线程不断重复上面的第三步。</p>
+<h2 id="macrotask-microtask"><a href="#macrotask-microtask" class="headerlink" title="macrotask microtask"></a>macrotask microtask</h2><p>macrotask和microtask都属于上述的异步任务中的一种，其中：<br>macrotasks: script,setTimeout, setInterval, setImmediate, I/O, UI rendering，requestAnimationFrame；<br>microtasks: process.nextTick, Promise, MutationObserver，Object.observe；<br>microtasks的作用是用来调度应在当前执行的脚本执行结束后立即执行的任务，例如响应时间，以避免付出额外的一个task代价。</p>
+<p>我们看到的很多代码是这样的：<br>因为宏任务包括了script，所以浏览器会执行一个宏任务，接下来有异步代码的话就先执行微任务。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="例1"><a href="#例1" class="headerlink" title="例1"></a>例1</h3><p>js执行顺序如下：<br>开始 -&gt; 取任务队列的第一个task执行 -&gt; 取microtask全部任务依次执行 -&gt; 取任务队列的第一个task执行 -&gt; 取microtask全部任务依次执行…循环往复<br>直到两个队列全部任务执行完毕</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">setTimeout(()=&gt;&#123;</span><br><span class="line">  console.log(<span class="string">'setTimeout'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">let</span> p1 = new Promise((resolve)=&gt;&#123;</span><br><span class="line">  console.log(<span class="string">'Promise1'</span>)</span><br><span class="line">  resolve(<span class="string">'Promise2'</span>)</span><br><span class="line">&#125;)</span><br><span class="line">p1.then((res)=&gt;&#123;</span><br><span class="line">  console.log(res)</span><br><span class="line">&#125;)</span><br><span class="line">console.log(1)</span><br><span class="line">//Promise1 1 Promise2 setTimeout</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>整个script代码，放在了macrotask queue中,执行到setTimeout时会新建一个macrotask queue，promise.then放到了另一个microtask queue中。<br>script的执行引擎会取1个macrotask queue中的task，执行之。<br>然后把所有microtask queue顺序执行完，再取setTimeout所在的macrotask queue按顺序开始执行。</p>
+<h3 id="例2"><a href="#例2" class="headerlink" title="例2"></a>例2</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="title">function</span></span>()&#123;console.log(1);&#125;, 0);</span><br><span class="line">console.log(2);</span><br><span class="line">//2 1</span><br></pre></td></tr></table></figure>
+<p>因为只有在执行完第二行以后，系统才会去执行”任务队列”中的回调函数。<br>setTimeout(fn,0)的含义是，指定某个任务在主线程最早可得的空闲时间执行，也就是说，尽可能早得执行。它在”任务队列”的尾部添加一个事件，因此要等到同步任务和”任务队列”现有的事件都处理完，才会得到执行。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/05/事件循环macrotask microtask/" data-id="cjsfhtd5s00084ste544m11b9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/01/07/promise/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Promise对象
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/12/19/this学习/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">this学习</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/02/22/防抖和节流/">防抖和节流</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/11/渲染机制/">渲染机制</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/10/存储/">存储</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/09/跨域请求/">js跨域请求</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/09/post和get/">post和get区别</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

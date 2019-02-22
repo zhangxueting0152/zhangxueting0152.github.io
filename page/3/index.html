@@ -62,6 +62,57 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-js事件冒泡、捕获与委托" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/23/js事件冒泡、捕获与委托/" class="article-date">
+  <time datetime="2018-10-23T03:02:37.693Z" itemprop="datePublished">2018-10-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/23/js事件冒泡、捕获与委托/">js事件冒泡、捕获与委托</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="事件冒泡与事件捕获"><a href="#事件冒泡与事件捕获" class="headerlink" title="事件冒泡与事件捕获"></a>事件冒泡与事件捕获</h2><p>先放一段百度上对事件冒泡的解释：<br>当事件发生后，这个事件就要开始传播(从里到外或者从外向里)。为什么要传播呢？因为事件源本身（可能）并没有处理事件的能力，即处理事件的函数（方法）并未绑定在该事件源上。例如我们点击一个按钮时，就会产生一个click事件，但这个按钮本身可能不能处理这个事件，事件必须从这个按钮传播出去，从而到达能够处理这个事件的代码中（例如我们给按钮的onclick属性赋一个函数的名字，就是让这个函数去处理该按钮的click事件），或者按钮的父级绑定有事件函数，当该点击事件发生在按钮上，按钮本身并无处理事件函数，则传播到父级去处理。</p>
+<h3 id="事件冒泡（自下而上传播事件）："><a href="#事件冒泡（自下而上传播事件）：" class="headerlink" title="事件冒泡（自下而上传播事件）："></a>事件冒泡（自下而上传播事件）：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"father"</span> style=<span class="string">"border:1px solid black; height: 500px;width: 500px"</span>&gt;</span><br><span class="line">	&lt;div id=<span class="string">"child"</span> style=<span class="string">"border:1px solid red; height: 200px;width: 200px; margin-top: 600px"</span>&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">	document.getElementById(<span class="string">"father"</span>).addEventListener(<span class="string">"click"</span>,<span class="keyword">function</span>(e)&#123;</span><br><span class="line">		alert(<span class="string">'father'</span>);</span><br><span class="line">	&#125;,<span class="literal">false</span>);//也可以不写这个参数，默认是<span class="literal">false</span></span><br><span class="line">	document.getElementById(<span class="string">"child"</span>).addEventListener(<span class="string">"click"</span>,<span class="keyword">function</span>(e)&#123;</span><br><span class="line">		alert(<span class="string">'child'</span>);</span><br><span class="line">	&#125;,<span class="literal">false</span>);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>当点击子框时，会先弹出child,后弹出father;当点击父框时，只弹出father。</p>
+<h3 id="事件捕获（自上而下传播事件）："><a href="#事件捕获（自上而下传播事件）：" class="headerlink" title="事件捕获（自上而下传播事件）："></a>事件捕获（自上而下传播事件）：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">document.getElementById(<span class="string">"father"</span>).addEventListener(<span class="string">"click"</span>,<span class="keyword">function</span>(e)&#123;</span><br><span class="line">	alert(<span class="string">'father'</span>);</span><br><span class="line">&#125;,<span class="literal">true</span>);</span><br><span class="line">document.getElementById(<span class="string">"child"</span>).addEventListener(<span class="string">"click"</span>,<span class="keyword">function</span>(e)&#123;</span><br><span class="line">	alert(<span class="string">'child'</span>);</span><br><span class="line">&#125;,<span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+<p>当把父亲和孩子的事件监听里的addEventListener参数都改成true的时候，<br>点击子框时，会先弹出father,后弹出child；当点击父框时，只弹出father。</p>
+<h3 id="取消事件传播："><a href="#取消事件传播：" class="headerlink" title="取消事件传播："></a>取消事件传播：</h3><p>当需要取消事件传播的时候，使用event.stopPropagation()即可。</p>
+<p>1.取消事件冒泡<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">document.getElementById(<span class="string">"father"</span>).addEventListener(<span class="string">"click"</span>,<span class="keyword">function</span>(e)&#123;</span><br><span class="line">	alert(<span class="string">'father'</span>);</span><br><span class="line">&#125;,<span class="literal">false</span>);</span><br><span class="line">document.getElementById(<span class="string">"child"</span>).addEventListener(<span class="string">"click"</span>,<span class="keyword">function</span>(e)&#123;</span><br><span class="line">	alert(<span class="string">'child'</span>);</span><br><span class="line">	e.stopPropagation();</span><br><span class="line">&#125;,<span class="literal">false</span>);</span><br></pre></td></tr></table></figure></p>
+<p>点击子框时，只弹出child；当点击父框时，只弹出father。</p>
+<p>2.取消事件捕获<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">document.getElementById(<span class="string">"father"</span>).addEventListener(<span class="string">"click"</span>,<span class="keyword">function</span>(e)&#123;</span><br><span class="line">	alert(<span class="string">'father'</span>);</span><br><span class="line">	e.stopPropagation();</span><br><span class="line">&#125;,<span class="literal">true</span>);</span><br><span class="line">document.getElementById(<span class="string">"child"</span>).addEventListener(<span class="string">"click"</span>,<span class="keyword">function</span>(e)&#123;</span><br><span class="line">	alert(<span class="string">'child'</span>);</span><br><span class="line">	//e.stopPropagation();//取消事件如果写在这里，会没有取消效果</span><br><span class="line">&#125;,<span class="literal">true</span>);</span><br></pre></td></tr></table></figure></p>
+<p>点击子框时，只弹出father；当点击父框时，只弹出father。</p>
+<h2 id="事件委托"><a href="#事件委托" class="headerlink" title="事件委托"></a>事件委托</h2><p>也叫事件代理，即利用事件冒泡的原理，将事件添加到父级上。这样在某些情况会使得提高性能。</p>
+<p>eg:网上举得最多的一个例子，就是希望在鼠标移到列表的某一条时，该条的背景变成红色。当然可以循环ul中的每一个Li，然后给每一个都添加一个鼠标悬浮事件，但这样做明显有点不好。这个时候我们就可以使用事件委托，将这个事件（背景变红）写在父级ul中。并且事件对象有一个事件属性target（触发该事件的节点），通过它就能获取到当前鼠标所在的li，这样就不至于让整个ul都变红了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul id=<span class="string">"myUl"</span> style=<span class="string">"border:1px solid black; height: 500px;width: 500px"</span>&gt;</span><br><span class="line">	&lt;li&gt;111&lt;/li&gt;</span><br><span class="line">	&lt;li&gt;222&lt;/li&gt;</span><br><span class="line">	&lt;li&gt;333&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span>&gt;	</span><br><span class="line">window.onload = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	var myUl = document.getElementById(<span class="string">"myUl"</span>);</span><br><span class="line">	var muLis = document.getElementsByTagName(<span class="string">"li"</span>);</span><br><span class="line"></span><br><span class="line">	myUl.onmouseover = <span class="keyword">function</span>(e) &#123;</span><br><span class="line">		//console.log(e.target);</span><br><span class="line">		<span class="keyword">if</span>(e.target.nodeName.toLowerCase() == <span class="string">'li'</span>) &#123;</span><br><span class="line">			e.target.style.background = <span class="string">'red'</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>可以想到，这样做还可以带来的好处是，如果页面中会有动态加载的li，那么因为事件委托，这个新加载的li也会自动的具有鼠标悬浮背景变红的事件。</p>
+<p>参考学习链接：<a href="https://www.cnblogs.com/moqing/p/5590433.html" target="_blank" rel="noopener">https://www.cnblogs.com/moqing/p/5590433.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/23/js事件冒泡、捕获与委托/" data-id="cjsfhtd5900024steqlh3a1fg" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-js实现继承" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/20/js实现继承/" class="article-date">
@@ -98,7 +149,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/20/js实现继承/" data-id="cjqrhd64a0008jotehcc4b1to" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/20/js实现继承/" data-id="cjsfhtd5q00074ste0yb59uzv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -148,7 +199,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/20/构造函数、原型对象、实例等概念/" data-id="cjqrhd64m000hjotef8w3jedf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/20/构造函数、原型对象、实例等概念/" data-id="cjsfhtd6x000n4steuhv1zadg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -219,7 +270,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/17/使用hexo搭建博客/" data-id="cjqrhd64k000fjotesawhyvgm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/17/使用hexo搭建博客/" data-id="cjsfhtd60000f4ste5d5pjcl9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -264,7 +315,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/17/hello-world/" data-id="cjqrhd6410001jotewfby0wl9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/17/hello-world/" data-id="cjsfhtd5100004stepvsik95h" class="article-share-link">Share</a>
       
       
     </footer>
@@ -297,7 +348,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
     </div>
   </div>
 
@@ -308,6 +359,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/02/22/防抖和节流/">防抖和节流</a>
+          </li>
         
           <li>
             <a href="/2019/01/11/渲染机制/">渲染机制</a>
@@ -323,10 +378,6 @@
         
           <li>
             <a href="/2019/01/09/post和get/">post和get区别</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/08/generator和async函数/">Generator函数和async函数</a>
           </li>
         
       </ul>

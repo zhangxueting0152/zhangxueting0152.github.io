@@ -62,6 +62,45 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-防抖和节流" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/22/防抖和节流/" class="article-date">
+  <time datetime="2019-02-22T02:46:41.953Z" itemprop="datePublished">2019-02-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/22/防抖和节流/">防抖和节流</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>附上学习连接<a href="https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/5" target="_blank" rel="noopener">https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/5</a></p>
+<h2 id="防抖"><a href="#防抖" class="headerlink" title="防抖"></a>防抖</h2><p>触发高频事件后n秒内函数只会执行一次，如果n秒内高频事件再次被触发，则重新计算时间;<br>每次触发事件时都取消之前的延时调用方法<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;input id=<span class="string">'inp'</span> <span class="built_in">type</span>=<span class="string">"text"</span> name=<span class="string">""</span>&gt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> debounce(fn) &#123;</span><br><span class="line">	<span class="built_in">let</span> timeout = null;// 创建一个标记用来存放定时器的返回值</span><br><span class="line">	<span class="built_in">return</span> <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		clearTimeout(timeout);// 每当用户输入的时候把前一个setTimeout clear掉</span><br><span class="line">		timeout = setTimeout(() =&gt; &#123;</span><br><span class="line">			fn.apply(this, arguments);</span><br><span class="line">		&#125;, 500);</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">sayHi</span></span>() &#123;</span><br><span class="line">	console.log(<span class="string">'防抖成功'</span>);</span><br><span class="line">&#125;</span><br><span class="line">var inp = document.getElementById(<span class="string">'inp'</span>);</span><br><span class="line">inp.addEventListener(<span class="string">'input'</span>, debounce(sayHi));</span><br></pre></td></tr></table></figure></p>
+<h2 id="节流"><a href="#节流" class="headerlink" title="节流"></a>节流</h2><p>高频事件触发，但在n秒内只会执行一次，所以节流会稀释函数的执行频率;<br>每次触发事件时都判断当前是否有等待执行的延时函数<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> throttle(fn) &#123;</span><br><span class="line">	<span class="built_in">let</span> canRun = <span class="literal">true</span>;// 通过闭包保存一个标记</span><br><span class="line">	<span class="built_in">return</span> <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		<span class="keyword">if</span> (!canRun) <span class="built_in">return</span>;</span><br><span class="line">		canRun = <span class="literal">false</span>; // 立即设置为<span class="literal">false</span></span><br><span class="line">		setTimeout(() =&gt; &#123;</span><br><span class="line">			fn.apply(this, arguments);</span><br><span class="line">			canRun = <span class="literal">true</span>;</span><br><span class="line">		&#125;, 500);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> sayHi(e) &#123;</span><br><span class="line">	console.log(e.target.innerWidth, e.target.innerHeight);</span><br><span class="line">&#125;</span><br><span class="line">window.addEventListener(<span class="string">'resize'</span>, throttle(sayHi));</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/22/防抖和节流/" data-id="cjsfhtd63000j4stexbcfo54v" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-渲染机制" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/01/11/渲染机制/" class="article-date">
@@ -123,7 +162,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/11/渲染机制/" data-id="cjqrhd64o000jjotexkl3an0u" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/11/渲染机制/" data-id="cjsfhtd6z000o4stex3jx8iwl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -169,7 +208,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/10/存储/" data-id="cjqrhd64j000ejote57a8m5a8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/10/存储/" data-id="cjsfhtd68000k4stem9t2shcm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -227,7 +266,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/09/跨域请求/" data-id="cjqrhd64y000mjotenqlhjh9u" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/09/跨域请求/" data-id="cjsfhtd6l000m4stevyp5huey" class="article-share-link">Share</a>
       
       
     </footer>
@@ -264,7 +303,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/09/post和get/" data-id="cjqrhd64g000bjotey6ublo8w" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/09/post和get/" data-id="cjsfhtd5c00044ste0tjub3wt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -313,7 +352,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/08/generator和async函数/" data-id="cjqrhd6440002jotexbnta58e" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/08/generator和async函数/" data-id="cjsfhtd5d00054ste71qyf6uj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -370,7 +409,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/07/promise/" data-id="cjqrhd6490007jote4v97yfnk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/07/promise/" data-id="cjsfhtd5t00094stefvbu0ho1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -380,9 +419,9 @@
 
 
   
-    <article id="post-macrotask microtask" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-事件循环macrotask microtask" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/01/05/macrotask microtask/" class="article-date">
+    <a href="/2019/01/05/事件循环macrotask microtask/" class="article-date">
   <time datetime="2019-01-05T02:02:14.058Z" itemprop="datePublished">2019-01-05</time>
 </a>
     
@@ -394,7 +433,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/05/macrotask microtask/">macrotask microtask</a>
+      <a class="article-title" href="/2019/01/05/事件循环macrotask microtask/">事件循环 macrotask microtask</a>
     </h1>
   
 
@@ -402,12 +441,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>macrotask翻译过来，是宏任务的意思，我们常说的任务队列就指的是macrotask；<br>microtask翻译过来，是微任务的意思</p>
+        <p>附上一个讲事件循环很好的链接<a href="https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/7" target="_blank" rel="noopener">https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/7</a></p>
+<p>macrotask翻译过来，是宏任务的意思<br>microtask翻译过来，是微任务的意思</p>
 <p>js是单线程的，意味着所有任务都需要排队，前一个任务结束，才会执行后一个任务。因此，将所有的任务分成两种，一种是同步任务synchronous，另一种是异步任务asynchronous。<br>同步任务指的是在主线程上排队执行的任务，也就是平常所说的执行队列，这个里面的任务必须要个按照次序依次执行，只有前一个执行完了，才可以执行下一个。<br>异步任务指的是不进入主线程，而进入“任务队列”task queue的任务，只有当“任务队列”通知主线程某个异步任务可以执行了，该任务才可以进入主线程执行。异步任务执行的时候，执行的就是定义的回调函数。</p>
 <h2 id="任务队列"><a href="#任务队列" class="headerlink" title="任务队列"></a>任务队列</h2><p><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2014/10/event-loop.html</a><br>异步执行的运行机制如下：<br>1.所有同步任务都是在主线程上执行，形成一个执行栈execution context stack。<br>2.主线程之外，还存在一个“任务队列”。只要异步任务有了运行结果，就在“任务队列”之中放置一个事件。<br>3.一旦“执行栈”中的所有同步任务执行完毕，系统就会读取“任务队列”，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。<br>4.主线程不断重复上面的第三步。</p>
 <h2 id="macrotask-microtask"><a href="#macrotask-microtask" class="headerlink" title="macrotask microtask"></a>macrotask microtask</h2><p>macrotask和microtask都属于上述的异步任务中的一种，其中：<br>macrotasks: script,setTimeout, setInterval, setImmediate, I/O, UI rendering，requestAnimationFrame；<br>microtasks: process.nextTick, Promise, MutationObserver，Object.observe；<br>microtasks的作用是用来调度应在当前执行的脚本执行结束后立即执行的任务，例如响应时间，以避免付出额外的一个task代价。</p>
 <p>我们看到的很多代码是这样的：<br>因为宏任务包括了script，所以浏览器会执行一个宏任务，接下来有异步代码的话就先执行微任务。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="例1"><a href="#例1" class="headerlink" title="例1"></a>例1</h3><p>macrotask就是常说的任务队列task queue。<br>js执行顺序如下：<br>开始 -&gt; 取任务队列的第一个task执行 -&gt; 取microtask全部任务依次执行 -&gt; 取任务队列的第一个task执行 -&gt; 取microtask全部任务依次执行…循环往复<br>直到两个队列全部任务执行完毕</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="例1"><a href="#例1" class="headerlink" title="例1"></a>例1</h3><p>js执行顺序如下：<br>开始 -&gt; 取任务队列的第一个task执行 -&gt; 取microtask全部任务依次执行 -&gt; 取任务队列的第一个task执行 -&gt; 取microtask全部任务依次执行…循环往复<br>直到两个队列全部任务执行完毕</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">setTimeout(()=&gt;&#123;</span><br><span class="line">  console.log(<span class="string">'setTimeout'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">let</span> p1 = new Promise((resolve)=&gt;&#123;</span><br><span class="line">  console.log(<span class="string">'Promise1'</span>)</span><br><span class="line">  resolve(<span class="string">'Promise2'</span>)</span><br><span class="line">&#125;)</span><br><span class="line">p1.then((res)=&gt;&#123;</span><br><span class="line">  console.log(res)</span><br><span class="line">&#125;)</span><br><span class="line">console.log(1)</span><br><span class="line">//Promise1 1 Promise2 setTimeout</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
 <p>整个script代码，放在了macrotask queue中,执行到setTimeout时会新建一个macrotask queue，promise.then放到了另一个microtask queue中。<br>script的执行引擎会取1个macrotask queue中的task，执行之。<br>然后把所有microtask queue顺序执行完，再取setTimeout所在的macrotask queue按顺序开始执行。</p>
 <h3 id="例2"><a href="#例2" class="headerlink" title="例2"></a>例2</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="title">function</span></span>()&#123;console.log(1);&#125;, 0);</span><br><span class="line">console.log(2);</span><br><span class="line">//2 1</span><br></pre></td></tr></table></figure>
@@ -416,7 +456,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/05/macrotask microtask/" data-id="cjqrhd6450003jotehqznmysn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/05/事件循环macrotask microtask/" data-id="cjsfhtd5s00084ste544m11b9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -471,7 +511,7 @@
 <p>依次点击这三个按钮后，控制台输出如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onclick=<span class="string">"console.log(this);"</span>&gt;click&lt;/button&gt;</span><br><span class="line">Window &#123;postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, frames: Window, …&#125;</span><br><span class="line">undefined</span><br></pre></td></tr></table></figure></p>
 <p>6.setTimeout &amp; setInterval<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">Person</span></span>() &#123;  </span><br><span class="line">    this.age = 0;  </span><br><span class="line">    setTimeout(<span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">        console.log(this);</span><br><span class="line">    &#125;, 3000);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var p = new Person();//3秒后返回 window 对象</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">Person</span></span>() &#123;  </span><br><span class="line">    this.age = 0;  </span><br><span class="line">    setTimeout((<span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">        console.log(this);</span><br><span class="line">    &#125;).<span class="built_in">bind</span>(this), 3000);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var p = new Person();//3秒后返回构造函数新生成的对象 Person &#123;age: 0&#125;</span><br></pre></td></tr></table></figure>
-<p>7.箭头函数中的this<br>7.1 箭头函数在方法内部<br>箭头函数会自己捕获所在的上下文的this值，即定义的位置。call() / apply() / bind() 方法对于箭头函数来说只是传入参数，对this毫无影响。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">Person</span></span>() &#123;  </span><br><span class="line">    this.age = 0;  </span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      console.log(this);</span><br><span class="line">    &#125;, 3000);</span><br><span class="line">&#125;</span><br><span class="line">var p = new Person();//3秒后返回构造函数新生成的对象 Person &#123;age: 0&#125;</span><br></pre></td></tr></table></figure></p>
+<p>7.箭头函数中的this<br>箭头函数的this指向固定化，并不是因为箭头函数内部有绑定this的机制，实际原因是箭头函数没有自己的this,导致内部的this就是外层代码的this，也正是因为没有this，所以箭头函数不能用作构造函数。<br>7.1 箭头函数在方法内部<br>箭头函数会自己捕获所在的上下文的this值，即定义的位置。call() / apply() / bind() 方法对于箭头函数来说只是传入参数，对this毫无影响。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">Person</span></span>() &#123;  </span><br><span class="line">    this.age = 0;  </span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      console.log(this);</span><br><span class="line">    &#125;, 3000);</span><br><span class="line">&#125;</span><br><span class="line">var p = new Person();//3秒后返回构造函数新生成的对象 Person &#123;age: 0&#125;</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">var adder = &#123;</span><br><span class="line">  base : 1,</span><br><span class="line">    </span><br><span class="line">  add : <span class="keyword">function</span>(a) &#123;</span><br><span class="line">    var f = v =&gt; v + this.base;</span><br><span class="line">    <span class="built_in">return</span> f(a);</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  addThruCall: <span class="keyword">function</span> inFun(a) &#123;</span><br><span class="line">    var f = v =&gt; v + this.base;</span><br><span class="line">    var b = &#123;</span><br><span class="line">      base : 2</span><br><span class="line">    &#125;;</span><br><span class="line">            </span><br><span class="line">    <span class="built_in">return</span> f.call(b, a);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">console.log(adder.add(1));         //2</span><br><span class="line">console.log(adder.addThruCall(1)); //2</span><br></pre></td></tr></table></figure>
 <p>7.2 作为方法的箭头函数<br>作为方法的箭头函数的this指向全局对象window,而普通函数则指向调用它的对象。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">  i: 10,</span><br><span class="line">  arrow: () =&gt; console.log(this.i, this),</span><br><span class="line">  c: <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">    console.log( this.i, this)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.arrow();  //undefined Window &#123;postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, frames: Window, …&#125;</span><br><span class="line">obj.c(); //10 &#123;i: 10, arrow: ƒ, c: ƒ&#125;</span><br></pre></td></tr></table></figure></p>
 <p>学习参考链接：<br><a href="http://www.imooc.com/article/1758" target="_blank" rel="noopener">http://www.imooc.com/article/1758</a><br><a href="http://www.cnblogs.com/dongcanliang/p/7054176.html" target="_blank" rel="noopener">http://www.cnblogs.com/dongcanliang/p/7054176.html</a></p>
@@ -479,7 +519,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/19/this学习/" data-id="cjqrhd64b0009joterihl1x22" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/19/this学习/" data-id="cjsfhtd5n00064steppcge92s" class="article-share-link">Share</a>
       
       
     </footer>
@@ -511,7 +551,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="闭包closure"><a href="#闭包closure" class="headerlink" title="闭包closure"></a>闭包closure</h2><p>闭包的定义就是：函数A返回了一个函数B，并且函数B中使用了函数A的变量，函数B就被成为闭包。</p>
+        <h2 id="闭包closure"><a href="#闭包closure" class="headerlink" title="闭包closure"></a>闭包closure</h2><p>闭包的定义就是：函数A返回了一个函数B，并且函数B中使用了函数A的变量，函数B就被成为闭包。<br>闭包指的是：能够访问另一个函数作用域的变量的函数。清晰的讲：闭包就是一个函数，这个函数能够访问其他函数的作用域中的变量。</p>
 <h3 id="为什么会有闭包的出现？"><a href="#为什么会有闭包的出现？" class="headerlink" title="为什么会有闭包的出现？"></a>为什么会有闭包的出现？</h3><p>假设现在有一个需求：想定义一个变量，使得计数的时候可以加1。<br>最直接想到的代码为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var i=0;</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">add</span></span>() &#123;</span><br><span class="line">	i++;</span><br><span class="line">	<span class="built_in">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line">add();</span><br><span class="line">console.log(i);//1</span><br></pre></td></tr></table></figure></p>
 <p>但是全局变量i有风险，因为可能不小心在哪里就改掉它了，但是用局部变量的话，它就只能在函数内部有效，调用完函数后它就没了，而且全局没法使用。所以现在的需求就是想让这个计数器可以在全局使用，但又不能被随便修改。此时闭包就要出场了~</p>
 <h3 id="什么是闭包函数？"><a href="#什么是闭包函数？" class="headerlink" title="什么是闭包函数？"></a>什么是闭包函数？</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">add</span></span>() &#123;</span><br><span class="line">	var i=0;</span><br><span class="line">	<span class="built_in">return</span> <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> ++i;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br><span class="line">var a1 = add();</span><br><span class="line">console.log(a1());//1</span><br><span class="line">console.log(a1());//2</span><br><span class="line"></span><br><span class="line">var a2 = add();</span><br><span class="line">console.log(a2());//1</span><br></pre></td></tr></table></figure>
@@ -521,56 +561,12 @@
 <h2 id="立即执行函数"><a href="#立即执行函数" class="headerlink" title="立即执行函数"></a>立即执行函数</h2><h3 id="为什么会有立即函数的出现？"><a href="#为什么会有立即函数的出现？" class="headerlink" title="为什么会有立即函数的出现？"></a>为什么会有立即函数的出现？</h3><p>在闭包的基础上，现在又有这样的需求：就是我们希望对象只有一份，不像上部分中既有a1又有a2，类似后端中的单例模式。那么我们想到的解决思路就是保证这个方法只能被调用一次。<br>首先因为不能多次调用，那么就需要是匿名的；然后因为只能被调用一次，那么必须在声明的时候立马执行。这个时候就出现了立即执行函数。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var count1 = (<span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	var i=0;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">add</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> ++i;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">minus</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> --i;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">return</span> &#123;</span><br><span class="line">		outerAdd: add,</span><br><span class="line">		outerMinus: minus</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)();</span><br><span class="line">console.log(count1.outerAdd());//1</span><br><span class="line">console.log(count1.outerAdd());//2</span><br><span class="line">console.log(count1.outerMinus());//1</span><br></pre></td></tr></table></figure>
 <p>count1就是这个匿名函数返回的一个对象，该对象有两个属性：outerAdd和outerMinus，每个属性分别对应一个函数的定义。</p>
+<p>另外的学习连接<a href="https://www.jianshu.com/p/26c81fde22fb" target="_blank" rel="noopener">https://www.jianshu.com/p/26c81fde22fb</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/18/闭包和立即执行函数/" data-id="cjqrhd64w000ljoteqq81hilo" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-异步，同步，回调和class" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/12/05/异步，同步，回调和class/" class="article-date">
-  <time datetime="2018-12-05T03:18:44.947Z" itemprop="datePublished">2018-12-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/05/异步，同步，回调和class/">异步，同步，回调和js的class</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>感觉阮一峰对异步，同步和回调的解释，很通俗，所以在这里记一下.<br>链接：<a href="http://es6.ruanyifeng.com/#docs/generator-async" target="_blank" rel="noopener">http://es6.ruanyifeng.com/#docs/generator-async</a></p>
-<h2 id="异步："><a href="#异步：" class="headerlink" title="异步："></a>异步：</h2><p>所谓”异步”，简单说就是一个任务不是连续完成的，可以理解成该任务被人为分成两段，先执行第一段，然后转而执行其他任务，等做好了准备，再回过头执行第二段。<br>比如，有一个任务是读取文件进行处理，任务的第一段是向操作系统发出请求，要求读取文件。然后，程序执行其他任务，等到操作系统返回文件，再接着执行任务的第二段（处理文件）。这种不连续的执行，就叫做异步。</p>
-<h2 id="同步："><a href="#同步：" class="headerlink" title="同步："></a>同步：</h2><p>相应地，连续的执行就叫做同步。由于是连续执行，不能插入其他任务，所以操作系统从硬盘读取文件的这段时间，程序只能干等着。</p>
-<h2 id="回调函数："><a href="#回调函数：" class="headerlink" title="回调函数："></a>回调函数：</h2><p>JavaScript 语言对异步编程的实现，就是回调函数。所谓回调函数，就是把任务的第二段单独写在一个函数里面，等到重新执行这个任务的时候，就直接调用这个函数。回调函数的英语名字callback，直译过来就是”重新调用”。</p>
-<p>读取文件进行处理，是这样写的。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fs.readFile(<span class="string">'/etc/passwd'</span>, <span class="string">'utf-8'</span>, <span class="keyword">function</span> (err, data) &#123;</span><br><span class="line">  <span class="keyword">if</span> (err) throw err;</span><br><span class="line">  console.log(data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>上面代码中，readFile函数的第三个参数，就是回调函数，也就是任务的第二段。等到操作系统返回了/etc/passwd这个文件以后，回调函数才会执行。</p>
-<h2 id="class："><a href="#class：" class="headerlink" title="class："></a>class：</h2><p>ES6 的类的所有方法都定义在类的prototype属性上面。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Point &#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span></span>() &#123;</span><br><span class="line">    // ...</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">toString</span></span>() &#123;</span><br><span class="line">    // ...</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">toValue</span></span>() &#123;</span><br><span class="line">    // ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>等同于<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Point.prototype = &#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span></span>() &#123;&#125;,</span><br><span class="line">  <span class="function"><span class="title">toString</span></span>() &#123;&#125;,</span><br><span class="line">  <span class="function"><span class="title">toValue</span></span>() &#123;&#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>注：<br>类里面会用到super关键字，super这个关键字，既可以当作函数使用，也可以当作对象使用。第一种情况，super作为函数调用时，代表父类的构造函数。第二种情况，super作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/05/异步，同步，回调和class/" data-id="cjqrhd64l000gjotem43074gh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/18/闭包和立即执行函数/" data-id="cjsfhtd62000i4stefp9y9qas" class="article-share-link">Share</a>
       
       
     </footer>
@@ -603,7 +599,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
     </div>
   </div>
 
@@ -614,6 +610,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/02/22/防抖和节流/">防抖和节流</a>
+          </li>
         
           <li>
             <a href="/2019/01/11/渲染机制/">渲染机制</a>
@@ -629,10 +629,6 @@
         
           <li>
             <a href="/2019/01/09/post和get/">post和get区别</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/08/generator和async函数/">Generator函数和async函数</a>
           </li>
         
       </ul>
