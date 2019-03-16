@@ -62,6 +62,53 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-闭包和立即执行函数" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/18/闭包和立即执行函数/" class="article-date">
+  <time datetime="2018-12-18T01:54:17.096Z" itemprop="datePublished">2018-12-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/18/闭包和立即执行函数/">闭包和立即执行函数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="闭包closure"><a href="#闭包closure" class="headerlink" title="闭包closure"></a>闭包closure</h2><p>闭包的定义就是：函数A返回了一个函数B，并且函数B中使用了函数A的变量，函数B就被成为闭包。<br>闭包指的是：能够访问另一个函数作用域的变量的函数。清晰的讲：闭包就是一个函数，这个函数能够访问其他函数的作用域中的变量。</p>
+<h3 id="为什么会有闭包的出现？"><a href="#为什么会有闭包的出现？" class="headerlink" title="为什么会有闭包的出现？"></a>为什么会有闭包的出现？</h3><p>假设现在有一个需求：想定义一个变量，使得计数的时候可以加1。<br>最直接想到的代码为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var i=0;</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">add</span></span>() &#123;</span><br><span class="line">	i++;</span><br><span class="line">	<span class="built_in">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line">add();</span><br><span class="line">console.log(i);//1</span><br></pre></td></tr></table></figure></p>
+<p>但是全局变量i有风险，因为可能不小心在哪里就改掉它了，但是用局部变量的话，它就只能在函数内部有效，调用完函数后它就没了，而且全局没法使用。所以现在的需求就是想让这个计数器可以在全局使用，但又不能被随便修改。此时闭包就要出场了~</p>
+<h3 id="什么是闭包函数？"><a href="#什么是闭包函数？" class="headerlink" title="什么是闭包函数？"></a>什么是闭包函数？</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">add</span></span>() &#123;</span><br><span class="line">	var i=0;</span><br><span class="line">	<span class="built_in">return</span> <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> ++i;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br><span class="line">var a1 = add();</span><br><span class="line">console.log(a1());//1</span><br><span class="line">console.log(a1());//2</span><br><span class="line"></span><br><span class="line">var a2 = add();</span><br><span class="line">console.log(a2());//1</span><br></pre></td></tr></table></figure>
+<p>每次调用add()函数后会生成一个计数器，而且不同的计数器之间是不干扰的。<br>我们不能自己操控变量i，但是可以通过特定的方法“add中返回的匿名函数”去操作它。</p>
+<p>总结一下，闭包函数最大的特点就是：创建内部变量，使得这些变量不能被外部随意修改，然后只能通过特定的方法才可以访问操作它。</p>
+<p>对于有多个特定方法可以操作变量时，可以考虑下述写法：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">count</span></span>() &#123;</span><br><span class="line">	var i=0;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">add</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> ++i;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">minus</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> --i;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">return</span> &#123;</span><br><span class="line">		outerAdd: add,</span><br><span class="line">		outerMinus: minus</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">var count1 = count();</span><br><span class="line">console.log(count1.outerAdd());//1</span><br><span class="line">console.log(count1.outerMinus());//0</span><br></pre></td></tr></table></figure></p>
+<h2 id="立即执行函数"><a href="#立即执行函数" class="headerlink" title="立即执行函数"></a>立即执行函数</h2><h3 id="为什么会有立即函数的出现？"><a href="#为什么会有立即函数的出现？" class="headerlink" title="为什么会有立即函数的出现？"></a>为什么会有立即函数的出现？</h3><p>在闭包的基础上，现在又有这样的需求：就是我们希望对象只有一份，不像上部分中既有a1又有a2，类似后端中的单例模式。那么我们想到的解决思路就是保证这个方法只能被调用一次。<br>首先因为不能多次调用，那么就需要是匿名的；然后因为只能被调用一次，那么必须在声明的时候立马执行。这个时候就出现了立即执行函数。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var count1 = (<span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	var i=0;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">add</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> ++i;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">minus</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> --i;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">return</span> &#123;</span><br><span class="line">		outerAdd: add,</span><br><span class="line">		outerMinus: minus</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)();</span><br><span class="line">console.log(count1.outerAdd());//1</span><br><span class="line">console.log(count1.outerAdd());//2</span><br><span class="line">console.log(count1.outerMinus());//1</span><br></pre></td></tr></table></figure>
+<p>count1就是这个匿名函数返回的一个对象，该对象有两个属性：outerAdd和outerMinus，每个属性分别对应一个函数的定义。</p>
+<p>另外的学习连接<a href="https://www.jianshu.com/p/26c81fde22fb" target="_blank" rel="noopener">https://www.jianshu.com/p/26c81fde22fb</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/12/18/闭包和立即执行函数/" data-id="cjtb7owv1000j7cte7anik9sk" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-异步，同步，回调和class" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/12/05/异步，同步，回调和class/" class="article-date">
@@ -97,7 +144,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/05/异步，同步，回调和class/" data-id="cjsfi0bym000fuctezqmv7co9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/05/异步，同步，回调和class/" data-id="cjtb7owub000f7cte4ohw0mh9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -145,7 +192,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/28/深浅拷贝/" data-id="cjsfi0byq000jucte7lsucov9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/28/深浅拷贝/" data-id="cjtb7owv0000i7cter98ygs6m" class="article-share-link">Share</a>
       
       
     </footer>
@@ -206,7 +253,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/27/前端面试题记录/" data-id="cjsfi0byy000nucteqwd0rza8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/27/前端面试题记录/" data-id="cjtb7owve000o7cte4y4l0brk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -238,7 +285,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>将id=”container”的div水平垂直居中<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"container"</span>&gt;</span><br><span class="line">我的div要水平垂直居中</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;style <span class="built_in">type</span>=<span class="string">"text/css"</span>&gt;</span><br><span class="line">*&#123;</span><br><span class="line">	margin: 0;</span><br><span class="line">	padding: 0;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure></p>
+        <p><a href="https://github.com/ljianshu/Blog/issues/29" target="_blank" rel="noopener">https://github.com/ljianshu/Blog/issues/29</a><br>将id=”container”的div水平垂直居中<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"container"</span>&gt;</span><br><span class="line">我的div要水平垂直居中</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;style <span class="built_in">type</span>=<span class="string">"text/css"</span>&gt;</span><br><span class="line">*&#123;</span><br><span class="line">	margin: 0;</span><br><span class="line">	padding: 0;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure></p>
 <p>水平居中当然都知道，需要margin: 0 auto;即可，但是如何水平垂直居中呢？<br>position:relative 配合top:50%无效，但是left：50%有效。<br>是因为子元素设置的width或者height是百分比的值跟父元素有关。设置width为百分比，不需要父元素明确设置width；但是子元素设置height为百分比，父元素必须明确设置高度。</p>
 <h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><p>使用绝对布局，让left为50%，这样水平方向上div的最左与屏幕的最左相距50%，所以还需将div再向左移动半个宽度，所以margin-left: -100px;，或者通过transform: translate(-50%,-50%);设置。top方向上同理。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#container&#123;</span></span><br><span class="line">	text-align: center;</span><br><span class="line">    background: pink;</span><br><span class="line">    width: 200px;</span><br><span class="line">    height: 200px;</span><br><span class="line">    position: absolute;</span><br><span class="line">    left: 50%;</span><br><span class="line">    top: 50%;</span><br><span class="line">    /*transform: translate(-50%,-50%);*/</span><br><span class="line">    margin-top: -100px;</span><br><span class="line">    margin-left: -100px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -251,7 +298,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/26/水平垂直居中div/" data-id="cjsfi0byo000iuctethp7vyh9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/26/水平垂直居中div/" data-id="cjtb7owv3000l7cte3recit44" class="article-share-link">Share</a>
       
       
     </footer>
@@ -290,7 +337,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/26/React生命周期/" data-id="cjsfi0by60002uctelwtefthi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/26/React生命周期/" data-id="cjtb7owtu00047ctev98qb1h3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -329,7 +376,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/22/圣杯布局/" data-id="cjsfi0byl000euctej880vvfr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/22/圣杯布局/" data-id="cjtb7owua000e7ctez0cbchjx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -368,7 +415,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/01/attr和prop用法/" data-id="cjsfi0bxx0000uctesocgvt8c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/01/attr和prop用法/" data-id="cjtb7owty00077cte09efgoul" class="article-share-link">Share</a>
       
       
     </footer>
@@ -405,7 +452,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/30/js刷新页面方式/" data-id="cjsfi0byc0007uctebcjdkf9f" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/30/js刷新页面方式/" data-id="cjtb7ows500007cteu678vai9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -470,55 +517,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/24/函数的声明与调用/" data-id="cjsfi0byk000ducte8piznt2h" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-三目运算" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/23/三目运算/" class="article-date">
-  <time datetime="2018-10-23T06:52:49.434Z" itemprop="datePublished">2018-10-23</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/23/三目运算/">运算</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="三目运算"><a href="#三目运算" class="headerlink" title="三目运算"></a>三目运算</h1><h2 id="语法："><a href="#语法：" class="headerlink" title="语法："></a>语法：</h2><p>基本语法：expression ? sentence1 : sentence2<br>当expression的值为真时执行sentence1，否则执行sentence2。</p>
-<p>相当于if else:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(expression) &#123;</span><br><span class="line">	sentence1;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	sentence2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>当需要进行多次逻辑判断时，三目运算符会看起来更加的简洁：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">expression1 ？ sentence1 ：</span><br><span class="line">expression2 ？ sentence2 ：</span><br><span class="line">expression3 ？ sentence3 ：</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
-<p>可以看到，只要任意一个expressionN为真，就会立即执行sentenceN,并且判断结束，不会执行后面的代码。对应的if else如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(expression1）&#123;</span><br><span class="line">	sentence1;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span>(expression2) &#123;</span><br><span class="line">	sentence2;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span>(expression3) &#123;</span><br><span class="line">	sentence3;</span><br><span class="line">&#125;...</span><br></pre></td></tr></table></figure></p>
-<p>相比之下，三目运算符更加的简洁。</p>
-<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="1-判断"><a href="#1-判断" class="headerlink" title="1.判断"></a>1.判断</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a=1,b=1;</span><br><span class="line">a &gt;= 1 ? b++ : b--;</span><br><span class="line">console.log(b);//2</span><br></pre></td></tr></table></figure>
-<h3 id="2-赋值"><a href="#2-赋值" class="headerlink" title="2.赋值"></a>2.赋值</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a=0,c;</span><br><span class="line">var c = (a &gt;= 1 ? 2 : 3);</span><br><span class="line">console.log(c);//2</span><br></pre></td></tr></table></figure>
-<p>三目运算是有返回值的，相当于return(3)</p>
-<p>所以当写成var c = (a &gt;= 1 ? return true : return false);的时候，就会有问题，因为这个相当于<br>if(expression){<br>      return (return true);//会报错<br>   }</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a=1,b=1;</span><br><span class="line">console.log(a &gt;= 1 ? b++ : b--);//1</span><br><span class="line">console.log(b);//2</span><br></pre></td></tr></table></figure>
-<p>因为b++是后加，所以return b++,是先return b,再给b加1的。</p>
-<h1 id="amp-amp"><a href="#amp-amp" class="headerlink" title="&amp;&amp;"></a>&amp;&amp;</h1><p>假前真后：<br>只要&amp;&amp;前面是false，无论&amp;&amp;后面是true还是false，结果都将返回&amp;&amp;前面的值；<br>只要&amp;&amp;前面是true，无论&amp;&amp;后面是true还是false，结果都将返回&amp;&amp;后面的值；</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">console.log(1 &amp;&amp; 0);//0</span><br><span class="line">console.log(0 &amp;&amp; 1);//0</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/三目运算/" data-id="cjsfi0byf000auctemwrb15oq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/24/函数的声明与调用/" data-id="cjtb7owu6000c7ctelwg1i56h" class="article-share-link">Share</a>
       
       
     </footer>
@@ -564,6 +563,10 @@
       <ul>
         
           <li>
+            <a href="/2019/02/24/数组遍历方法汇总/">数组遍历</a>
+          </li>
+        
+          <li>
             <a href="/2019/02/22/防抖和节流/">防抖和节流</a>
           </li>
         
@@ -577,10 +580,6 @@
         
           <li>
             <a href="/2019/01/09/跨域请求/">js跨域请求</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/09/post和get/">post和get区别</a>
           </li>
         
       </ul>
