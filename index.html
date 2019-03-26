@@ -62,6 +62,98 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-BFC" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/26/BFC/" class="article-date">
+  <time datetime="2019-03-26T12:13:18.000Z" itemprop="datePublished">2019-03-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/26/BFC/">BFC</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/2019/03/26/BFC/图片名.jpg" alt="你想输入的替代文字"></p>
+<h2 id="什么是BFC"><a href="#什么是BFC" class="headerlink" title="什么是BFC"></a>什么是BFC</h2><h3 id="Formatting-context"><a href="#Formatting-context" class="headerlink" title="Formatting context"></a>Formatting context</h3><p>它是页面中的一块渲染区域，并且有一套渲染规则，它决定了其子元素将如何定位，以及和其他元素的关系和相互作用。最常见的 Formatting context 有 Block fomatting context (简称BFC)和 Inline formatting context (简称IFC)。</p>
+<h3 id="BFC"><a href="#BFC" class="headerlink" title="BFC"></a>BFC</h3><p>“块级格式化上下文”。它是一个独立的渲染区域，只有Block-level box参与， 它规定了内部的Block-level Box如何布局，并且与这个区域外部毫不相干。</p>
+<h3 id="BFC约束规则"><a href="#BFC约束规则" class="headerlink" title="BFC约束规则"></a>BFC约束规则</h3><p>内部的Box会在垂直方向，一个接一个地放置。<br>Box垂直方向的距离由margin决定。属于同一个BFC的两个相邻Box的margin会发生重叠。<br>每个元素的margin box的左边， 与包含块border box的左边相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此。除非这个子元素也创建了一个新的BFC。<br>BFC的区域不会与float box重叠。<br>BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。<br>计算BFC的高度时，浮动元素也参与计算。</p>
+<h3 id="BFC如何产生"><a href="#BFC如何产生" class="headerlink" title="BFC如何产生"></a>BFC如何产生</h3><p>根元素<br>float属性不为none<br>position为absolute或fixed，即为绝对定位元素<br>display为inline-block, table-cell, table-caption, flex, inline-flex<br>overflow不为visible</p>
+<h2 id="BFC作用"><a href="#BFC作用" class="headerlink" title="BFC作用"></a>BFC作用</h2><h3 id="清除内部浮动（当浮动元素无法撑起父元素时）"><a href="#清除内部浮动（当浮动元素无法撑起父元素时）" class="headerlink" title="清除内部浮动（当浮动元素无法撑起父元素时）"></a>清除内部浮动（当浮动元素无法撑起父元素时）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;style <span class="built_in">type</span>=<span class="string">"text/css"</span>&gt;</span><br><span class="line"><span class="comment">#father &#123;</span></span><br><span class="line">	width: 300px;</span><br><span class="line">	background-color: gray;</span><br><span class="line">	border: 2px blue solid;</span><br><span class="line">&#125;</span><br><span class="line">.child &#123;</span><br><span class="line">	width: 100px;</span><br><span class="line">	height: 300px;</span><br><span class="line">	background-color: pink;</span><br><span class="line">	<span class="built_in">float</span>: left;</span><br><span class="line">	border: 2px red solid;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;div id=<span class="string">"father"</span>&gt;</span><br><span class="line">		&lt;div class=<span class="string">"child"</span>&gt;child1&lt;/div&gt;</span><br><span class="line">		&lt;div class=<span class="string">"child"</span>&gt;child2&lt;/div&gt;</span><br><span class="line">	&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/03/26/BFC/1_1.jpg" alt="你想输入的替代文字"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/03/26/BFC/" data-id="cjtprddat000084te2vez9xke" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-位运算符" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/17/位运算符/" class="article-date">
+  <time datetime="2019-03-17T09:41:46.615Z" itemprop="datePublished">2019-03-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/17/位运算符/">位运算符</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>位运算符是在数字底层（即表示数字的 32 个数位）进行操作的。<br>有符号整数使用 31 位表示整数的数值，用第 32 位表示整数的符号，0 表示正数，1 表示负数。<br>负数也存储为二进制代码，不过采用的形式是二进制补码。计算数字二进制补码的步骤有三步：</p>
+<pre><code>确定该数字的非负版本的二进制表示（例如，要计算 -18的二进制补码，首先要确定 18 的二进制表示）
+求得二进制反码，即要把 0 替换为 1，把 1 替换为 0
+在二进制反码上加 1
+</code></pre><p>例如：要确定 -18 的二进制表示：<br>18 的二进制表示：0000 0000 0000 0000 0000 0000 0001 0010<br>计算二进制反码 ：1111 1111 1111 1111 1111 1111 1110 1101<br>二进制反码加 1： 1111 1111 1111 1111 1111 1111 1110 1110（-18的二进制表示）</p>
+<h2 id="位运算NOT"><a href="#位运算NOT" class="headerlink" title="位运算NOT ~"></a>位运算NOT ~</h2><p>位运算 NOT 由否定号（ ~ ）表示<br>位运算 NOT 是三步的处理过程：<br>    把运算数转换成 32 位数字<br>    把二进制数转换成它的二进制反码<br>    把二进制数转换成浮点数<br>例如：<br>var iNum1 = 25;        //25 等于 00000000000000000000000000011001<br>var iNum2 =  ~ iNum1;    //转换为 11111111111111111111111111100110<br>alert(iNum2);        //输出 “-26”</p>
+<p>位运算 NOT 实质上是对数字求负，然后减 1，因此 25 变 -26。</p>
+<h2 id="位运算-AND-amp"><a href="#位运算-AND-amp" class="headerlink" title="位运算 AND &amp;"></a>位运算 AND &amp;</h2><p>位运算 AND 由和号（&amp;）表示，直接对数字的二进制形式进行运算。它把每个数字中的数位对齐，然后按位计算。只有1 1才得到1.</p>
+<h2 id="位运算-OR"><a href="#位运算-OR" class="headerlink" title="位运算 OR |"></a>位运算 OR |</h2><p>位运算 OR 由和号（|）表示，也是直接对数字的二进制形式进行运算。在计算每位时，只有0 0 才得到0.</p>
+<h2 id="位运算-XOR"><a href="#位运算-XOR" class="headerlink" title="位运算 XOR ^"></a>位运算 XOR ^</h2><p>位运算 XOR 由符号（^）表示，当然，也是直接对二进制形式进行运算。XOR 不同于 OR，当只有一个数位存放的是 1 时，它才返回 1。即两位不同才是1.</p>
+<h2 id="左移运算"><a href="#左移运算" class="headerlink" title="左移运算"></a>左移运算</h2><p>左移运算由两个小于号表示（&lt;&lt;）。它把数字中的所有数位向左移动指定的数量。例如，把数字 2（等于二进制中的 10）左移 5 位，结果为 64（等于二进制中的 1000000）。<br>左移运算保留数字的符号位。例如，如果把 -2 左移 5 位，得到的是 -64，而不是 64。</p>
+<h2 id="有符号右移运算"><a href="#有符号右移运算" class="headerlink" title="有符号右移运算"></a>有符号右移运算</h2><p>有符号右移运算符由两个大于号表示（&gt;&gt;）。它把 32 位数字中的所有数位整体右移，同时保留该数的符号（正号或负号）。<br>同样，移动数位后会造成空位。这次，空位位于数字的左侧，但位于符号位之后。ECMAScript 用符号位的值填充这些空位，创建完整的数字。</p>
+<h2 id="无符号右移运算"><a href="#无符号右移运算" class="headerlink" title="无符号右移运算"></a>无符号右移运算</h2><p>无符号右移运算符由三个大于号（&gt;&gt;&gt;）表示，它将无符号 32 位数的所有数位整体右移。对于正数，无符号右移运算的结果与有符号右移运算一样。<br>对于负数，情况就不同了。<br>无符号右移运算用 0 填充所有空位。对于正数，这与有符号右移运算的操作一样，而负数则被作为正数来处理。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/03/17/位运算符/" data-id="cjtprddbv000f84teb7tff8fh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-数组遍历方法汇总" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/02/24/数组遍历方法汇总/" class="article-date">
@@ -104,7 +196,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/24/数组遍历方法汇总/" data-id="cjtb7owvd000n7ctegswqammc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/24/数组遍历方法汇总/" data-id="cjtprddbx000g84te1j8bnj6y" class="article-share-link">Share</a>
       
       
     </footer>
@@ -144,7 +236,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/22/防抖和节流/" data-id="cjtb7owvb000m7cteai5yhpq9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/22/防抖和节流/" data-id="cjtprddc4000n84tekv5d9xud" class="article-share-link">Share</a>
       
       
     </footer>
@@ -215,7 +307,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/11/渲染机制/" data-id="cjtb7owv2000k7ctexk3bzvb1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/11/渲染机制/" data-id="cjtprddci000q84te0azt5cav" class="article-share-link">Share</a>
       
       
     </footer>
@@ -264,7 +356,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/10/存储/" data-id="cjtb7owu2000a7cteuqjy9b4w" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/10/存储/" data-id="cjtprddch000p84te0op3y81h" class="article-share-link">Share</a>
       
       
     </footer>
@@ -322,7 +414,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/09/跨域请求/" data-id="cjtb7owvp000p7cte7yuhwtz2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/09/跨域请求/" data-id="cjtprddck000r84tekl204jj4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -359,7 +451,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/09/post和get/" data-id="cjtb7owu000097cteawet71px" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/09/post和get/" data-id="cjtprddbc000584te0gd9c0wm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -409,7 +501,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/08/generator和async函数/" data-id="cjtb7owts00037cte9ifayclr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/08/generator和async函数/" data-id="cjtprddb8000284te6d5sor52" class="article-share-link">Share</a>
       
       
     </footer>
@@ -466,117 +558,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/07/promise/" data-id="cjtb7owtv00057ctepvl965g9" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-事件循环macrotask microtask" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/01/05/事件循环macrotask microtask/" class="article-date">
-  <time datetime="2019-01-05T02:02:14.058Z" itemprop="datePublished">2019-01-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/05/事件循环macrotask microtask/">事件循环 macrotask microtask</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>附上一个讲事件循环很好的链接<a href="https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/7" target="_blank" rel="noopener">https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/7</a></p>
-<p>macrotask翻译过来，是宏任务的意思<br>microtask翻译过来，是微任务的意思</p>
-<p>js是单线程的，意味着所有任务都需要排队，前一个任务结束，才会执行后一个任务。因此，将所有的任务分成两种，一种是同步任务synchronous，另一种是异步任务asynchronous。<br>同步任务指的是在主线程上排队执行的任务，也就是平常所说的执行队列，这个里面的任务必须要个按照次序依次执行，只有前一个执行完了，才可以执行下一个。<br>异步任务指的是不进入主线程，而进入“任务队列”task queue的任务，只有当“任务队列”通知主线程某个异步任务可以执行了，该任务才可以进入主线程执行。异步任务执行的时候，执行的就是定义的回调函数。</p>
-<h2 id="任务队列"><a href="#任务队列" class="headerlink" title="任务队列"></a>任务队列</h2><p><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2014/10/event-loop.html</a><br>异步执行的运行机制如下：<br>1.所有同步任务都是在主线程上执行，形成一个执行栈execution context stack。<br>2.主线程之外，还存在一个“任务队列”。只要异步任务有了运行结果，就在“任务队列”之中放置一个事件。<br>3.一旦“执行栈”中的所有同步任务执行完毕，系统就会读取“任务队列”，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。<br>4.主线程不断重复上面的第三步。</p>
-<h2 id="macrotask-microtask"><a href="#macrotask-microtask" class="headerlink" title="macrotask microtask"></a>macrotask microtask</h2><p>macrotask和microtask都属于上述的异步任务中的一种，其中：<br>macrotasks: script,setTimeout, setInterval, setImmediate, I/O, UI rendering，requestAnimationFrame；<br>microtasks: process.nextTick, Promise, MutationObserver，Object.observe；<br>microtasks的作用是用来调度应在当前执行的脚本执行结束后立即执行的任务，例如响应时间，以避免付出额外的一个task代价。</p>
-<p>我们看到的很多代码是这样的：<br>因为宏任务包括了script，所以浏览器会执行一个宏任务，接下来有异步代码的话就先执行微任务。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="例1"><a href="#例1" class="headerlink" title="例1"></a>例1</h3><p>js执行顺序如下：<br>开始 -&gt; 取任务队列的第一个task执行 -&gt; 取microtask全部任务依次执行 -&gt; 取任务队列的第一个task执行 -&gt; 取microtask全部任务依次执行…循环往复<br>直到两个队列全部任务执行完毕</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">setTimeout(()=&gt;&#123;</span><br><span class="line">  console.log(<span class="string">'setTimeout'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">let</span> p1 = new Promise((resolve)=&gt;&#123;</span><br><span class="line">  console.log(<span class="string">'Promise1'</span>)</span><br><span class="line">  resolve(<span class="string">'Promise2'</span>)</span><br><span class="line">&#125;)</span><br><span class="line">p1.then((res)=&gt;&#123;</span><br><span class="line">  console.log(res)</span><br><span class="line">&#125;)</span><br><span class="line">console.log(1)</span><br><span class="line">//Promise1 1 Promise2 setTimeout</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>整个script代码，放在了macrotask queue中,执行到setTimeout时会新建一个macrotask queue，promise.then放到了另一个microtask queue中。<br>script的执行引擎会取1个macrotask queue中的task，执行之。<br>然后把所有microtask queue顺序执行完，再取setTimeout所在的macrotask queue按顺序开始执行。</p>
-<h3 id="例2"><a href="#例2" class="headerlink" title="例2"></a>例2</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="title">function</span></span>()&#123;console.log(1);&#125;, 0);</span><br><span class="line">console.log(2);</span><br><span class="line">//2 1</span><br></pre></td></tr></table></figure>
-<p>因为只有在执行完第二行以后，系统才会去执行”任务队列”中的回调函数。<br>setTimeout(fn,0)的含义是，指定某个任务在主线程最早可得的空闲时间执行，也就是说，尽可能早得执行。它在”任务队列”的尾部添加一个事件，因此要等到同步任务和”任务队列”现有的事件都处理完，才会得到执行。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/05/事件循环macrotask microtask/" data-id="cjtb7owtz00087cte06pfp8uh" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-this学习" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/12/19/this学习/" class="article-date">
-  <time datetime="2018-12-19T07:30:07.000Z" itemprop="datePublished">2018-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/19/this学习/">this学习</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="为什么会出现this问题？"><a href="#为什么会出现this问题？" class="headerlink" title="为什么会出现this问题？"></a>为什么会出现this问题？</h2><p>参考链接：<a href="http://www.ruanyifeng.com/blog/2018/06/javascript-this.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2018/06/javascript-this.html</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">	bar: 1,</span><br><span class="line">	foo: <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		console.log(this.bar);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">var foo = obj.foo;</span><br><span class="line">var bar = 2;</span><br><span class="line">obj.foo();//1</span><br><span class="line">foo();//2</span><br></pre></td></tr></table></figure></p>
-<p>出现这种情况的原因是，this指的是函数运行时所在的环境。对于obj.foo()来说，foo运行在obj环境，所以this指向obj;但是对于foo()来说是运行在全局环境中，所以this指向全局环境，即window.</p>
-<h3 id="js内存的数据结构"><a href="#js内存的数据结构" class="headerlink" title="js内存的数据结构"></a>js内存的数据结构</h3><p>1.当属性的值是一个数值的时候：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123; foo:  5 &#125;;</span><br></pre></td></tr></table></figure></p>
-<p>对于这段代码，js引擎会首先在内存里面生成一个对象{ foo:  5 }，然后把该对象的地址赋值给obj。<br>原始的对象是以字典的形式保存的，每一个属性名都对应一个对象。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  foo: &#123;</span><br><span class="line">    [[value]]: 5</span><br><span class="line">    [[writable]]: <span class="literal">true</span></span><br><span class="line">    [[enumerable]]: <span class="literal">true</span></span><br><span class="line">    [[configurable]]: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2018/12/19/this学习/属性值是数值.png" alt="属性值是数值"></p>
-<p>2.当属性的值是一个函数的时候：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123; foo: <span class="function"><span class="title">function</span></span> () &#123;&#125; &#125;;</span><br></pre></td></tr></table></figure></p>
-<p>这个时候在内存中会存在一个函数，并且将这个函数的地址赋值给foo属性的value属性。<br><img src="/2018/12/19/this学习/属性值是函数.png" alt="属性值是函数"><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  foo: &#123;</span><br><span class="line">    [[value]]: 函数的地址</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>正是由于函数是一个单独的值，所以它可以在不同的环境（上下文）中执行。那么就需要一种机制，可以在函数内部获得当前的运行环境（上下文），这个机制就是this.它的存在就是表示函数的当前运行环境。</p>
-<h3 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var f = <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">  console.log(this.x);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var x = 1;</span><br><span class="line">var obj = &#123;</span><br><span class="line">  foo: f,</span><br><span class="line">  x: 2,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 单独执行</span><br><span class="line">f() // 1</span><br><span class="line"></span><br><span class="line">// obj 环境执行</span><br><span class="line">obj.f() // 2</span><br></pre></td></tr></table></figure>
-<p>1.图形解释f()结果:<br><img src="/2018/12/19/this学习/f结果.png" alt="f()结果"><br>2.图形解释obj.f()结果:<br><img src="/2018/12/19/this学习/obj.f结果.png" alt="obj.f()结果"></p>
-<p>那么此时就明白了：对于obj.foo()来说，是通过obj找到foo，所以就是在obj环境中执行的；<br>但是对于var foo = obj.foo;，那么变量foo就直接指向函数本身，所以此时foo()就变成是在全局环境中执行的。</p>
-<h2 id="this的指向问题"><a href="#this的指向问题" class="headerlink" title="this的指向问题"></a>this的指向问题</h2><h3 id="全局环境："><a href="#全局环境：" class="headerlink" title="全局环境："></a>全局环境：</h3><p>在全局环境下，无论是否是严格模式，this始终指向全局对象window</p>
-<h3 id="函数上下文调用："><a href="#函数上下文调用：" class="headerlink" title="函数上下文调用："></a>函数上下文调用：</h3><p>1.函数直接调用时：<br>非严格模式下，this指向全局对象window；严格模式下，this为undefined.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">f1</span></span>()&#123;</span><br><span class="line">  <span class="built_in">return</span> this;</span><br><span class="line">&#125;</span><br><span class="line">console.log(f1() === window) // <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">f2</span></span>()&#123;</span><br><span class="line">  <span class="string">"use strict"</span>; // 这里是严格模式</span><br><span class="line">  <span class="built_in">return</span> this;</span><br><span class="line">&#125;</span><br><span class="line">console.log(f2() === undefined) // <span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
-<p>2.对象中的this：<br>依照下面的法则去替换即可：（谁调用它，this就指向谁）<br>foo() —&gt; foo.call(window)<br>obj.foo() –&gt; obj.foo.call(obj)</p>
-<p>3.构造函数的this<br>构造函数中的this与被创建的新对象绑定。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">C</span></span>()&#123;</span><br><span class="line">  this.a = 37;</span><br><span class="line">  <span class="built_in">return</span> &#123;a:38&#125;;</span><br><span class="line">&#125;</span><br><span class="line">var b = new C();</span><br><span class="line">console.log(b.a); //38</span><br></pre></td></tr></table></figure></p>
-<p>4.call &amp; apply和bind方法<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> add(c, d)&#123;</span><br><span class="line">  <span class="built_in">return</span> this.a + this.b + c + d;</span><br><span class="line">&#125;</span><br><span class="line">var o = &#123;a:1, b:3&#125;;</span><br><span class="line">add.call(o, 5, 7); // 1 + 3 + 5 + 7 = 16</span><br><span class="line">add.apply(o, [10, 20]); // 1 + 3 + 10 + 20 = 34</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">tt</span></span>() &#123;</span><br><span class="line">  console.log(this);</span><br><span class="line">&#125;</span><br><span class="line">tt.call(5);  // Number &#123;[[PrimitiveValue]]: 5&#125; </span><br><span class="line">tt.call(<span class="string">'asd'</span>); // String &#123;0: <span class="string">"a"</span>, 1: <span class="string">"s"</span>, 2: <span class="string">"d"</span>, length: 3, [[PrimitiveValue]]: <span class="string">"asd"</span>&#125;</span><br></pre></td></tr></table></figure></p>
-<p>bind方法，会将函数永远绑定在其第一个参数对象上，无论在什么情况下被调用，它的this指向都不变。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">f</span></span>()&#123;</span><br><span class="line">  <span class="built_in">return</span> this.a;</span><br><span class="line">&#125;</span><br><span class="line">var g = f.bind(&#123;a:<span class="string">"azerty"</span>&#125;);</span><br><span class="line">console.log(g()); // azerty</span><br><span class="line">var o = &#123;a:37, f:f, g:g&#125;;</span><br><span class="line">console.log(o.f(), o.g()); // 37, azerty</span><br></pre></td></tr></table></figure></p>
-<p>5.DOM事件处理函数中的this<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;button id=<span class="string">"myBtn"</span> onclick=<span class="string">"test()"</span>&gt;click&lt;/button&gt;</span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">    <span class="keyword">function</span> listenerTest(e)&#123;</span><br><span class="line">      console.log(this);//输出&lt;button id=<span class="string">"myBtn"</span> onclick=<span class="string">"test()"</span>&gt;click&lt;/button&gt;</span><br><span class="line">    &#125;</span><br><span class="line">    document.getElementById(<span class="string">"myBtn"</span>).addEventListener(<span class="string">'click'</span>, listenerTest, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="function"><span class="title">test</span></span>() &#123;</span><br><span class="line">      console.log(this);</span><br><span class="line">      //Window &#123;postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, frames:Window, listenerTest:ƒ listenerTest(e)…&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    console.log(document.getElementById(<span class="string">"myBtn"</span>).onclick);//ƒ onclick(event) &#123;<span class="built_in">test</span>()&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
-<p>我对上述代码的控制台输出的理解：<br>因为listenerTest方法是绑定到button对象上，所以里面的this指向button;<br>而test方法是赋给了onclick属性，点击时，是window调用的test方法，所以打印出来的是window，并且可以看到在window里有listenerTest方法。点击时，是执行了window.onclick()方法，只不过onclick()里调用了test()函数。</p>
-<p>5.1 当函数被当作监听事件处理函数（addEventListen）时，其中的this指向触发该事件的元素。<br>5.2 当代码被内联函数调用时，this指向监听器所在的DOM元素；当代码被包括在函数内部执行时，this指向全局对象window或者undefined.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onclick=<span class="string">"console.log(this);"</span>&gt;click&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"(function() &#123;console.log(this)&#125;)();"</span>&gt;show inner&lt;/button&gt;</span><br><span class="line">&lt;button onclick=<span class="string">"(function() &#123;'use strict';console.log(this)&#125;)();"</span>&gt;use strict&lt;/button&gt;</span><br></pre></td></tr></table></figure></p>
-<p>依次点击这三个按钮后，控制台输出如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onclick=<span class="string">"console.log(this);"</span>&gt;click&lt;/button&gt;</span><br><span class="line">Window &#123;postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, frames: Window, …&#125;</span><br><span class="line">undefined</span><br></pre></td></tr></table></figure></p>
-<p>6.setTimeout &amp; setInterval<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">Person</span></span>() &#123;  </span><br><span class="line">    this.age = 0;  </span><br><span class="line">    setTimeout(<span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">        console.log(this);</span><br><span class="line">    &#125;, 3000);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var p = new Person();//3秒后返回 window 对象</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">Person</span></span>() &#123;  </span><br><span class="line">    this.age = 0;  </span><br><span class="line">    setTimeout((<span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">        console.log(this);</span><br><span class="line">    &#125;).<span class="built_in">bind</span>(this), 3000);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var p = new Person();//3秒后返回构造函数新生成的对象 Person &#123;age: 0&#125;</span><br></pre></td></tr></table></figure>
-<p>7.箭头函数中的this<br>箭头函数的this指向固定化，并不是因为箭头函数内部有绑定this的机制，实际原因是箭头函数没有自己的this,导致内部的this就是外层代码的this，也正是因为没有this，所以箭头函数不能用作构造函数。<br>7.1 箭头函数在方法内部<br>箭头函数会自己捕获所在的上下文的this值，即定义的位置。call() / apply() / bind() 方法对于箭头函数来说只是传入参数，对this毫无影响。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">Person</span></span>() &#123;  </span><br><span class="line">    this.age = 0;  </span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      console.log(this);</span><br><span class="line">    &#125;, 3000);</span><br><span class="line">&#125;</span><br><span class="line">var p = new Person();//3秒后返回构造函数新生成的对象 Person &#123;age: 0&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">var adder = &#123;</span><br><span class="line">  base : 1,</span><br><span class="line">    </span><br><span class="line">  add : <span class="keyword">function</span>(a) &#123;</span><br><span class="line">    var f = v =&gt; v + this.base;</span><br><span class="line">    <span class="built_in">return</span> f(a);</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  addThruCall: <span class="keyword">function</span> inFun(a) &#123;</span><br><span class="line">    var f = v =&gt; v + this.base;</span><br><span class="line">    var b = &#123;</span><br><span class="line">      base : 2</span><br><span class="line">    &#125;;</span><br><span class="line">            </span><br><span class="line">    <span class="built_in">return</span> f.call(b, a);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">console.log(adder.add(1));         //2</span><br><span class="line">console.log(adder.addThruCall(1)); //2</span><br></pre></td></tr></table></figure>
-<p>7.2 作为方法的箭头函数<br>作为方法的箭头函数的this指向全局对象window,而普通函数则指向调用它的对象。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">  i: 10,</span><br><span class="line">  arrow: () =&gt; console.log(this.i, this),</span><br><span class="line">  c: <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">    console.log( this.i, this)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.arrow();  //undefined Window &#123;postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, frames: Window, …&#125;</span><br><span class="line">obj.c(); //10 &#123;i: 10, arrow: ƒ, c: ƒ&#125;</span><br></pre></td></tr></table></figure></p>
-<p>学习参考链接：<br><a href="http://www.imooc.com/article/1758" target="_blank" rel="noopener">http://www.imooc.com/article/1758</a><br><a href="http://www.cnblogs.com/dongcanliang/p/7054176.html" target="_blank" rel="noopener">http://www.cnblogs.com/dongcanliang/p/7054176.html</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/19/this学习/" data-id="cjtb7owuy000g7ctewvymyeyb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/07/promise/" data-id="cjtprddbd000784te4vrx96qc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -609,7 +591,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
     </div>
   </div>
 
@@ -622,6 +604,14 @@
       <ul>
         
           <li>
+            <a href="/2019/03/26/BFC/">BFC</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/17/位运算符/">位运算符</a>
+          </li>
+        
+          <li>
             <a href="/2019/02/24/数组遍历方法汇总/">数组遍历</a>
           </li>
         
@@ -631,14 +621,6 @@
         
           <li>
             <a href="/2019/01/11/渲染机制/">渲染机制</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/10/存储/">存储</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/09/跨域请求/">js跨域请求</a>
           </li>
         
       </ul>

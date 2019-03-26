@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>位运算符 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="位运算符是在数字底层（即表示数字的 32 个数位）进行操作的。有符号整数使用 31 位表示整数的数值，用第 32 位表示整数的符号，0 表示正数，1 表示负数。负数也存储为二进制代码，不过采用的形式是二进制补码。计算数字二进制补码的步骤有三步： 确定该数字的非负版本的二进制表示（例如，要计算 -18的二进制补码，首先要确定 18 的二进制表示） 求得二进制反码，即要把 0 替换为 1，把 1 替换">
+<meta property="og:type" content="article">
+<meta property="og:title" content="位运算符">
+<meta property="og:url" content="http://yoursite.com/2019/03/17/位运算符/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="位运算符是在数字底层（即表示数字的 32 个数位）进行操作的。有符号整数使用 31 位表示整数的数值，用第 32 位表示整数的符号，0 表示正数，1 表示负数。负数也存储为二进制代码，不过采用的形式是二进制补码。计算数字二进制补码的步骤有三步： 确定该数字的非负版本的二进制表示（例如，要计算 -18的二进制补码，首先要确定 18 的二进制表示） 求得二进制反码，即要把 0 替换为 1，把 1 替换">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-03-17T10:14:15.777Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="位运算符">
+<meta name="twitter:description" content="位运算符是在数字底层（即表示数字的 32 个数位）进行操作的。有符号整数使用 31 位表示整数的数值，用第 32 位表示整数的符号，0 表示正数，1 表示负数。负数也存储为二进制代码，不过采用的形式是二进制补码。计算数字二进制补码的步骤有三步： 确定该数字的非负版本的二进制表示（例如，要计算 -18的二进制补码，首先要确定 18 的二进制表示） 求得二进制反码，即要把 0 替换为 1，把 1 替换">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-位运算符" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/17/位运算符/" class="article-date">
+  <time datetime="2019-03-17T09:41:46.615Z" itemprop="datePublished">2019-03-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      位运算符
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>位运算符是在数字底层（即表示数字的 32 个数位）进行操作的。<br>有符号整数使用 31 位表示整数的数值，用第 32 位表示整数的符号，0 表示正数，1 表示负数。<br>负数也存储为二进制代码，不过采用的形式是二进制补码。计算数字二进制补码的步骤有三步：</p>
+<pre><code>确定该数字的非负版本的二进制表示（例如，要计算 -18的二进制补码，首先要确定 18 的二进制表示）
+求得二进制反码，即要把 0 替换为 1，把 1 替换为 0
+在二进制反码上加 1
+</code></pre><p>例如：要确定 -18 的二进制表示：<br>18 的二进制表示：0000 0000 0000 0000 0000 0000 0001 0010<br>计算二进制反码 ：1111 1111 1111 1111 1111 1111 1110 1101<br>二进制反码加 1： 1111 1111 1111 1111 1111 1111 1110 1110（-18的二进制表示）</p>
+<h2 id="位运算NOT"><a href="#位运算NOT" class="headerlink" title="位运算NOT ~"></a>位运算NOT ~</h2><p>位运算 NOT 由否定号（ ~ ）表示<br>位运算 NOT 是三步的处理过程：<br>    把运算数转换成 32 位数字<br>    把二进制数转换成它的二进制反码<br>    把二进制数转换成浮点数<br>例如：<br>var iNum1 = 25;        //25 等于 00000000000000000000000000011001<br>var iNum2 =  ~ iNum1;    //转换为 11111111111111111111111111100110<br>alert(iNum2);        //输出 “-26”</p>
+<p>位运算 NOT 实质上是对数字求负，然后减 1，因此 25 变 -26。</p>
+<h2 id="位运算-AND-amp"><a href="#位运算-AND-amp" class="headerlink" title="位运算 AND &amp;"></a>位运算 AND &amp;</h2><p>位运算 AND 由和号（&amp;）表示，直接对数字的二进制形式进行运算。它把每个数字中的数位对齐，然后按位计算。只有1 1才得到1.</p>
+<h2 id="位运算-OR"><a href="#位运算-OR" class="headerlink" title="位运算 OR |"></a>位运算 OR |</h2><p>位运算 OR 由和号（|）表示，也是直接对数字的二进制形式进行运算。在计算每位时，只有0 0 才得到0.</p>
+<h2 id="位运算-XOR"><a href="#位运算-XOR" class="headerlink" title="位运算 XOR ^"></a>位运算 XOR ^</h2><p>位运算 XOR 由符号（^）表示，当然，也是直接对二进制形式进行运算。XOR 不同于 OR，当只有一个数位存放的是 1 时，它才返回 1。即两位不同才是1.</p>
+<h2 id="左移运算"><a href="#左移运算" class="headerlink" title="左移运算"></a>左移运算</h2><p>左移运算由两个小于号表示（&lt;&lt;）。它把数字中的所有数位向左移动指定的数量。例如，把数字 2（等于二进制中的 10）左移 5 位，结果为 64（等于二进制中的 1000000）。<br>左移运算保留数字的符号位。例如，如果把 -2 左移 5 位，得到的是 -64，而不是 64。</p>
+<h2 id="有符号右移运算"><a href="#有符号右移运算" class="headerlink" title="有符号右移运算"></a>有符号右移运算</h2><p>有符号右移运算符由两个大于号表示（&gt;&gt;）。它把 32 位数字中的所有数位整体右移，同时保留该数的符号（正号或负号）。<br>同样，移动数位后会造成空位。这次，空位位于数字的左侧，但位于符号位之后。ECMAScript 用符号位的值填充这些空位，创建完整的数字。</p>
+<h2 id="无符号右移运算"><a href="#无符号右移运算" class="headerlink" title="无符号右移运算"></a>无符号右移运算</h2><p>无符号右移运算符由三个大于号（&gt;&gt;&gt;）表示，它将无符号 32 位数的所有数位整体右移。对于正数，无符号右移运算的结果与有符号右移运算一样。<br>对于负数，情况就不同了。<br>无符号右移运算用 0 填充所有空位。对于正数，这与有符号右移运算的操作一样，而负数则被作为正数来处理。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/03/17/位运算符/" data-id="cjtprddbv000f84teb7tff8fh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/26/BFC/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          BFC
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/02/24/数组遍历方法汇总/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">数组遍历</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/26/BFC/">BFC</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/17/位运算符/">位运算符</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/24/数组遍历方法汇总/">数组遍历</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/22/防抖和节流/">防抖和节流</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/11/渲染机制/">渲染机制</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

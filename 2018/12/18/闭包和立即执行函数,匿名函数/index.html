@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>闭包和立即执行函数 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="闭包closure闭包的定义就是：函数A返回了一个函数B，并且函数B中使用了函数A的变量，函数B就被成为闭包。闭包指的是：能够访问另一个函数作用域的变量的函数。清晰的讲：闭包就是一个函数，这个函数能够访问其他函数的作用域中的变量。 为什么会有闭包的出现？假设现在有一个需求：想定义一个变量，使得计数的时候可以加1。最直接想到的代码为：1234567var i=0;function add() &amp;#1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="闭包和立即执行函数">
+<meta property="og:url" content="http://yoursite.com/2018/12/18/闭包和立即执行函数,匿名函数/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="闭包closure闭包的定义就是：函数A返回了一个函数B，并且函数B中使用了函数A的变量，函数B就被成为闭包。闭包指的是：能够访问另一个函数作用域的变量的函数。清晰的讲：闭包就是一个函数，这个函数能够访问其他函数的作用域中的变量。 为什么会有闭包的出现？假设现在有一个需求：想定义一个变量，使得计数的时候可以加1。最直接想到的代码为：1234567var i=0;function add() &amp;#1">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-03-20T07:49:38.176Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="闭包和立即执行函数">
+<meta name="twitter:description" content="闭包closure闭包的定义就是：函数A返回了一个函数B，并且函数B中使用了函数A的变量，函数B就被成为闭包。闭包指的是：能够访问另一个函数作用域的变量的函数。清晰的讲：闭包就是一个函数，这个函数能够访问其他函数的作用域中的变量。 为什么会有闭包的出现？假设现在有一个需求：想定义一个变量，使得计数的时候可以加1。最直接想到的代码为：1234567var i=0;function add() &amp;#1">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-闭包和立即执行函数,匿名函数" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/18/闭包和立即执行函数,匿名函数/" class="article-date">
+  <time datetime="2018-12-18T01:54:17.096Z" itemprop="datePublished">2018-12-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      闭包和立即执行函数
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="闭包closure"><a href="#闭包closure" class="headerlink" title="闭包closure"></a>闭包closure</h2><p>闭包的定义就是：函数A返回了一个函数B，并且函数B中使用了函数A的变量，函数B就被成为闭包。<br>闭包指的是：能够访问另一个函数作用域的变量的函数。清晰的讲：闭包就是一个函数，这个函数能够访问其他函数的作用域中的变量。</p>
+<h3 id="为什么会有闭包的出现？"><a href="#为什么会有闭包的出现？" class="headerlink" title="为什么会有闭包的出现？"></a>为什么会有闭包的出现？</h3><p>假设现在有一个需求：想定义一个变量，使得计数的时候可以加1。<br>最直接想到的代码为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var i=0;</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">add</span></span>() &#123;</span><br><span class="line">	i++;</span><br><span class="line">	<span class="built_in">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line">add();</span><br><span class="line">console.log(i);//1</span><br></pre></td></tr></table></figure></p>
+<p>但是全局变量i有风险，因为可能不小心在哪里就改掉它了，但是用局部变量的话，它就只能在函数内部有效，调用完函数后它就没了，而且全局没法使用。所以现在的需求就是想让这个计数器可以在全局使用，但又不能被随便修改。此时闭包就要出场了~</p>
+<h3 id="什么是闭包函数？"><a href="#什么是闭包函数？" class="headerlink" title="什么是闭包函数？"></a>什么是闭包函数？</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">add</span></span>() &#123;</span><br><span class="line">	var i=0;</span><br><span class="line">	<span class="built_in">return</span> <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> ++i;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br><span class="line">var a1 = add();</span><br><span class="line">console.log(a1());//1</span><br><span class="line">console.log(a1());//2</span><br><span class="line"></span><br><span class="line">var a2 = add();</span><br><span class="line">console.log(a2());//1</span><br></pre></td></tr></table></figure>
+<p>每次调用add()函数后会生成一个计数器，而且不同的计数器之间是不干扰的。<br>我们不能自己操控变量i，但是可以通过特定的方法“add中返回的匿名函数”去操作它。</p>
+<p>总结一下，闭包函数最大的特点就是：创建内部变量，使得这些变量不能被外部随意修改，然后只能通过特定的方法才可以访问操作它。</p>
+<p>对于有多个特定方法可以操作变量时，可以考虑下述写法：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">count</span></span>() &#123;</span><br><span class="line">	var i=0;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">add</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> ++i;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">minus</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> --i;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">return</span> &#123;</span><br><span class="line">		outerAdd: add,</span><br><span class="line">		outerMinus: minus</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">var count1 = count();</span><br><span class="line">console.log(count1.outerAdd());//1</span><br><span class="line">console.log(count1.outerMinus());//0</span><br></pre></td></tr></table></figure></p>
+<h2 id="立即执行函数"><a href="#立即执行函数" class="headerlink" title="立即执行函数"></a>立即执行函数</h2><h3 id="为什么会有立即函数的出现？"><a href="#为什么会有立即函数的出现？" class="headerlink" title="为什么会有立即函数的出现？"></a>为什么会有立即函数的出现？</h3><p>在闭包的基础上，现在又有这样的需求：就是我们希望对象只有一份，不像上部分中既有a1又有a2，类似后端中的单例模式。那么我们想到的解决思路就是保证这个方法只能被调用一次。<br>首先因为不能多次调用，那么就需要是匿名的；然后因为只能被调用一次，那么必须在声明的时候立马执行。这个时候就出现了立即执行函数。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var count1 = (<span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	var i=0;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">add</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> ++i;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">function</span> <span class="function"><span class="title">minus</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> --i;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">return</span> &#123;</span><br><span class="line">		outerAdd: add,</span><br><span class="line">		outerMinus: minus</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)();</span><br><span class="line">console.log(count1.outerAdd());//1</span><br><span class="line">console.log(count1.outerAdd());//2</span><br><span class="line">console.log(count1.outerMinus());//1</span><br></pre></td></tr></table></figure>
+<p>count1就是这个匿名函数返回的一个对象，该对象有两个属性：outerAdd和outerMinus，每个属性分别对应一个函数的定义。</p>
+<p>另外的学习连接<a href="https://www.jianshu.com/p/26c81fde22fb" target="_blank" rel="noopener">https://www.jianshu.com/p/26c81fde22fb</a></p>
+<h2 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h2><p>就是没有名字的函数。<br>应用场景：</p>
+<h3 id="1-事件"><a href="#1-事件" class="headerlink" title="1.事件"></a>1.事件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xx.onclick = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	alert(<span class="string">'点击'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-对象"><a href="#2-对象" class="headerlink" title="2.对象"></a>2.对象</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">	name: <span class="string">'zxt'</span>,</span><br><span class="line">	age: 24,</span><br><span class="line">	fn: <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> <span class="string">"执行fn方法啦"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.fn();</span><br></pre></td></tr></table></figure>
+<h3 id="3-函数表达式"><a href="#3-函数表达式" class="headerlink" title="3.函数表达式"></a>3.函数表达式</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var fn = <span class="function"><span class="title">function</span></span>() &#123;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-回调函数"><a href="#4-回调函数" class="headerlink" title="4.回调函数"></a>4.回调函数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="title">function</span></span>() &#123;&#125;, 500);</span><br></pre></td></tr></table></figure>
+<h3 id="5-返回值"><a href="#5-返回值" class="headerlink" title="5.返回值"></a>5.返回值</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">add</span></span>() &#123;</span><br><span class="line">	var i=0;</span><br><span class="line">	<span class="built_in">return</span> <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> ++i;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="6-模拟块级作用域"><a href="#6-模拟块级作用域" class="headerlink" title="6.模拟块级作用域"></a>6.模拟块级作用域</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(var i=0;i&lt;3;i++)&#123;</span><br><span class="line">    (<span class="keyword">function</span>(num) &#123;</span><br><span class="line">    	console.log(num);</span><br><span class="line">    &#125;)(i);</span><br><span class="line">&#125;</span><br><span class="line">console.log(i);</span><br><span class="line">// 0 1 2 3</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/12/18/闭包和立即执行函数,匿名函数/" data-id="cjtprddc4000m84te4gfy9h0f" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/12/19/this学习/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          this学习
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/12/05/异步，同步，回调和class/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">异步，同步，回调和js的class</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/26/BFC/">BFC</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/17/位运算符/">位运算符</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/24/数组遍历方法汇总/">数组遍历</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/22/防抖和节流/">防抖和节流</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/11/渲染机制/">渲染机制</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
