@@ -62,6 +62,56 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-generator和async函数" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/08/generator和async函数/" class="article-date">
+  <time datetime="2019-01-08T02:23:48.429Z" itemprop="datePublished">2019-01-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/08/generator和async函数/">Generator函数和async函数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Generator函数可以理解成一个状态机，封装了多个内部状态。</p>
+<h2 id="Generator函数"><a href="#Generator函数" class="headerlink" title="Generator函数"></a>Generator函数</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="function"><span class="title">myGenerator</span></span>() &#123;</span><br><span class="line">	yield <span class="string">'hello'</span>;</span><br><span class="line">	yield <span class="string">'generator'</span>;</span><br><span class="line">	<span class="built_in">return</span> <span class="string">'ending'</span>;</span><br><span class="line">&#125;</span><br><span class="line">var mg = myGenerator();</span><br><span class="line">console.log(mg.next());// &#123;value: <span class="string">"hello"</span>, <span class="keyword">done</span>: <span class="literal">false</span>&#125;</span><br><span class="line">console.log(mg.next());// &#123;value: <span class="string">"generator"</span>, <span class="keyword">done</span>: <span class="literal">false</span>&#125;</span><br><span class="line">console.log(mg.next());// &#123;value: <span class="string">"ending"</span>, <span class="keyword">done</span>: <span class="literal">true</span>&#125;</span><br><span class="line">console.log(mg.next());// &#123;value: undefined, <span class="keyword">done</span>: <span class="literal">true</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>调用Generator函数后并不执行，返回的不是函数运行结果，而是一个指向内部状态的指针对象（遍历器对象）。<br>因此必须调用遍历器的next方法，使得指针移向下一个状态。每次调用next方法，内部指针就从函数头部或者上一次停下的地方开始执行，知道遇到下一个yield表达式或者return语句。<br>相当于。yield表达式是一个暂时执行的标记，next方法是一个恢复执行的标记。<br>value表示当前内部状态的值，done表示遍历是否结束。可以看到，当到函数执行结束时，done的属性就为true;</p>
+<h3 id="next方法的参数"><a href="#next方法的参数" class="headerlink" title="next方法的参数"></a>next方法的参数</h3><p>yield表达式没有返回值，next方法可以带一个参数，该参数会被当作上一个yield表达式的返回值。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* foo(x) &#123;</span><br><span class="line">  var y = 2 * (yield (x + 1));</span><br><span class="line">  var z = yield (y / 3);</span><br><span class="line">  <span class="built_in">return</span> (x + y + z);</span><br><span class="line">&#125;</span><br><span class="line">var b = foo(5);</span><br><span class="line">b.next() // &#123; value:6, <span class="keyword">done</span>:<span class="literal">false</span> &#125;</span><br><span class="line">b.next(12) // &#123; value:8, <span class="keyword">done</span>:<span class="literal">false</span> &#125;</span><br><span class="line">b.next(13) // &#123; value:42, <span class="keyword">done</span>:<span class="literal">true</span> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>解释：<br>b.next()返回yield (x + 1)的结果，因为x等于5，所以x+1为6；<br>b.next(12)，是将上一个yield的表达式的返回值当作12，因此约等于24，那么y/3就是8.<br>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="yield-表达式"><a href="#yield-表达式" class="headerlink" title="yield* 表达式"></a>yield* 表达式</h3><p>如果在 Generator 函数内部，调用另一个 Generator 函数，默认情况下是没有效果的。这个就需要用到yield* 表达式。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> *<span class="function"><span class="title">foo</span></span>()&#123;</span><br><span class="line">    console.log(<span class="string">'*foo()'</span>);</span><br><span class="line">    yield 3;</span><br><span class="line">    yield 4;</span><br><span class="line">    console.log(<span class="string">'*foo() finished!!'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> *<span class="function"><span class="title">bar</span></span>()&#123;</span><br><span class="line">    yield 1;</span><br><span class="line">    yield 2;</span><br><span class="line">    yield *foo();</span><br><span class="line">    yield 5;</span><br><span class="line">&#125;</span><br><span class="line">const it=bar();</span><br><span class="line">// 1 2 *foo() 3 4 *foo() finished!! 5</span><br></pre></td></tr></table></figure>
+<h2 id="async函数"><a href="#async函数" class="headerlink" title="async函数"></a>async函数</h2><h3 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h3><p>1.async函数相当于Generator 函数的语法糖。前者比后者多了内置执行器。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">async <span class="keyword">function</span> fn(args)&#123;</span><br><span class="line">  // ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 等同于</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> fn(args)&#123; </span><br><span class="line">  <span class="built_in">return</span> spawn(<span class="keyword">function</span>*() &#123;</span><br><span class="line">    // ...</span><br><span class="line">  &#125;); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>spawn 函数是一个自动执行器功能。<br>2.async 函数返回一个 Promise 对象，可以使用 then 方法添加回调函数。一个函数如果加上async，那么该函数就会返回一个Promise.<br>3.await会暂停当前async函数的执行，等待后面的Promise的计算结果返回以后再继续执行当前的async函数。<br>但是await不是一直等待表达执行的执行结果，之后才会执行后面的代码。await后面的函数会先执行一遍，然后就会跳出整个 async 函数来执行后面js代码。等本轮事件循环执行完又跳回到 async 函数中等待await后面表达式的返回值，如果返回值为非 promise 则继续执行async后面的代码，否则将 promise 加入队列。<br>换句话说，当函数执行的时候，遇到 await 会立即返回一个 pending 状态的promise。<br>4.await等待的不是所有的异步操作，等待的是Promise.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">async <span class="keyword">function</span> <span class="function"><span class="title">myFunction</span></span>() &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">    await somethingThatReturnsAPromise();</span><br><span class="line">  &#125; catch (err) &#123;</span><br><span class="line">    console.log(err);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(async <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	console.log(1);</span><br><span class="line">	await new Promise(resolve =&gt; &#123;</span><br><span class="line">		setTimeout(() =&gt; &#123;</span><br><span class="line">			console.log(2);</span><br><span class="line">			resolve();// 没有这一行就不会输出3</span><br><span class="line">		&#125;, 1000);</span><br><span class="line">	&#125;);</span><br><span class="line">	console.log(3);</span><br><span class="line">&#125;)();</span><br><span class="line">// 1 2 3</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">async <span class="keyword">function</span> myAsync(num) &#123;</span><br><span class="line">	<span class="keyword">if</span> (num &gt; 0) &#123;</span><br><span class="line">		<span class="built_in">return</span> num;// resolve(num)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		throw num;// reject(num)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">myAsync(3).<span class="keyword">then</span>(value =&gt; &#123;</span><br><span class="line">	console.log(value);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">myAsync(0).catch(<span class="keyword">function</span> (v) &#123;</span><br><span class="line">  console.log(v);</span><br><span class="line">&#125;);</span><br><span class="line">// 3 0</span><br></pre></td></tr></table></figure>
+<p>async await 本身就是promise+generator的语法糖。下面两个代码等价<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">async <span class="keyword">function</span> <span class="function"><span class="title">async1</span></span>() &#123;</span><br><span class="line">  console.log(<span class="string">'async1 start'</span>);</span><br><span class="line">  await async2();</span><br><span class="line">  console.log(<span class="string">'async1 end'</span>);</span><br><span class="line">&#125;</span><br><span class="line">async <span class="keyword">function</span> <span class="function"><span class="title">async1</span></span>() &#123;</span><br><span class="line">  console.log(<span class="string">'async1 start'</span>);</span><br><span class="line">  Promise.resolve(async2()).<span class="keyword">then</span>(() =&gt; &#123;</span><br><span class="line">                console.log(<span class="string">'async1 end'</span>);</span><br><span class="line">        &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="为什么产生"><a href="#为什么产生" class="headerlink" title="为什么产生"></a>为什么产生</h3><p>1.避免回调地狱 ==&gt; Promise ==&gt; async/await<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">getData(a =&gt; &#123;</span><br><span class="line">	getMoreData(a, b =&gt; &#123;</span><br><span class="line">		getMoreMoreData(b, c =&gt; &#123;</span><br><span class="line">			console.log(c);</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">getData()</span><br><span class="line">.<span class="keyword">then</span>(a =&gt; getData(a))</span><br><span class="line">.<span class="keyword">then</span>(b =&gt; getMoreData(b))</span><br><span class="line">.<span class="keyword">then</span>(c =&gt; console.log(c))</span><br><span class="line"></span><br><span class="line">(async () =&gt; &#123;</span><br><span class="line">	const a = await getData();</span><br><span class="line">	const b = await getMoreData(a);</span><br><span class="line">	const c = await getData(b);</span><br><span class="line">	console.log(c);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
+<h2 id="async-await-promise-异步执行顺序"><a href="#async-await-promise-异步执行顺序" class="headerlink" title="async/await , promise 异步执行顺序"></a>async/await , promise 异步执行顺序</h2><p><a href="https://segmentfault.com/a/1190000016329715?utm_source=tag-newest" target="_blank" rel="noopener">https://segmentfault.com/a/1190000016329715?utm_source=tag-newest</a><br>实际上 await 是一个让出线程的标志（遇到 await 会立即返回一个 pending 状态的promise）。await后面的函数会先执行一遍，然后就会跳出整个 async 函数来执行后面js代码。等本轮事件循环执行完又跳回到 async 函数中等待await后面表达式的返回值，如果返回值为非 promise 则继续执行async后面的代码，否则将 promise 加入队列。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">async <span class="keyword">function</span> <span class="function"><span class="title">async1</span></span>() &#123;</span><br><span class="line">    console.log(<span class="string">"async1 start"</span>);</span><br><span class="line">    await async2();</span><br><span class="line">    console.log(<span class="string">"async1 end"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">async <span class="keyword">function</span> <span class="function"><span class="title">async2</span></span>() &#123;</span><br><span class="line">   console.log(<span class="string">"async2"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(<span class="string">"script start"</span>);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    console.log(<span class="string">"settimeout"</span>);</span><br><span class="line">&#125;,0);</span><br><span class="line"></span><br><span class="line">async1();</span><br><span class="line"></span><br><span class="line">new Promise(<span class="keyword">function</span> (resolve) &#123;</span><br><span class="line">    console.log(<span class="string">"promise1"</span>);</span><br><span class="line">    resolve();</span><br><span class="line">&#125;).<span class="keyword">then</span>(<span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    console.log(<span class="string">"promise2"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">console.log(<span class="string">"script end"</span>);</span><br><span class="line">//执行结果：</span><br><span class="line">script start</span><br><span class="line">async1 start</span><br><span class="line">async2</span><br><span class="line">promise1</span><br><span class="line">script end</span><br><span class="line">promise2</span><br><span class="line">async1 end</span><br><span class="line">settimeout</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">testFunc</span></span>() &#123;</span><br><span class="line">    console.log(<span class="string">"testFunc..."</span>);</span><br><span class="line">    <span class="built_in">return</span> <span class="string">"testFunc"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">async <span class="keyword">function</span> <span class="function"><span class="title">testAsync</span></span>() &#123;</span><br><span class="line">    console.log(<span class="string">"testAsync..."</span>);</span><br><span class="line">    <span class="built_in">return</span> Promise.resolve(<span class="string">"hello testAsync"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">async <span class="keyword">function</span> <span class="function"><span class="title">foo</span></span>() &#123;</span><br><span class="line">    console.log(<span class="string">"test start..."</span>);</span><br><span class="line">    const v1 = await testFunc();</span><br><span class="line">    connsole.log(<span class="string">'hello world.'</span>);</span><br><span class="line">    console.log(v1);</span><br><span class="line">    const v2 = await testAsync();</span><br><span class="line">    console.log(v2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo();</span><br><span class="line"></span><br><span class="line">var promise = new Promise(resolve =&gt; &#123; </span><br><span class="line">    console.log(<span class="string">"promise start.."</span>);</span><br><span class="line">    resolve(<span class="string">"promise"</span>); </span><br><span class="line">&#125;);</span><br><span class="line">promise.then(val =&gt; console.log(val));</span><br><span class="line"></span><br><span class="line">console.log(<span class="string">"test end..."</span>);</span><br><span class="line">//执行结果：</span><br><span class="line"><span class="built_in">test</span> start...</span><br><span class="line">testFunc...</span><br><span class="line">promise start..</span><br><span class="line"><span class="built_in">test</span> end...</span><br><span class="line">hello world.</span><br><span class="line">testFunc</span><br><span class="line">testAsync...</span><br><span class="line">promise</span><br><span class="line">hello testAsync</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/08/generator和async函数/" data-id="cjxaaf0e70003cotexb8h8jzb" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-promise" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/01/07/promise/" class="article-date">
@@ -109,7 +159,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/07/promise/" data-id="cjx428o9a0007b4tea38iojk0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/07/promise/" data-id="cjxaaf0ec0007coteo47cdh3m" class="article-share-link">Share</a>
       
       
     </footer>
@@ -156,7 +206,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/05/事件循环macrotask microtask/" data-id="cjx428o9g000bb4tedpnt7r55" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/05/事件循环macrotask microtask/" data-id="cjxaaf0ej000bcotel4xc26j7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -219,7 +269,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/19/this学习/" data-id="cjx428o9b0008b4te9og13qlx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/19/this学习/" data-id="cjxaaf0ep000fcoteqoig9d2s" class="article-share-link">Share</a>
       
       
     </footer>
@@ -272,7 +322,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/18/闭包和立即执行函数,匿名函数/" data-id="cjx428o9y000qb4te5afvzcaf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/18/闭包和立即执行函数,匿名函数/" data-id="cjxaaf0ez000ocoteaeyckwh1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -317,7 +367,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/05/异步，同步，回调和class/" data-id="cjx428o9n000ib4tex1wfe5dr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/05/异步，同步，回调和class/" data-id="cjxaaf0es000icotexbp5e81j" class="article-share-link">Share</a>
       
       
     </footer>
@@ -365,7 +415,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/28/深浅拷贝/" data-id="cjx428o9q000lb4te05k0g79g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/28/深浅拷贝/" data-id="cjxaaf0ev000lcoteg7fc15g9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -426,7 +476,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/27/前端面试题记录/" data-id="cjx428o9w000ob4te1ioy54wi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/27/前端面试题记录/" data-id="cjxaaf0f8000qcotec5utea4q" class="article-share-link">Share</a>
       
       
     </footer>
@@ -471,7 +521,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/26/水平垂直居中div/" data-id="cjx428o9o000jb4texl4qmdzl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/26/水平垂直居中div/" data-id="cjxaaf0et000jcotefl460x3e" class="article-share-link">Share</a>
       
       
     </footer>
@@ -510,49 +560,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/26/React生命周期/" data-id="cjx428o910001b4tetxs6hb23" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-圣杯布局" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/11/22/圣杯布局/" class="article-date">
-  <time datetime="2018-11-22T07:30:14.233Z" itemprop="datePublished">2018-11-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/22/圣杯布局/">圣杯布局</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>圣杯布局就是把页面分成了三列，左右两列的内容是固定宽度的，中间列的内容是自适应宽度的。</p>
-<h2 id="方法一：实现思路"><a href="#方法一：实现思路" class="headerlink" title="方法一：实现思路"></a>方法一：实现思路</h2><p>1.清除整个页面的内外边距。<br>2.写html代码，三个div分别对应左中右三列，先写middle,其次是left和right。<br>3.将middle列的宽度设置成100%，这样就可以做到其宽度自适应。三个div都设置成内联块，然后向左浮动。<br>4.此时left因为被挤到了第二行，所以将其左移middle宽度的位置，所以margin-left: -100%;<br>5.然而此时middle最左端的部分被left盖住了，所以要把middle拉出来，设置container左边的内边距为200px;<br>6.此时left也同时被向右拉了，所以left应该相对于它本身的位置，再向左移动200px,因此设置middle为position: relative;left: -200px;<br>注：<br>position: relative;位置被设置为relative的元素，可将其移至相对于其正常位置的地方。因为left: -200px;会将元素移至元素正常位置左边200个像素的位置。<br>7.right的布局调整类似于left。</p>
-<h3 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&lt;style <span class="built_in">type</span>=<span class="string">"text/css"</span>&gt;</span><br><span class="line">* &#123;</span><br><span class="line">	margin: 0;</span><br><span class="line">	padding: 0;</span><br><span class="line">&#125;</span><br><span class="line">.container &#123;</span><br><span class="line">	padding: 0 150px 0 200px;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#middle, #left, #right &#123;</span></span><br><span class="line">	<span class="built_in">float</span>: left;</span><br><span class="line">	position: relative;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#middle &#123;</span></span><br><span class="line">	width: 100%;</span><br><span class="line">	height: 180px;</span><br><span class="line">	background-color: pink;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#left &#123;</span></span><br><span class="line">	width: 200px;</span><br><span class="line">	height: 200px;</span><br><span class="line">	background-color: gray;</span><br><span class="line">	margin-left: -100%;</span><br><span class="line">	left: -200px;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#right &#123;</span></span><br><span class="line">	width: 150px;</span><br><span class="line">	height: 150px;</span><br><span class="line">	background-color: skyblue;</span><br><span class="line">	margin-left: -150px;</span><br><span class="line">	right: -150px;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;div class=<span class="string">"container"</span>&gt;</span><br><span class="line">		&lt;div id=<span class="string">"middle"</span>&gt;middle&lt;/div&gt;</span><br><span class="line">		&lt;div id=<span class="string">"left"</span>&gt;left&lt;/div&gt;</span><br><span class="line">		&lt;div id=<span class="string">"right"</span>&gt;right&lt;/div&gt;</span><br><span class="line">	&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="/2018/11/22/圣杯布局/1.png" alt="1"></p>
-<h2 id="方法一：（css3-flex）"><a href="#方法一：（css3-flex）" class="headerlink" title="方法一：（css3 flex）"></a>方法一：（css3 flex）</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;style <span class="built_in">type</span>=<span class="string">"text/css"</span>&gt;</span><br><span class="line">* &#123;</span><br><span class="line">	margin: 0;</span><br><span class="line">	padding: 0;</span><br><span class="line">&#125;</span><br><span class="line">.container &#123;</span><br><span class="line">	display: flex;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#left,#right &#123;</span></span><br><span class="line">	width: 200px;</span><br><span class="line">	height: 200px;</span><br><span class="line">	background-color: gray;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#middle &#123;</span></span><br><span class="line">	width: 100%;</span><br><span class="line">	height: 230px;</span><br><span class="line">	background-color: pink;</span><br><span class="line">	border: 5px solid black;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;div class=<span class="string">"container"</span>&gt;</span><br><span class="line">		&lt;div id=<span class="string">"left"</span>&gt;left&lt;/div&gt;</span><br><span class="line">		&lt;div id=<span class="string">"middle"</span>&gt;middle&lt;/div&gt;</span><br><span class="line">		&lt;div id=<span class="string">"right"</span>&gt;right&lt;/div&gt;</span><br><span class="line">	&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="/2018/11/22/圣杯布局/2.png" alt="2"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/22/圣杯布局/" data-id="cjx428o9m000gb4te9n1dpw0i" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/26/React生命周期/" data-id="cjxaaf0em000dcote305oyqmv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -598,6 +606,10 @@
       <ul>
         
           <li>
+            <a href="/2019/06/24/线性回归/">线性回归</a>
+          </li>
+        
+          <li>
             <a href="/2019/06/20/CSS隐藏元素/">CSS隐藏元素</a>
           </li>
         
@@ -611,10 +623,6 @@
         
           <li>
             <a href="/2019/02/24/数组遍历方法汇总/">数组遍历</a>
-          </li>
-        
-          <li>
-            <a href="/2019/02/22/防抖和节流/">防抖和节流</a>
           </li>
         
       </ul>
