@@ -90,21 +90,21 @@
 <p>•y(气温) = a * x(海拔高度) + b</p>
 <p>•理论上来讲, 确定以上公式 a 和 b的值只需在两个不同高度测试, 就可以算出来 a 和 b 的值了. 但是由于所有的设备都是有误差的, 而使用更多的高度测试的值可以使得预测的值更加准确.</p>
 <p>•我们提供了在9个不同高度测量的气温值, 请你根据今天学习的线性回归方法预测 a 和 b 的值. 根据这个公式, 我们预测一下在8000米的海拔, 气温会是多少?</p>
-<p>数据如下图所示：<br><img src="/2019/06/24/线性回归/1.jpg" alt="你想输入的替代文字"></p>
+<p>数据如下图所示：<br><img src="/2019/06/24/线性回归/1.jpg" alt="训练数据"></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import pandas as pd</span><br><span class="line">import numpy as np</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from sklearn.linear_model import LinearRegressionp</span><br><span class="line"></span><br><span class="line">data = pd.read_csv(<span class="string">'./height.vs.temperature.csv'</span>)</span><br><span class="line">data.head()</span><br><span class="line">data.columns</span><br></pre></td></tr></table></figure>
 <h2 id="对数据继续可视化分析"><a href="#对数据继续可视化分析" class="headerlink" title="对数据继续可视化分析"></a>对数据继续可视化分析</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plt.figure(figsize=(16, 8))</span><br><span class="line">plt.scatter(data[<span class="string">'height'</span>], data[<span class="string">'temperature'</span>], c=<span class="string">'black'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'height'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'temperature'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-<p><img src="/2019/06/24/线性回归/2.jpg" alt="你想输入的替代文字"></p>
+<p><img src="/2019/06/24/线性回归/2.jpg" alt="可视化分析数据"></p>
 <h2 id="训练线性回归模型"><a href="#训练线性回归模型" class="headerlink" title="训练线性回归模型"></a>训练线性回归模型</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">X = data[<span class="string">'height'</span>].values.reshape(-1, 1)</span><br><span class="line">y = data[<span class="string">'temperature'</span>].values.reshape(-1, 1)</span><br><span class="line"></span><br><span class="line">reg = LinearRegression()</span><br><span class="line">reg.fit(X, y)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">'a = &#123;:.5&#125;'</span>.format(reg.coef_[0][0]))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">'b = &#123;:.5&#125;'</span>.format(reg.intercept_[0]))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">'线性模型为： Y = &#123;:.5&#125;X + &#123;:.5&#125;'</span>.format(reg.coef_[0][0], reg.intercept_[0]))</span><br></pre></td></tr></table></figure>
 <p>a = -0.0065695<br>b = 12.719<br>线性模型为： Y = -0.0065695X + 12.719</p>
 <h2 id="可视化模型"><a href="#可视化模型" class="headerlink" title="可视化模型"></a>可视化模型</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">predictions = reg.predict(X)</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(16, 8))</span><br><span class="line">plt.scatter(data[<span class="string">'height'</span>], data[<span class="string">'temperature'</span>], c=<span class="string">'black'</span>)</span><br><span class="line">plt.plot(data[<span class="string">'height'</span>], predictions, c=<span class="string">'blue'</span>, lineWidth=2)</span><br><span class="line">plt.xlabel(<span class="string">'height'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'temperature'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-<p><img src="/2019/06/24/线性回归/3.jpg" alt="你想输入的替代文字"></p>
+<p><img src="/2019/06/24/线性回归/3.jpg" alt="可视化模型"></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">predictions = reg.predict([[8000]])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">'在8000米的海拔, 气温会是&#123;:.5&#125;'</span>.format(predictions[0][0]))</span><br></pre></td></tr></table></figure>
 <p>在8000米的海拔, 气温会是-39.838</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/24/线性回归/" data-id="cjxaaf0ew000mcotearwfyidq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/24/线性回归/" data-id="cjxadyqzf000pd0tea5zf1wvb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -145,7 +145,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/20/CSS隐藏元素/" data-id="cjxaaf0e20001coteje7sd8y8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/20/CSS隐藏元素/" data-id="cjxadyqyr0001d0terdty7gfc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -195,7 +195,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/26/BFC/" data-id="cjxaaf0eb0006coteh6fz7bj6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/26/BFC/" data-id="cjxadyqyl0000d0tef38sdew2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -246,7 +246,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/17/位运算符/" data-id="cjxaaf0eg000acotemz5wh43l" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/17/位运算符/" data-id="cjxadyqz7000ed0temw7b6o6v" class="article-share-link">Share</a>
       
       
     </footer>
@@ -298,7 +298,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/24/数组遍历方法汇总/" data-id="cjxaaf0er000hcoteatvai8z8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/24/数组遍历方法汇总/" data-id="cjxadyqzb000jd0teforauqq9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -338,7 +338,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/22/防抖和节流/" data-id="cjxaaf0fk000rcote3d6g12xk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/22/防抖和节流/" data-id="cjxadyqzh000rd0tee7lsz2he" class="article-share-link">Share</a>
       
       
     </footer>
@@ -409,7 +409,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/11/渲染机制/" data-id="cjxaaf0f1000pcotept1xb9m9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/11/渲染机制/" data-id="cjxadyqze000nd0teqxc349ht" class="article-share-link">Share</a>
       
       
     </footer>
@@ -458,7 +458,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/10/存储/" data-id="cjxaaf0eu000kcoteo0mk0bjo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/10/存储/" data-id="cjxadyqza000id0tehrjplutr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -518,7 +518,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/09/跨域请求/" data-id="cjxaaf0fw000tcotea9c8zu3b" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/09/跨域请求/" data-id="cjxadyqzo000td0te7qzf1npx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -555,7 +555,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/09/post和get/" data-id="cjxaaf0ed0008cotepc12jpqg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/09/post和get/" data-id="cjxadyqz10008d0tevhkze1s3" class="article-share-link">Share</a>
       
       
     </footer>
