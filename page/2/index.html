@@ -62,6 +62,43 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-post和get" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/09/post和get/" class="article-date">
+  <time datetime="2019-01-09T01:37:41.275Z" itemprop="datePublished">2019-01-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/09/post和get/">post和get区别</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1.数据量：<br>post对请求参数的长度没有限制，而get如果请求参数过长，会被浏览器截断。<br>GET：不同的浏览器和服务器不同，一般限制在2~8K之间，更加常见的是1k以内<br>POST方法提交的数据比较大，大小靠服务器的设定值限制。<br>2.安全性：<br>get比post更不安全，get请求参数会直接暴露在URL上，所以不适合用来传递敏感信息。post放在request body中。<br>get请求只能进行url编码，而post支持多种编码方式。<br>get请求参数会被完整保留在浏览历史记录里，而post中的参数不会被保留。<br>get请求在浏览器回退时是无害的，而post会再次提交请求。<br>3.缓存：<br>get请求产生的URL可以被浏览器主动缓存，而post请求不可以，除非手动设置。<br>4.效率：<br>get的意思是”得”，从服务器获取数据（也可以上传数据，参数就是），效率较高；<br>post的意思是“给”，但可以向服务器发送数据和下载数据，效率不如get；<br>get和post本质上就是TCP链接.get产生一个tcp数据包，post产生两个TCP数据包。<br>对于get方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；<br>而对于post，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/09/post和get/" data-id="cjxpu231i0008l4te2tt6uc6p" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-generator和async函数" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/01/08/generator和async函数/" class="article-date">
@@ -102,7 +139,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/08/generator和async函数/" data-id="cjxadyqyz0006d0tepaxh4ggb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/08/generator和async函数/" data-id="cjxpu231c0003l4te6v95xpck" class="article-share-link">Share</a>
       
       
     </footer>
@@ -159,7 +196,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/07/promise/" data-id="cjxadyqz20009d0te80ap6yfd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/07/promise/" data-id="cjxpu231h0007l4tewz2bfg66" class="article-share-link">Share</a>
       
       
     </footer>
@@ -206,7 +243,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/05/事件循环macrotask microtask/" data-id="cjxadyqz6000dd0te9tcf9gxu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/05/事件循环macrotask microtask/" data-id="cjxpu231t000el4teu5nzll2p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -269,7 +306,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/19/this学习/" data-id="cjxadyqz5000bd0te9ftblv13" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/19/this学习/" data-id="cjxpu231r000cl4tel2uyc5kj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -322,7 +359,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/18/闭包和立即执行函数,匿名函数/" data-id="cjxadyqzg000qd0teg172xq5y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/18/闭包和立即执行函数,匿名函数/" data-id="cjxpu2323000pl4tek67p2s6z" class="article-share-link">Share</a>
       
       
     </footer>
@@ -367,7 +404,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/05/异步，同步，回调和class/" data-id="cjxadyqzc000kd0te7i3s8iru" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/05/异步，同步，回调和class/" data-id="cjxpu231x000il4te43kdbi49" class="article-share-link">Share</a>
       
       
     </footer>
@@ -415,7 +452,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/28/深浅拷贝/" data-id="cjxadyqzf000od0te85aya1ct" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/28/深浅拷贝/" data-id="cjxpu231y000kl4teab1af552" class="article-share-link">Share</a>
       
       
     </footer>
@@ -476,7 +513,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/27/前端面试题记录/" data-id="cjxadyqzn000sd0tegzbpi86h" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/27/前端面试题记录/" data-id="cjxpu232e000tl4tepay1p1f3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -521,46 +558,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/26/水平垂直居中div/" data-id="cjxadyqzd000md0tej1y9w0pd" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-React生命周期" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/11/26/React生命周期/" class="article-date">
-  <time datetime="2018-11-26T02:42:46.435Z" itemprop="datePublished">2018-11-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/26/React生命周期/">React生命周期</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>React生命周期分为三种状态，分别是mounting,updating,unmounting;意味着已插入真实的DOM，正在被重新渲染，已从真实的DOM移除。<br>因此，对应的生命周期方法有：<br>componentWillMount ，componentDidMount ，<br>componentWillReceiveProps ，shouldComponentUpdate ，<br>componentWillUpdate，componentDidUpdate ，<br>componentWillUnmount。</p>
-<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">class TestComp extends React.Component &#123;</span><br><span class="line">	<span class="function"><span class="title">componentWillMount</span></span>() &#123;</span><br><span class="line">		console.log(<span class="string">"componentWillMount"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="title">componentDidMount</span></span>() &#123;</span><br><span class="line">		//可以在该方法中调用setTimeout，setInterval等操作。</span><br><span class="line">		console.log(<span class="string">"componentDidMount"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	componentWillReceiveProps(newProps) &#123;</span><br><span class="line">		console.log(<span class="string">"componentWillReceiveProps"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	shouldComponentUpdate(newProps, newState) &#123;</span><br><span class="line">		console.log(<span class="string">"shouldComponentUpdate"</span>);</span><br><span class="line">		//如果为<span class="literal">false</span>，不会执行后面的生命周期方法</span><br><span class="line">		<span class="built_in">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	componentWillUpdate(newProps, newState) &#123;</span><br><span class="line">		console.log(<span class="string">"componentWillUpdate"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	componentDidUpdate(newProps, newState) &#123;</span><br><span class="line">		console.log(<span class="string">"componentDidUpdate"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="title">componentWillUnmount</span></span>() &#123;</span><br><span class="line">		console.log(<span class="string">"componentWillUnmount"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="title">render</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> (</span><br><span class="line">			&lt;div&gt;</span><br><span class="line">				&lt;h3&gt;&#123;this.props.number&#125;&lt;/h3&gt;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class IncreButton extends React.Component &#123;</span><br><span class="line">	constructor(props) &#123;</span><br><span class="line">		super(props);</span><br><span class="line">		this.state =  &#123;number: 0&#125;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	setNewNumber = () =&gt; &#123;</span><br><span class="line">		this.setState(&#123;number: this.state.number +1&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="title">render</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> (</span><br><span class="line">			&lt;div&gt;</span><br><span class="line">				&lt;button onClick = &#123;this.setNewNumber&#125;&gt;加1&lt;/button&gt;</span><br><span class="line">				&lt;TestComp number = &#123;this.state.number&#125;&gt;&lt;/TestComp&gt;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">	&lt;div&gt;</span><br><span class="line">		&lt;IncreButton /&gt;</span><br><span class="line">	&lt;/div&gt;,</span><br><span class="line">	document.getElementById(<span class="string">"example"</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-<p>注:<br>1.页面一加载，componentWillMount，componentDidMount<br>2.每次点击加1按钮后，componentWillReceiveProps，shouldComponentUpdate，componentWillUpdate，componentDidUpdate</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/26/React生命周期/" data-id="cjxadyqyt0002d0teifebm7am" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/26/水平垂直居中div/" data-id="cjxpu2324000ql4te9v4xqg6m" class="article-share-link">Share</a>
       
       
     </footer>
@@ -574,7 +572,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -593,7 +591,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
     </div>
   </div>
 
@@ -604,6 +602,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/07/05/回归分析和朴素贝叶斯学习笔记/">回归分析和朴素贝叶斯学习笔记</a>
+          </li>
         
           <li>
             <a href="/2019/06/24/线性回归/">线性回归</a>
@@ -619,10 +621,6 @@
         
           <li>
             <a href="/2019/03/17/位运算符/">位运算符</a>
-          </li>
-        
-          <li>
-            <a href="/2019/02/24/数组遍历方法汇总/">数组遍历</a>
           </li>
         
       </ul>

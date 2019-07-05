@@ -62,6 +62,62 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-回归分析和朴素贝叶斯学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/05/回归分析和朴素贝叶斯学习笔记/" class="article-date">
+  <time datetime="2019-07-05T08:12:09.000Z" itemprop="datePublished">2019-07-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/05/回归分析和朴素贝叶斯学习笔记/">回归分析和朴素贝叶斯学习笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>语言：python<br>使用的是jupyter</p>
+<h2 id="回归"><a href="#回归" class="headerlink" title="回归"></a>回归</h2><p>回归分为线性回归和逻辑回归：</p>
+<h3 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h3><p>其中线性回归预测的是连续值；</p>
+<p>模型： <img src="/2019/07/05/回归分析和朴素贝叶斯学习笔记/1.jpg" alt="线性回归公式"></p>
+<p>Y是观测值的列向量， [公式] 是参数值的列向量</p>
+<h3 id="逻辑回归"><a href="#逻辑回归" class="headerlink" title="逻辑回归"></a>逻辑回归</h3><p>逻辑回归预测的是离散值，分类问题。</p>
+<p><img src="/2019/07/05/回归分析和朴素贝叶斯学习笔记/2.jpg" alt="逻辑回归公式"></p>
+<h3 id="特征工程"><a href="#特征工程" class="headerlink" title="特征工程"></a>特征工程</h3><p>为什么做特征工程？因为机器学习有”garbage in, garbage out”的特点，因此对数据的处理就十分重要。</p>
+<p>在特征工程里，遇到分类问题，经常会遇到类不平衡数据，那么可以考虑使用smote方法，即过采样少数类。之所以不直接删掉多数类的数据来使得数据平衡，是因为考虑到如果删掉太多数据的话，会丢失数据里的很多信息。</p>
+<h3 id="SMOTE"><a href="#SMOTE" class="headerlink" title="SMOTE"></a>SMOTE</h3><p>SMOTE算法的基本思想就是从少数类别中创建假想样本。例如从少数类别中选取两个相似样本A和B，调整某个属性的值，比如取A和B属性的平均数/众数等，来生成该假想数据的特征值。由于该假想样本的特征值是由真实数据产生的，所以认为该假想样本与真实样本很接近。</p>
+<p>数据处理部分<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">count_no_sur = len(data[data[<span class="string">'survived'</span>]==0])</span><br><span class="line">count_sur = len(data[data[<span class="string">'survived'</span>]==1])</span><br><span class="line">pct_of_no_sur = count_no_sur/(count_no_sur+count_sur)</span><br><span class="line">pct_of_sur = count_sur/(count_no_sur+count_sur)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">'未生还的百分比:  %.2f%%'</span> % (pct_of_no_sur*100))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">'生还的百分比:  %.2f%%'</span> % (pct_of_sur*100))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 因为大部分是生还的，因此给缺失的生还数据补0</span></span><br><span class="line">data[<span class="string">"survived"</span>].fillna(df[<span class="string">"survived"</span>].value_counts().idxmax(), inplace=True)</span><br><span class="line">data.isnull().sum()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看fare特征的偏度 因为不为0，所以使用中间值代替缺失值</span></span><br><span class="line">df[<span class="string">"fare"</span>].skew()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">'The median of "fare" is %.2f'</span> %(df[<span class="string">"fare"</span>].median(skipna=True)))</span><br><span class="line">data[<span class="string">"fare"</span>].fillna(df[<span class="string">"fare"</span>].median(skipna=True), inplace=True)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 考虑一共有1300多条数据，剩下的特征值里有缺失数据的数量很少，因此可以考虑不需要这些数据</span></span><br><span class="line"><span class="string">""</span><span class="string">"</span></span><br><span class="line"><span class="string">axis：0-行操作（默认），1-列操作 </span></span><br><span class="line"><span class="string">how：any-只要有空值就删除（默认），all-全部为空值才删除 </span></span><br><span class="line"><span class="string">inplace：False-返回新的数据集（默认），True-在愿数据集上操作</span></span><br><span class="line"><span class="string">"</span><span class="string">""</span></span><br><span class="line">data.dropna(axis=0, how=<span class="string">'any'</span>, inplace=True)</span><br><span class="line"><span class="comment"># 确认数据是否还包含缺失数据</span></span><br><span class="line">data.isnull().sum()</span><br></pre></td></tr></table></figure></p>
+<p>模型训练部分<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.linear_model import LogisticRegression</span><br><span class="line">from sklearn.model_selection import train_test_split</span><br><span class="line">from sklearn.metrics import accuracy_score</span><br><span class="line"></span><br><span class="line">final.head()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用如下特征做预测</span></span><br><span class="line">cols = [<span class="string">"age"</span>,<span class="string">"fare"</span>,<span class="string">"TravelAlone"</span>,<span class="string">"pclass"</span>,<span class="string">"embarked_C"</span>,<span class="string">"embarked_S"</span>,<span class="string">"sex_male"</span>] </span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 X (特征) 和 y (类别标签)</span></span><br><span class="line">X = final[cols]</span><br><span class="line">y = final[<span class="string">'survived'</span>]</span><br><span class="line"><span class="comment"># 将 X 和 y 分为两个部分</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=2)</span><br><span class="line"></span><br><span class="line">logreg = LogisticRegression()</span><br><span class="line"><span class="comment"># 1.训练模型,  </span></span><br><span class="line">logreg.fit(X_train, y_train.values.reshape(-1))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.根据模型, 以 X_test 为输入, 生成变量 y_pred</span></span><br><span class="line">y_pred = logreg.predict(X_test)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">'Train/Test split results:'</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"准确率为 %2.3f"</span> % accuracy_score(y_test, y_pred))</span><br></pre></td></tr></table></figure></p>
+<p>ROC曲线分析<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.linear_model import LogisticRegression</span><br><span class="line">from sklearn.model_selection import train_test_split</span><br><span class="line">from sklearn.metrics import accuracy_score</span><br><span class="line"></span><br><span class="line">final.head()</span><br><span class="line"></span><br><span class="line">from sklearn.metrics import classification_report</span><br><span class="line"><span class="built_in">print</span>(classification_report(y_test, y_pred))</span><br><span class="line"></span><br><span class="line">from sklearn.metrics import roc_auc_score</span><br><span class="line">from sklearn.metrics import roc_curve</span><br><span class="line">logit_roc_auc = roc_auc_score(y_test, logreg.predict(X_test))</span><br><span class="line">fpr, tpr, thresholds = roc_curve(y_test, logreg.predict_proba(X_test)[:,1])</span><br><span class="line">plt.figure()</span><br><span class="line">plt.plot(fpr, tpr, label=<span class="string">'Logistic Regression (area = %0.2f)'</span> % logit_roc_auc)</span><br><span class="line">plt.plot([0, 1], [0, 1],<span class="string">'r--'</span>)</span><br><span class="line">plt.xlim([0.0, 1.0])</span><br><span class="line">plt.ylim([0.0, 1.05])</span><br><span class="line">plt.xlabel(<span class="string">'False Positive Rate'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'True Positive Rate'</span>)</span><br><span class="line">plt.title(<span class="string">'Receiver operating characteristic'</span>)</span><br><span class="line">plt.legend(loc=<span class="string">"lower right"</span>)</span><br><span class="line">plt.savefig(<span class="string">'Log_ROC'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2019/07/05/回归分析和朴素贝叶斯学习笔记/3.jpg" alt="ROC曲线"></p>
+<h2 id="朴素贝叶斯"><a href="#朴素贝叶斯" class="headerlink" title="朴素贝叶斯"></a>朴素贝叶斯</h2><p>该方法是比较适合简单的文本分析的一种算法</p>
+<p><img src="/2019/07/05/回归分析和朴素贝叶斯学习笔记/4.jpg" alt="公式"></p>
+<p>在做文本分析的时候，会使用很多种方法去将文本信息转换成文本向量，常用的一种方法叫做Tf-idf.</p>
+<p>之所以叫朴素贝叶斯，是因为假设了条件独立。</p>
+<p>最大似然估计：是根据观测到的结果来预测其中的未知数。</p>
+<p>生成模型与判别模型：生成模型是用于生成数据的，比如代码、图片；判别模型只需要记住需判别的物体之间的区别；朴素贝叶斯就是生成模型，逻辑回归就是判别模型。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/07/05/回归分析和朴素贝叶斯学习笔记/" data-id="cjxpu231u000fl4teeh2znbqm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-线性回归" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/06/24/线性回归/" class="article-date">
@@ -104,7 +160,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/24/线性回归/" data-id="cjxadyqzf000pd0tea5zf1wvb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/24/线性回归/" data-id="cjxpu2321000nl4te30ixvh8p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -145,7 +201,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/20/CSS隐藏元素/" data-id="cjxadyqyr0001d0terdty7gfc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/20/CSS隐藏元素/" data-id="cjxpu23170001l4teyp5gpsho" class="article-share-link">Share</a>
       
       
     </footer>
@@ -195,7 +251,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/26/BFC/" data-id="cjxadyqyl0000d0tef38sdew2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/26/BFC/" data-id="cjxpu23120000l4teasdxavnk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -246,7 +302,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/17/位运算符/" data-id="cjxadyqz7000ed0temw7b6o6v" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/17/位运算符/" data-id="cjxpu2325000rl4temsf5t9yy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -298,7 +354,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/24/数组遍历方法汇总/" data-id="cjxadyqzb000jd0teforauqq9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/24/数组遍历方法汇总/" data-id="cjxpu231y000jl4tetxu3dqfz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -338,7 +394,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/22/防抖和节流/" data-id="cjxadyqzh000rd0tee7lsz2he" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/22/防抖和节流/" data-id="cjxpu2326000sl4teatrjcdjl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -409,7 +465,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/11/渲染机制/" data-id="cjxadyqze000nd0teqxc349ht" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/11/渲染机制/" data-id="cjxpu2322000ol4tesk36tsn0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -458,7 +514,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/10/存储/" data-id="cjxadyqza000id0tehrjplutr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/10/存储/" data-id="cjxpu231w000hl4teccna6fdu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -518,44 +574,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/09/跨域请求/" data-id="cjxadyqzo000td0te7qzf1npx" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-post和get" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/01/09/post和get/" class="article-date">
-  <time datetime="2019-01-09T01:37:41.275Z" itemprop="datePublished">2019-01-09</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/09/post和get/">post和get区别</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1.数据量：<br>post对请求参数的长度没有限制，而get如果请求参数过长，会被浏览器截断。<br>GET：不同的浏览器和服务器不同，一般限制在2~8K之间，更加常见的是1k以内<br>POST方法提交的数据比较大，大小靠服务器的设定值限制。<br>2.安全性：<br>get比post更不安全，get请求参数会直接暴露在URL上，所以不适合用来传递敏感信息。post放在request body中。<br>get请求只能进行url编码，而post支持多种编码方式。<br>get请求参数会被完整保留在浏览历史记录里，而post中的参数不会被保留。<br>get请求在浏览器回退时是无害的，而post会再次提交请求。<br>3.缓存：<br>get请求产生的URL可以被浏览器主动缓存，而post请求不可以，除非手动设置。<br>4.效率：<br>get的意思是”得”，从服务器获取数据（也可以上传数据，参数就是），效率较高；<br>post的意思是“给”，但可以向服务器发送数据和下载数据，效率不如get；<br>get和post本质上就是TCP链接.get产生一个tcp数据包，post产生两个TCP数据包。<br>对于get方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；<br>而对于post，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/09/post和get/" data-id="cjxadyqz10008d0tevhkze1s3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/09/跨域请求/" data-id="cjxpu232k000ul4teg1e98som" class="article-share-link">Share</a>
       
       
     </footer>
@@ -569,7 +588,7 @@
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -588,7 +607,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
     </div>
   </div>
 
@@ -599,6 +618,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/07/05/回归分析和朴素贝叶斯学习笔记/">回归分析和朴素贝叶斯学习笔记</a>
+          </li>
         
           <li>
             <a href="/2019/06/24/线性回归/">线性回归</a>
@@ -614,10 +637,6 @@
         
           <li>
             <a href="/2019/03/17/位运算符/">位运算符</a>
-          </li>
-        
-          <li>
-            <a href="/2019/02/24/数组遍历方法汇总/">数组遍历</a>
           </li>
         
       </ul>
