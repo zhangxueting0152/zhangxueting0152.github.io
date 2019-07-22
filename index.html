@@ -62,6 +62,71 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-决策树与随机森林" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/22/决策树与随机森林/" class="article-date">
+  <time datetime="2019-07-22T12:35:35.000Z" itemprop="datePublished">2019-07-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/22/决策树与随机森林/">决策树与随机森林</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="决策树与随机森林"><a href="#决策树与随机森林" class="headerlink" title="决策树与随机森林"></a>决策树与随机森林</h2><h3 id="决策树与随机森林-1"><a href="#决策树与随机森林-1" class="headerlink" title="决策树与随机森林"></a>决策树与随机森林</h3><p>决策树是一种树形结构，其中每个内部节点表示一个属性特征上的测试，每个分支代表一个测试输出。决策树衡量分叉的标准有信息熵或者gini系数，这里主要说信息熵。其关键点在于使用信息增益来寻找最优特征。信息增益I可以理解为在已知一个特征条件下，问题的不确定性会降低多少的量度。公式如下：<br><img src="/2019/07/22/决策树与随机森林/0.png" alt="决策树公式"> </p>
+<p>优点：</p>
+<pre><code>可解释性高，决策树可以看成是一个if-else的可视化的结果；
+
+能处理非线性数据；
+
+不需要做数据的归一化，因为不同属性的数据之间不需要做类似乘法这种运算；
+
+可以用于特征工程，特征选择。
+</code></pre><p>缺点：</p>
+<pre><code>容易产生过拟合，为了避免该问题，可以在定义模型的时候使用下述三种方法：
+    max_depth=3, # 定义树的深度, 可以用来防止过拟合
+    min_samples_split=10, # 定义至少多少个样本的情况下才继续分叉
+    min_weight_fraction_leaf=0.02 # 定义叶子节点最少需要包含多少个样本(使用百分比表达), 防止过拟合
+微小的数据改变回改变整个树的形状，为了避免这个缺点，因此有了随机森林的出现；
+对类别不平衡的数据不友好。
+</code></pre><h3 id="随机森林"><a href="#随机森林" class="headerlink" title="随机森林"></a>随机森林</h3><p>随机森林属于集成学习的一种，它是同时训练多个决策树，综合考虑多个结果进行预测，当出现多个结果时，如果该问题是回归问题，则可以考虑取均值；如果该问题是分类问题，则可以考虑取众数，即类似投票的方式。当然处理方式不止均值和众数两种。如下图所示，图片来源（<a href="https://blog.csdn.net/edogawachia/article/details/79357844）" target="_blank" rel="noopener">https://blog.csdn.net/edogawachia/article/details/79357844）</a></p>
+<p><img src="/2019/07/22/决策树与随机森林/1.jpg" alt="随机森林"> </p>
+<p>随机性体现在两点：</p>
+<pre><code>从原来的训练数据集中带放回(例如bootstrap)的随机取一个子集作为森林中某一个决策树的训练数据集；每一次选择分叉的特征时，限定为在随机选择的特征子集中寻找一个特征。
+</code></pre><p>优点：</p>
+<pre><code>解决了决策树容易过拟合的问题；预测值不会因为训练数据的微小变化而剧烈变化。
+</code></pre><p>注：随机森林和adaboost都属于继承学习的一种，但是随机森林中是并行的，树与树之间是隔离的；但是adaboost中可能前一棵树的输出会影响后一棵树的建立。</p>
+<h3 id="相关代码"><a href="#相关代码" class="headerlink" title="相关代码"></a>相关代码</h3><p>1.决策树做预测<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建新的决策树, 限定树的最大深度, 减少过拟合</span></span><br><span class="line">dtree = DecisionTreeClassifier(</span><br><span class="line">    criterion=<span class="string">'entropy'</span>,</span><br><span class="line">    max_depth=3</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">dtree = dtree.fit(X_train,y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 预测</span></span><br><span class="line">y_pred = dtree.predict(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 模型的性能</span></span><br><span class="line">dt_roc_auc = metrics.accuracy_score(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"决策树的Accuracy:"</span>,dt_roc_auc)</span><br><span class="line"><span class="comment"># 决策树的Accuracy: 0.7705627705627706</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="/2019/07/22/决策树与随机森林/2.jpg" alt="决策树"> </p>
+<p>2.随机森林做预测<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.ensemble import RandomForestClassifier</span><br><span class="line"></span><br><span class="line"><span class="comment"># 随机森林, 通过调整参数来获取更好的结果</span></span><br><span class="line">rf = RandomForestClassifier(</span><br><span class="line">    criterion=<span class="string">'entropy'</span>,</span><br><span class="line">    n_estimators=1000, </span><br><span class="line">    max_depth=None, <span class="comment"># 定义树的深度, 可以用来防止过拟合</span></span><br><span class="line">    min_samples_split=10, <span class="comment"># 定义至少多少个样本的情况下才继续分叉</span></span><br><span class="line">    <span class="comment">#min_weight_fraction_leaf=0.02 # 定义叶子节点最少需要包含多少个样本(使用百分比表达), 防止过拟合</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">rf.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 做预测</span></span><br><span class="line">y_pred = rf.predict(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 模型的准确率</span></span><br><span class="line">rf_roc_auc = metrics.accuracy_score(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"随机森林的Accuracy:"</span>,rf_roc_auc)</span><br></pre></td></tr></table></figure></p>
+<p>随机森林的Accuracy: 0.7965367965367965</p>
+<p>3.roc图比较决策树和随机森林的预测结果<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ROC 图</span></span><br><span class="line">from sklearn.metrics import roc_curve</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">rf_fpr, rf_tpr, rf_thresholds = roc_curve(y_test, rf.predict_proba(X_test)[:,1])</span><br><span class="line">dt_fpr, dt_tpr, dt_thresholds = roc_curve(y_test, dtree.predict_proba(X_test)[:,1])</span><br><span class="line"></span><br><span class="line">plt.figure()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 随机森林 ROC</span></span><br><span class="line">plt.plot(rf_fpr, rf_tpr, label=<span class="string">'Random Forest (area = %0.2f)'</span> % rf_roc_auc)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 决策树 ROC</span></span><br><span class="line">plt.plot(dt_fpr, dt_tpr, label=<span class="string">'Decision Tree (area = %0.2f)'</span> % dt_roc_auc)</span><br><span class="line"></span><br><span class="line">plt.xlim([0.0, 1.0])</span><br><span class="line">plt.ylim([0.0, 1.05])</span><br><span class="line">plt.xlabel(<span class="string">'False Positive Rate'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'True Positive Rate'</span>)</span><br><span class="line">plt.title(<span class="string">'ROC Graph'</span>)</span><br><span class="line">plt.legend(loc=<span class="string">"lower right"</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2019/07/22/决策树与随机森林/3.jpg" alt="决策树"> </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/07/22/决策树与随机森林/" data-id="cjyedvzqz000eg8te17xwswns" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-回归分析和朴素贝叶斯学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/07/05/回归分析和朴素贝叶斯学习笔记/" class="article-date">
@@ -108,7 +173,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/07/05/回归分析和朴素贝叶斯学习笔记/" data-id="cjxpu5lj7000hl8te4l935y4d" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/07/05/回归分析和朴素贝叶斯学习笔记/" data-id="cjyedvzr1000gg8te368i344p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -160,7 +225,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/24/线性回归/" data-id="cjxpu5lje000ql8temyl54i08" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/24/线性回归/" data-id="cjyedvzra000qg8tepmj23ac4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -201,7 +266,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/20/CSS隐藏元素/" data-id="cjxpu5lin0001l8ted5idepbn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/20/CSS隐藏元素/" data-id="cjyedvzpw0001g8teqmnx4pez" class="article-share-link">Share</a>
       
       
     </footer>
@@ -251,7 +316,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/26/BFC/" data-id="cjxpu5lih0000l8tenfctfz3r" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/26/BFC/" data-id="cjyedvzpr0000g8tet02g1dpe" class="article-share-link">Share</a>
       
       
     </footer>
@@ -302,7 +367,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/17/位运算符/" data-id="cjxpu5lj5000el8teduv5tt14" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/17/位运算符/" data-id="cjyedvzr3000jg8tevk206jx4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -354,7 +419,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/24/数组遍历方法汇总/" data-id="cjxpu5lja000ll8tepjq3o7xv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/24/数组遍历方法汇总/" data-id="cjyedvzr5000kg8tep3x7dmov" class="article-share-link">Share</a>
       
       
     </footer>
@@ -394,7 +459,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/22/防抖和节流/" data-id="cjxpu5ljf000sl8te2lwvzr6e" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/22/防抖和节流/" data-id="cjyedvzrb000sg8teopbxp19x" class="article-share-link">Share</a>
       
       
     </footer>
@@ -465,7 +530,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/11/渲染机制/" data-id="cjxpu5ljd000pl8ted5eyrsf1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/11/渲染机制/" data-id="cjyedvzr9000pg8tebo6xdu55" class="article-share-link">Share</a>
       
       
     </footer>
@@ -514,67 +579,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/10/存储/" data-id="cjxpu5lj9000jl8tein2e92qa" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-跨域请求" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/01/09/跨域请求/" class="article-date">
-  <time datetime="2019-01-09T02:53:35.680Z" itemprop="datePublished">2019-01-09</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/09/跨域请求/">js跨域请求</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="同源"><a href="#同源" class="headerlink" title="同源"></a>同源</h2><p>同源：是指协议，域名和端口相同。<br>同源策略：基于安全考虑，当前域不能访问其他域的东西。<br>如果a的URL是<a href="http://www.a.com:8080/test1/a.js" target="_blank" rel="noopener">http://www.a.com:8080/test1/a.js</a> ，那么<br>1.b的url是<a href="https://www.a.com:8080/test1/a.js" target="_blank" rel="noopener">https://www.a.com:8080/test1/a.js</a> 时，a和b不同源，因为协议不同；<br>2.b的url是<a href="http://www.b.com:8080/test1/a.js" target="_blank" rel="noopener">http://www.b.com:8080/test1/a.js</a> 时，a和b不同源，因为域名不同；<br>3.b的url是<a href="http://www.a.com:3000/test1/a.js" target="_blank" rel="noopener">http://www.a.com:3000/test1/a.js</a> 时，a和b不同源，因为端口不同；<br>4.b的url是<a href="http://www.a.com:8080/test2/a.js" target="_blank" rel="noopener">http://www.a.com:8080/test2/a.js</a> 时，a和b同源，是同一域名下的不同文件夹；<br>5.<a href="http://www.a.com/a.js" target="_blank" rel="noopener">http://www.a.com/a.js</a> 和<a href="http://www.a.com/b.js" target="_blank" rel="noopener">http://www.a.com/b.js</a> 是同源的，在同一域名下。</p>
-<h2 id="跨域请求方式"><a href="#跨域请求方式" class="headerlink" title="跨域请求方式"></a>跨域请求方式</h2><p>记住JSONP,CORS,postMessage,document.doamin</p>
-<h3 id="1-JSONP"><a href="#1-JSONP" class="headerlink" title="1.JSONP"></a>1.JSONP</h3><p>JSONP 是 JSON with padding（填充式 JSON 或参数式 JSON）的简写。<br>原理就是动态创建script标签，然后利用script标签没有跨域限制的漏洞。<br>JSONP使用简单，但是只限于get请求。<br>原理如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"http://domain/api?param1=a&amp;param2=b&amp;callback=jsonp"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">	<span class="keyword">function</span> jsonp(data) &#123;</span><br><span class="line">		console.log(data);</span><br><span class="line">	&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
-<p>开发中，可以这样写：<br>test.html：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> jsonp(url, callbackFn) &#123;</span><br><span class="line">    var script = document.createElement(<span class="string">'script'</span>);</span><br><span class="line">    script.src = url + <span class="string">'?haha=1'</span>;</span><br><span class="line">    script.type = <span class="string">'text/javascript'</span>;</span><br><span class="line">    window[<span class="string">'callback'</span>] = callbackFn;</span><br><span class="line">    document.body.appendChild(script);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> hello(data) &#123;</span><br><span class="line">    console.log(<span class="string">'hello '</span> + data.name + <span class="string">' '</span> + data.date);</span><br><span class="line">&#125;</span><br><span class="line">jsonp(<span class="string">'http://localhost:92/remote.js'</span>, hello);</span><br></pre></td></tr></table></figure></p>
-<p>remote.js：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hello(</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">'name'</span>: <span class="string">'zxt'</span>,</span><br><span class="line">        <span class="string">'date'</span>: <span class="string">'2019.3.27'</span></span><br><span class="line">    &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
-<p>控制台输出：hello zxt 2019.3.27</p>
-<h3 id="2-HTML5中window-postMessage方法"><a href="#2-HTML5中window-postMessage方法" class="headerlink" title="2.HTML5中window.postMessage方法"></a>2.HTML5中window.postMessage方法</h3><p>调用postMessage方法的window对象是指要发送消息的那一个window对象，该方法的第一个参数message为要发送的消息，类型只能为字符串；第二个参数targetOrigin用来限定接收消息的那个window对象所在的域，如果不想限定域，可以使用通配符 *  。<br>需要接收消息的window对象，可是通过监听自身的message事件来获取传过来的消息，消息内容储存在该事件对象的data属性中。</p>
-<p>页面<a href="http://localhost/parent.html" target="_blank" rel="noopener">http://localhost/parent.html</a> 的写法:接收消息(端口不写时默认是80端口)<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;div&gt;父窗口&lt;/div&gt;</span><br><span class="line">	&lt;iframe src=<span class="string">"http://localhost:92/child.html"</span>&gt;&lt;/iframe&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">window.addEventListener(<span class="string">'message'</span>, event =&gt; &#123;</span><br><span class="line">	console.log(event.data);// 我是子窗口</span><br><span class="line">&#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
-<p>页面<a href="http://localhost:92/child.html" target="_blank" rel="noopener">http://localhost:92/child.html</a> 的写法:发送消息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;div&gt;子窗口&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">	window.parent.postMessage(<span class="string">"我是子窗口"</span>, <span class="string">'http://localhost:80/parent.html'</span>);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
-<p>注意：<br>如果在child.html中这样写window.postMessage(“我是子窗口”, ‘<a href="http://localhost:80/parent.html&#39;);则会报如下错误：" target="_blank" rel="noopener">http://localhost:80/parent.html&#39;);则会报如下错误：</a><br>Failed to execute ‘postMessage’ on ‘DOMWindow’: The target origin provided (‘<a href="http://localhost&#39;" target="_blank" rel="noopener">http://localhost&#39;</a>) does not match the recipient window’s origin (‘<a href="http://localhost:92&#39;)" target="_blank" rel="noopener">http://localhost:92&#39;)</a>.</p>
-<h3 id="3-CORS"><a href="#3-CORS" class="headerlink" title="3.CORS"></a>3.CORS</h3><p>Cross-Origin Resource Sharing（CORS）跨域资源共享是一份浏览器技术的规范，它允许浏览器向跨源(协议 + 域名 + 端口)服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制。<br>是 JSONP 模式的现代版。CORS与JSONP的使用目的相同，但是比JSONP更强大。JSONP只支持GET请求，CORS支持所有类型的HTTP请求。<br>实现CORS通信的关键是服务器。只要服务器实现了CORS接口，就可以跨源通信。<br>例如对nginx服务器进行跨域配置ngnix.conf文件夹(添加Access-Control-Allow-Origin，表示允许跨域请求给的资源， * 表示全部)：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen 92;</span><br><span class="line">        ...</span><br><span class="line">        location / &#123;</span><br><span class="line">            root E:/learn/前端学习/<span class="built_in">test</span>/;</span><br><span class="line">            ...</span><br><span class="line">            add_header Access-Control-Allow-Origin *;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>客户端：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> compatibleCORS(method, url) &#123;</span><br><span class="line">    var xhr = new XMLHttpRequest();</span><br><span class="line">    <span class="keyword">if</span> (xhr.withCredentials !== undefined) &#123;</span><br><span class="line">        xhr.open(method, url, <span class="literal">true</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (typeof XDomainRequest !== <span class="string">"undefined"</span>) &#123;</span><br><span class="line">        //XDomainRequest是IE用于支持CORS请求的对象</span><br><span class="line">        xhr = new XDomainRequest();</span><br><span class="line">        xhr.open(method, url);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        xhr = null;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> xhr; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var xhr = compatibleCORS(<span class="string">'GET'</span>, <span class="string">"your url"</span>);</span><br><span class="line"><span class="keyword">if</span> (!xhr) &#123;</span><br><span class="line">    throw new Erorr(<span class="string">"CORS不被支持"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>服务端:<br>通过设置http响应头Access-Control-Allow-Origin: <a href="http://www.xxx.com" target="_blank" rel="noopener">www.xxx.com</a> (这里可以是* , 代表接所有网站都可以访问资源)。</p>
-<h3 id="4-document-domain-iframe"><a href="#4-document-domain-iframe" class="headerlink" title="4.document.domain + iframe"></a>4.document.domain + iframe</h3><p>该方式只能用于二级域名相同的情况下，比如a.test.com和b.test.com适用于该方式。<br>只需要给页面添加document.domain=”test.com”表示二级域名都相同就可以实现跨域。<br>我们只能把document.domain设置成自身或更高一级的父域，且主域必须相同。<br>页面<a href="http://www.example.com/a.html" target="_blank" rel="noopener">http://www.example.com/a.html</a> 的写法:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe src=<span class="string">"http://example.com/b.html"</span> id=<span class="string">"iframe"</span> onload=<span class="string">"test()"</span>&gt;&lt;/iframe&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">document.domain = <span class="string">'example.com'</span>;// 设置成主域</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">test</span></span>() &#123;</span><br><span class="line">    alert(document.getElementById(<span class="string">'iframe'</span>).contentWindow);</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
-<p>页面<a href="http://example.com/b.html" target="_blank" rel="noopener">http://example.com/b.html</a> 的写法:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">document.domain = <span class="string">'example.com'</span>;// 使得这个页面于主页面的document.domain相同</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
-<p>这样就可以通过js访问到iframe中的各种属性和对象了。</p>
-<h3 id="5-window-name-iframe"><a href="#5-window-name-iframe" class="headerlink" title="5.window.name + iframe"></a>5.window.name + iframe</h3><p>window对象有个name属性，该属性有个特征：即在一个窗口(window)的生命周期内,窗口载入的所有的页面都是共享一个window.name的，每个页面对window.name都有读写的权限，window.name是持久存在一个窗口载入过的所有页面中的，并不会因新页面的载入而进行重置。<br>原理就是在a.html页面中使用一个隐藏的iframe来充当一个中间人角色，由iframe去获取data.html的数据，然后a.html再去得到iframe获取到的数据。<br>页面<a href="http://www.example.com/a.html" target="_blank" rel="noopener">http://www.example.com/a.html</a> 的写法:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe src=<span class="string">"http://www.source.com/data.html"</span> id=<span class="string">"proxy"</span> onload=<span class="string">"getData()"</span> style=<span class="string">"display: none"</span>&gt;&lt;/iframe&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">// iframe载入data.html页面后会执行此函数</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">getData</span></span>() &#123;</span><br><span class="line">    var iframe= document.getElementById(<span class="string">'proxy'</span>);</span><br><span class="line">    iframe.src = <span class="string">'b.html'</span>;// 这里的b.html是任意一个页面，只要和a.html同源即可，便可以保证a.html访问到iframe里的东西。设置成‘’也可以。</span><br><span class="line">    iframe.onload = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">        var data = iframe.contentWindow.name;// 获取iframe里的window.name，里面存放着设置的数据。</span><br><span class="line">        alert(data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
-<p>页面<a href="http://www.source.com/data.html" target="_blank" rel="noopener">http://www.source.com/data.html</a> 的写法:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">window.name = <span class="string">'要传给页面a.html的数据，所有可以转化成字符串的数据都可以放在这里'</span>;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
-<h3 id="6-web-sockets"><a href="#6-web-sockets" class="headerlink" title="6.web sockets"></a>6.web sockets</h3><p>web sockets是一种浏览器的API，它的目标是在一个单独的持久连接上提供全双工、双向通信。<br>同源策略对web sockets不适用。<br>原理：在JS创建了web socket之后，会有一个HTTP请求发送到浏览器以发起连接。取得服务器响应后，建立的连接会使用HTTP升级从HTTP协议交换为web sockt协议。<br>只有在支持web socket协议的服务器上才能正常工作。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">var socket= new WebSocket(<span class="string">'ws://www.baidu.com'</span>);// http-&gt;ws; https-&gt;wss</span><br><span class="line">socket.send(<span class="string">"hello WebSocket"</span>);</span><br><span class="line">socket.onMessage = <span class="keyword">function</span>(event) &#123;</span><br><span class="line">	var data = event.data;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="7-location-hash-iframe"><a href="#7-location-hash-iframe" class="headerlink" title="7.location.hash + iframe"></a>7.location.hash + iframe</h3><p>利用 location.hash 来传值。 缺点：数据直接暴露在url中，大小、类型都有限制。<br>例1：<br>原理是利用location.hash来进行传值。<br>假设域名a.com下的文件cs1.html要和cnblogs.com域名下的cs2.html传递信息。<br>1) cs1.html首先创建自动创建一个隐藏的iframe，iframe的src指向cnblogs.com域名下的cs2.html页面<br>2) cs2.html响应请求后再将通过修改cs1.html的hash值来传递数据<br>3) 同时在cs1.html上加一个定时器，隔一段时间来判断location.hash的值有没有变化，一旦有变化则获取获取hash值<br>注：由于两个页面不在同一个域下IE、Chrome不允许修改parent.location.hash的值，所以要借助于a.com域名下的一个代理iframe<br>a.com下的文件cs1.html文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">startRequest</span></span>()&#123;</span><br><span class="line">    var ifr = document.createElement(<span class="string">'iframe'</span>);</span><br><span class="line">    ifr.style.display = <span class="string">'none'</span>;</span><br><span class="line">    ifr.src = <span class="string">'http://www.cnblogs.com/lab/cscript/cs2.html#paramdo'</span>;</span><br><span class="line">    document.body.appendChild(ifr);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">checkHash</span></span>() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        var data = location.hash ? location.hash.substring(1) : <span class="string">''</span>;</span><br><span class="line">        <span class="keyword">if</span> (console.log) &#123;</span><br><span class="line">            console.log(<span class="string">'Now the data is '</span>+data);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch(e) &#123;&#125;;</span><br><span class="line">&#125;</span><br><span class="line">setInterval(checkHash, 2000);</span><br></pre></td></tr></table></figure></p>
-<p>cnblogs.com域名下的cs2.html:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">//模拟一个简单的参数处理操作</span><br><span class="line">switch(location.hash)&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'#paramdo'</span>:</span><br><span class="line">        callBack();</span><br><span class="line">        <span class="built_in">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'#paramset'</span>:</span><br><span class="line">        //<span class="keyword">do</span> something……</span><br><span class="line">        <span class="built_in">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">callBack</span></span>()&#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        parent.location.hash = <span class="string">'somedata'</span>;</span><br><span class="line">    &#125; catch (e) &#123;</span><br><span class="line">        // ie、chrome的安全机制无法修改parent.location.hash，</span><br><span class="line">        // 所以要利用一个中间的cnblogs域下的代理iframe</span><br><span class="line">        var ifrproxy = document.createElement(<span class="string">'iframe'</span>);</span><br><span class="line">        ifrproxy.style.display = <span class="string">'none'</span>;</span><br><span class="line">        ifrproxy.src = <span class="string">'http://a.com/test/cscript/cs3.html#somedata'</span>;    // 注意该文件在<span class="string">"a.com"</span>域下</span><br><span class="line">        document.body.appendChild(ifrproxy);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>a.com下的域名cs3.html<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//因为parent.parent和自身属于同一个域，所以可以改变其location.hash的值</span><br><span class="line">parent.parent.location.hash = self.location.hash.substring(1);</span><br></pre></td></tr></table></figure></p>
-<p><a href="https://www.cnblogs.com/2050/p/3191744.html" target="_blank" rel="noopener">https://www.cnblogs.com/2050/p/3191744.html</a><br><a href="https://blog.csdn.net/joyhen/article/details/21631833" target="_blank" rel="noopener">https://blog.csdn.net/joyhen/article/details/21631833</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/09/跨域请求/" data-id="cjxpu5ljo000ul8tev598959h" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/10/存储/" data-id="cjyedvzr5000lg8tev2yxklwb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -620,6 +625,10 @@
       <ul>
         
           <li>
+            <a href="/2019/07/22/决策树与随机森林/">决策树与随机森林</a>
+          </li>
+        
+          <li>
             <a href="/2019/07/05/回归分析和朴素贝叶斯学习笔记/">回归分析和朴素贝叶斯学习笔记</a>
           </li>
         
@@ -633,10 +642,6 @@
         
           <li>
             <a href="/2019/03/26/BFC/">BFC</a>
-          </li>
-        
-          <li>
-            <a href="/2019/03/17/位运算符/">位运算符</a>
           </li>
         
       </ul>

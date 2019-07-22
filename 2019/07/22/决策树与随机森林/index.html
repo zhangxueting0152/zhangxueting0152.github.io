@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>决策树与随机森林 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="决策树与随机森林决策树与随机森林决策树是一种树形结构，其中每个内部节点表示一个属性特征上的测试，每个分支代表一个测试输出。决策树衡量分叉的标准有信息熵或者gini系数，这里主要说信息熵。其关键点在于使用信息增益来寻找最优特征。信息增益I可以理解为在已知一个特征条件下，问题的不确定性会降低多少的量度。公式如下：  优点： 可解释性高，决策树可以看成是一个if-else的可视化的结果；  能处理非线性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="决策树与随机森林">
+<meta property="og:url" content="http://yoursite.com/2019/07/22/决策树与随机森林/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="决策树与随机森林决策树与随机森林决策树是一种树形结构，其中每个内部节点表示一个属性特征上的测试，每个分支代表一个测试输出。决策树衡量分叉的标准有信息熵或者gini系数，这里主要说信息熵。其关键点在于使用信息增益来寻找最优特征。信息增益I可以理解为在已知一个特征条件下，问题的不确定性会降低多少的量度。公式如下：  优点： 可解释性高，决策树可以看成是一个if-else的可视化的结果；  能处理非线性">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/决策树与随机森林/0.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/决策树与随机森林/1.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/决策树与随机森林/2.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/决策树与随机森林/3.jpg">
+<meta property="og:updated_time" content="2019-07-22T12:45:50.678Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="决策树与随机森林">
+<meta name="twitter:description" content="决策树与随机森林决策树与随机森林决策树是一种树形结构，其中每个内部节点表示一个属性特征上的测试，每个分支代表一个测试输出。决策树衡量分叉的标准有信息熵或者gini系数，这里主要说信息熵。其关键点在于使用信息增益来寻找最优特征。信息增益I可以理解为在已知一个特征条件下，问题的不确定性会降低多少的量度。公式如下：  优点： 可解释性高，决策树可以看成是一个if-else的可视化的结果；  能处理非线性">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/22/决策树与随机森林/0.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-决策树与随机森林" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/22/决策树与随机森林/" class="article-date">
+  <time datetime="2019-07-22T12:35:35.000Z" itemprop="datePublished">2019-07-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      决策树与随机森林
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="决策树与随机森林"><a href="#决策树与随机森林" class="headerlink" title="决策树与随机森林"></a>决策树与随机森林</h2><h3 id="决策树与随机森林-1"><a href="#决策树与随机森林-1" class="headerlink" title="决策树与随机森林"></a>决策树与随机森林</h3><p>决策树是一种树形结构，其中每个内部节点表示一个属性特征上的测试，每个分支代表一个测试输出。决策树衡量分叉的标准有信息熵或者gini系数，这里主要说信息熵。其关键点在于使用信息增益来寻找最优特征。信息增益I可以理解为在已知一个特征条件下，问题的不确定性会降低多少的量度。公式如下：<br><img src="/2019/07/22/决策树与随机森林/0.png" alt="决策树公式"> </p>
+<p>优点：</p>
+<pre><code>可解释性高，决策树可以看成是一个if-else的可视化的结果；
+
+能处理非线性数据；
+
+不需要做数据的归一化，因为不同属性的数据之间不需要做类似乘法这种运算；
+
+可以用于特征工程，特征选择。
+</code></pre><p>缺点：</p>
+<pre><code>容易产生过拟合，为了避免该问题，可以在定义模型的时候使用下述三种方法：
+    max_depth=3, # 定义树的深度, 可以用来防止过拟合
+    min_samples_split=10, # 定义至少多少个样本的情况下才继续分叉
+    min_weight_fraction_leaf=0.02 # 定义叶子节点最少需要包含多少个样本(使用百分比表达), 防止过拟合
+微小的数据改变回改变整个树的形状，为了避免这个缺点，因此有了随机森林的出现；
+对类别不平衡的数据不友好。
+</code></pre><h3 id="随机森林"><a href="#随机森林" class="headerlink" title="随机森林"></a>随机森林</h3><p>随机森林属于集成学习的一种，它是同时训练多个决策树，综合考虑多个结果进行预测，当出现多个结果时，如果该问题是回归问题，则可以考虑取均值；如果该问题是分类问题，则可以考虑取众数，即类似投票的方式。当然处理方式不止均值和众数两种。如下图所示，图片来源（<a href="https://blog.csdn.net/edogawachia/article/details/79357844）" target="_blank" rel="noopener">https://blog.csdn.net/edogawachia/article/details/79357844）</a></p>
+<p><img src="/2019/07/22/决策树与随机森林/1.jpg" alt="随机森林"> </p>
+<p>随机性体现在两点：</p>
+<pre><code>从原来的训练数据集中带放回(例如bootstrap)的随机取一个子集作为森林中某一个决策树的训练数据集；每一次选择分叉的特征时，限定为在随机选择的特征子集中寻找一个特征。
+</code></pre><p>优点：</p>
+<pre><code>解决了决策树容易过拟合的问题；预测值不会因为训练数据的微小变化而剧烈变化。
+</code></pre><p>注：随机森林和adaboost都属于继承学习的一种，但是随机森林中是并行的，树与树之间是隔离的；但是adaboost中可能前一棵树的输出会影响后一棵树的建立。</p>
+<h3 id="相关代码"><a href="#相关代码" class="headerlink" title="相关代码"></a>相关代码</h3><p>1.决策树做预测<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建新的决策树, 限定树的最大深度, 减少过拟合</span></span><br><span class="line">dtree = DecisionTreeClassifier(</span><br><span class="line">    criterion=<span class="string">'entropy'</span>,</span><br><span class="line">    max_depth=3</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">dtree = dtree.fit(X_train,y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 预测</span></span><br><span class="line">y_pred = dtree.predict(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 模型的性能</span></span><br><span class="line">dt_roc_auc = metrics.accuracy_score(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"决策树的Accuracy:"</span>,dt_roc_auc)</span><br><span class="line"><span class="comment"># 决策树的Accuracy: 0.7705627705627706</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="/2019/07/22/决策树与随机森林/2.jpg" alt="决策树"> </p>
+<p>2.随机森林做预测<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.ensemble import RandomForestClassifier</span><br><span class="line"></span><br><span class="line"><span class="comment"># 随机森林, 通过调整参数来获取更好的结果</span></span><br><span class="line">rf = RandomForestClassifier(</span><br><span class="line">    criterion=<span class="string">'entropy'</span>,</span><br><span class="line">    n_estimators=1000, </span><br><span class="line">    max_depth=None, <span class="comment"># 定义树的深度, 可以用来防止过拟合</span></span><br><span class="line">    min_samples_split=10, <span class="comment"># 定义至少多少个样本的情况下才继续分叉</span></span><br><span class="line">    <span class="comment">#min_weight_fraction_leaf=0.02 # 定义叶子节点最少需要包含多少个样本(使用百分比表达), 防止过拟合</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">rf.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 做预测</span></span><br><span class="line">y_pred = rf.predict(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 模型的准确率</span></span><br><span class="line">rf_roc_auc = metrics.accuracy_score(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"随机森林的Accuracy:"</span>,rf_roc_auc)</span><br></pre></td></tr></table></figure></p>
+<p>随机森林的Accuracy: 0.7965367965367965</p>
+<p>3.roc图比较决策树和随机森林的预测结果<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ROC 图</span></span><br><span class="line">from sklearn.metrics import roc_curve</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">rf_fpr, rf_tpr, rf_thresholds = roc_curve(y_test, rf.predict_proba(X_test)[:,1])</span><br><span class="line">dt_fpr, dt_tpr, dt_thresholds = roc_curve(y_test, dtree.predict_proba(X_test)[:,1])</span><br><span class="line"></span><br><span class="line">plt.figure()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 随机森林 ROC</span></span><br><span class="line">plt.plot(rf_fpr, rf_tpr, label=<span class="string">'Random Forest (area = %0.2f)'</span> % rf_roc_auc)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 决策树 ROC</span></span><br><span class="line">plt.plot(dt_fpr, dt_tpr, label=<span class="string">'Decision Tree (area = %0.2f)'</span> % dt_roc_auc)</span><br><span class="line"></span><br><span class="line">plt.xlim([0.0, 1.0])</span><br><span class="line">plt.ylim([0.0, 1.05])</span><br><span class="line">plt.xlabel(<span class="string">'False Positive Rate'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'True Positive Rate'</span>)</span><br><span class="line">plt.title(<span class="string">'ROC Graph'</span>)</span><br><span class="line">plt.legend(loc=<span class="string">"lower right"</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2019/07/22/决策树与随机森林/3.jpg" alt="决策树"> </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/07/22/决策树与随机森林/" data-id="cjyedvzqz000eg8te17xwswns" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/07/05/回归分析和朴素贝叶斯学习笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">回归分析和朴素贝叶斯学习笔记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/07/22/决策树与随机森林/">决策树与随机森林</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/05/回归分析和朴素贝叶斯学习笔记/">回归分析和朴素贝叶斯学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/24/线性回归/">线性回归</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/20/CSS隐藏元素/">CSS隐藏元素</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/26/BFC/">BFC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
