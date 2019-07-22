@@ -7,21 +7,21 @@
   
   <title>决策树与随机森林 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="决策树与随机森林决策树与随机森林决策树是一种树形结构，其中每个内部节点表示一个属性特征上的测试，每个分支代表一个测试输出。决策树衡量分叉的标准有信息熵或者gini系数，这里主要说信息熵。其关键点在于使用信息增益来寻找最优特征。信息增益I可以理解为在已知一个特征条件下，问题的不确定性会降低多少的量度。公式如下：  优点： 可解释性高，决策树可以看成是一个if-else的可视化的结果；  能处理非线性">
+  <meta name="description" content="决策树与随机森林决策树决策树是一种树形结构，其中每个内部节点表示一个属性特征上的测试，每个分支代表一个测试输出。决策树衡量分叉的标准有信息熵或者gini系数，这里主要说信息熵。其关键点在于使用信息增益来寻找最优特征。信息增益I可以理解为在已知一个特征条件下，问题的不确定性会降低多少的量度。公式如下：  优点： 可解释性高，决策树可以看成是一个if-else的可视化的结果；  能处理非线性数据；">
 <meta property="og:type" content="article">
 <meta property="og:title" content="决策树与随机森林">
 <meta property="og:url" content="http://yoursite.com/2019/07/22/决策树与随机森林/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="决策树与随机森林决策树与随机森林决策树是一种树形结构，其中每个内部节点表示一个属性特征上的测试，每个分支代表一个测试输出。决策树衡量分叉的标准有信息熵或者gini系数，这里主要说信息熵。其关键点在于使用信息增益来寻找最优特征。信息增益I可以理解为在已知一个特征条件下，问题的不确定性会降低多少的量度。公式如下：  优点： 可解释性高，决策树可以看成是一个if-else的可视化的结果；  能处理非线性">
+<meta property="og:description" content="决策树与随机森林决策树决策树是一种树形结构，其中每个内部节点表示一个属性特征上的测试，每个分支代表一个测试输出。决策树衡量分叉的标准有信息熵或者gini系数，这里主要说信息熵。其关键点在于使用信息增益来寻找最优特征。信息增益I可以理解为在已知一个特征条件下，问题的不确定性会降低多少的量度。公式如下：  优点： 可解释性高，决策树可以看成是一个if-else的可视化的结果；  能处理非线性数据；">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2019/07/22/决策树与随机森林/0.png">
 <meta property="og:image" content="http://yoursite.com/2019/07/22/决策树与随机森林/1.jpg">
 <meta property="og:image" content="http://yoursite.com/2019/07/22/决策树与随机森林/2.jpg">
 <meta property="og:image" content="http://yoursite.com/2019/07/22/决策树与随机森林/3.jpg">
-<meta property="og:updated_time" content="2019-07-22T12:45:50.678Z">
+<meta property="og:updated_time" content="2019-07-22T12:49:53.235Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="决策树与随机森林">
-<meta name="twitter:description" content="决策树与随机森林决策树与随机森林决策树是一种树形结构，其中每个内部节点表示一个属性特征上的测试，每个分支代表一个测试输出。决策树衡量分叉的标准有信息熵或者gini系数，这里主要说信息熵。其关键点在于使用信息增益来寻找最优特征。信息增益I可以理解为在已知一个特征条件下，问题的不确定性会降低多少的量度。公式如下：  优点： 可解释性高，决策树可以看成是一个if-else的可视化的结果；  能处理非线性">
+<meta name="twitter:description" content="决策树与随机森林决策树决策树是一种树形结构，其中每个内部节点表示一个属性特征上的测试，每个分支代表一个测试输出。决策树衡量分叉的标准有信息熵或者gini系数，这里主要说信息熵。其关键点在于使用信息增益来寻找最优特征。信息增益I可以理解为在已知一个特征条件下，问题的不确定性会降低多少的量度。公式如下：  优点： 可解释性高，决策树可以看成是一个if-else的可视化的结果；  能处理非线性数据；">
 <meta name="twitter:image" content="http://yoursite.com/2019/07/22/决策树与随机森林/0.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -91,7 +91,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="决策树与随机森林"><a href="#决策树与随机森林" class="headerlink" title="决策树与随机森林"></a>决策树与随机森林</h2><h3 id="决策树与随机森林-1"><a href="#决策树与随机森林-1" class="headerlink" title="决策树与随机森林"></a>决策树与随机森林</h3><p>决策树是一种树形结构，其中每个内部节点表示一个属性特征上的测试，每个分支代表一个测试输出。决策树衡量分叉的标准有信息熵或者gini系数，这里主要说信息熵。其关键点在于使用信息增益来寻找最优特征。信息增益I可以理解为在已知一个特征条件下，问题的不确定性会降低多少的量度。公式如下：<br><img src="/2019/07/22/决策树与随机森林/0.png" alt="决策树公式"> </p>
+        <h2 id="决策树与随机森林"><a href="#决策树与随机森林" class="headerlink" title="决策树与随机森林"></a>决策树与随机森林</h2><h3 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h3><p>决策树是一种树形结构，其中每个内部节点表示一个属性特征上的测试，每个分支代表一个测试输出。决策树衡量分叉的标准有信息熵或者gini系数，这里主要说信息熵。其关键点在于使用信息增益来寻找最优特征。信息增益I可以理解为在已知一个特征条件下，问题的不确定性会降低多少的量度。公式如下：<br><img src="/2019/07/22/决策树与随机森林/0.png" alt="决策树公式"> </p>
 <p>优点：</p>
 <pre><code>可解释性高，决策树可以看成是一个if-else的可视化的结果；
 
@@ -124,7 +124,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/07/22/决策树与随机森林/" data-id="cjyedvzqz000eg8te17xwswns" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/07/22/决策树与随机森林/" data-id="cjyedyp0t000g2ktebbbcjirq" class="article-share-link">Share</a>
       
       
     </footer>
